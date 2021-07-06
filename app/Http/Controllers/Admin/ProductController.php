@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Product;
+use App\User;
+use App\Category;
 use Illuminate\Http\Request;
+Use App\Http\Requests\ProductRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+
 
 class ProductController extends Controller
 {
@@ -14,7 +20,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.product.index');
+        $products = Product::with(['user', 'category']);
+        $users = User::all();  
+        $categories = Category::all();  
+
+        return view('pages.admin.product.index', [
+            'products' => $products,
+            'users' => $users,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -33,9 +47,15 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($request->name);
+
+        Product::create($data);
+
+        return redirect()->route('aset.index');
     }
 
     /**
