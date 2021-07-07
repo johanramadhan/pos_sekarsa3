@@ -51,7 +51,7 @@ class CategoryController extends Controller
         Category::create($data);
 
         return redirect()->route('category.index')
-         ->with('success', 'Data kategori berhasil ditambahkan');;
+         ->with('success', 'Data kategori berhasil ditambahkan');
     }
 
     /**
@@ -107,7 +107,7 @@ class CategoryController extends Controller
         $item->update($data);
 
         return redirect()->route('category.index')
-            ->with('update', 'Data user berhasil diubah');;
+            ->with('update', 'Data user berhasil diubah');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
@@ -73,7 +74,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = User::findOrFail($id);
+
+        return view('pages.admin.user.edit', [
+          'item' => $item
+        ]);
     }
 
     /**
@@ -85,7 +90,43 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required', 
+            'email' => 'email|required'
+        ]);
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($request->bidang);
+
+        if ($request->hasFile('photo')) {
+            Storage::delete('photo');
+            $data['photo'] = $request->file('photo')->store('assets/user','public');
+        }
+
+        if($request->email)
+        {
+            $data['email'] = $request->email;
+        }
+        else
+        {
+            unset($data['email']);
+        }
+
+        if($request->password)
+        {
+            $data['password'] = bcrypt($request->password);
+        }
+        else
+        {
+            unset($data['password']);
+        }     
+        
+        $item = User::findOrFail($id);
+
+        $item->update($data);
+
+        return redirect()->route('user.index')
+            ->with('update', 'Data user berhasil diubah');
     }
 
     /**
@@ -96,6 +137,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = User::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('user.index');
     }
 }

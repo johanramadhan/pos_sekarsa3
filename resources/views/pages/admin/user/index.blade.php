@@ -84,10 +84,10 @@
                                   Aksi
                                 </button>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('category.edit', $item->id) }}">
+                                  <a class="dropdown-item" href="{{ route('user.edit', $item->id) }}">
                                     Sunting
                                   </a>
-                                  <button type="submit" id="delete" href="{{ route('category.destroy', $item->id) }}" 
+                                  <button type="submit" id="delete" href="{{ route('user.destroy', $item->id) }}" 
                                     class="dropdown-item text-danger">
                                     Hapus
                                   </button>
@@ -214,27 +214,27 @@
                           </div>
                           <!-- /.Password -->  
                         </div>
-                      </div>
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <label>Icon Bidang</label>
-                          <div class="input-group">
-                            <div class="custom-file">
-                              <input
-                                type="file"
-                                class="custom-file-input"
-                                name="photo"
-                                required
-                              />
-                              <label
-                                class="custom-file-label"
-                                for="exampleInputFile"
-                                >Pilih Icon Bidang</label
-                              >
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Icon Bidang</label>
+                            <div class="input-group">
+                              <div class="custom-file">
+                                <input
+                                  type="file"
+                                  class="custom-file-input"
+                                  name="photo"
+                                  required
+                                />
+                                <label
+                                  class="custom-file-label"
+                                  for="exampleInputFile"
+                                  >Pilih Icon Bidang</label
+                                >
+                              </div>
                             </div>
                           </div>
+                          <!-- /.Nama Icon -->
                         </div>
-                        <!-- /.Nama Icon -->
                       </div>
                     </div>
                   </div>

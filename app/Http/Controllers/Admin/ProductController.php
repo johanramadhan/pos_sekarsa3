@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Product;
 use App\User;
+use App\Product;
+use App\ProductGallery;
 use App\Category;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 Use App\Http\Requests\ProductRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -20,14 +21,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['user', 'category']);
+        $products = Product::with(['galleries','user', 'category'])->get();
+        $aset = Product::sum('total_price');
         $users = User::all();  
         $categories = Category::all();  
+        $code = 'SISPRAS-' . mt_rand(0000,999999);
 
         return view('pages.admin.product.index', [
             'products' => $products,
+            'aset' => $aset,
             'users' => $users,
             'categories' => $categories,
+            'code' => $code
         ]);
     }
 
@@ -52,10 +57,18 @@ class ProductController extends Controller
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->name);
+        $product = Product::create($data);
 
-        Product::create($data);
+        $gallery = [
+            'products_id' => $product->id,
+            'photos' => $request->file('photos')->store('assets/product','public')
+        ];
 
-        return redirect()->route('aset.index');
+        ProductGallery::create($gallery);
+
+        return redirect()->route('aset.index')
+          ->with('success', 'Data aset berhasil ditambahkan');
+    
     }
 
     /**
@@ -77,7 +90,15 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $categories = Category::all();
+        $users = User::all();  
+        $item = Product::with(['galleries','user','category'])->findOrFail($id);
+
+        return view('pages.admin.product.edit', [
+          'item' => $item,
+          'categories' => $categories,
+          'users' => $users,
+        ]);
     }
 
     /**
@@ -89,7 +110,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+
+        $item = Product::findOrFail($id);
+
+        $data['slug'] = Str::slug($request->name);
+
+        $item->update($data);
+
+        return redirect()->route('aset.index')
+            ->with('update', 'Data aset berhasil diedit');
     }
 
     /**

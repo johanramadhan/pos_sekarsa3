@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Aset
+    Data Aset
 @endsection
 
 @push('addon-style')
@@ -11,6 +11,8 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 @endpush
@@ -54,14 +56,17 @@
                     <thead>
                       <tr>
                         <th>No</th>
+                        <th>Nama Barang</th>
+                        <th>Pemilik Barang</th>
                         <th>Kategori</th>
-                        <th>Nama Aset</th>
+                        <th>Kondisi</th>
+                        <th>Status</th>
                         <th>Jumlah</th>
                         <th>Satuan</th>
-                        <th>Harga Satuan</th>
+                        <th>Harga</th>
                         <th>Total Harga</th>
-                        <th>Pemilik</th>
-                        <th>Keterangan</th>
+                        <th>Fungsi</th>
+                        <th>Foto</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -69,14 +74,19 @@
                       @forelse ($products as $item)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
-                          <td>{{ $item->category->name }}</td>
                           <td>{{ $item->name }}</td>
+                          <td>Bidang {{ $item->user->bidang }}</td>
+                          <td>{{ $item->category->name }}</td>
+                          <td>{{ $item->kondisi }}</td>
+                          <td>{{ $item->status }}</td>
                           <td>{{ $item->qty }}</td>
                           <td>{{ $item->satuan }}</td>
-                          <td>Rp{{ number_format($item->price) }}</td>
-                          <td>Rp{{ number_format($item->total_price) }}</td>
-                          <td>{{ $item->user->name }}</td>
-                          <td>{{ $item->description }}</td>
+                          <td>{{ number_format($item->price) }}</td>
+                          <td>{{ number_format($item->total_price) }}</td>
+                          <td>{{ $item->fungsi }}</td>
+                          <td>
+                            <img src="{{Storage::url($item->galleries->first()->photos ?? 'tidak ada foto')}}" style="max-height: 50px;">
+                          </td>
                           <td>
                             <div class="btn-group">
                               <div class="dropdown">
@@ -89,11 +99,15 @@
                                   <a class="dropdown-item" href="{{ route('aset.edit', $item->id) }}">
                                     Sunting
                                   </a>
-                                  <form action="{{ route('daset.destroy', $item->id) }}" method="POST">
-                                    {{method_field('delete')}} {{  csrf_field()}}
-                                    <button type="submit" class="dropdown-item text-danger">
-                                      Hapus
-                                    </button>
+                                  <button type="submit" id="delete" href="{{ route('aset.destroy', $item->id) }}" 
+                                    class="dropdown-item text-danger">
+                                    Hapus
+                                  </button>
+                                  <form action="" method="POST" id="deleteForm">
+                                    @csrf
+                                    @method("DELETE")
+                                    <input type="submit" value="Hapus" style="display: none">
+                                    
                                   </form>
                                 </div>
                               </div>
@@ -147,63 +161,78 @@
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group">
-                            <label>Kategori Barang</label>
-                            <select class="form-control select2" name="categories_id" style="width: 100%;">
-                              <option value="1">1</option>
-                              @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                          <!-- /.Kategori -->
-                          <div class="form-group">
-                            <label>Bidang Pemilik</label>
-                            <select class="form-control select2" name="users_id" style="width: 100%;">
-                              <option value="1">1</option>
-                              @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                              @endforeach
-                            </select>
-                          </div>
-                          <!-- /.Pemilik -->
-                          <div class="form-group">
                             <label>Nama Barang</label>
                             <input
                               type="text"
                               name="name"
                               class="form-control"
-                              id="exampleInputPassword1"
                               placeholder="Nama Barang"
                               required
                             />
                           </div>
-                          <!-- /.Nama Barang -->
+                          <!-- /.Nama Barang --> 
+                          <div class="form-group">
+                            <label>Kategori</label>
+                            <select name="categories_id" class="form-control select2">
+                              <option>--Pilih Kategori--</option>
+                              @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                              @endforeach
+                            </select>                            
+                          </div>
+                          <!-- /.Kategori -->             
+                          <div class="form-group">
+                            <label>User</label>
+                            <select name="users_id" class="form-control select2">
+                              <option>--Pilih Bidang--</option>
+                              @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->bidang }}</option>
+                              @endforeach
+                            </select>                            
+                          </div>
+                          <!-- /.bidang -->             
                           <div class="form-group">
                             <label>Kondisi</label>
-                            <select class="form-control" name="kondisi" style="width: 100%;">
-                              <option selected="selected" value="Baik">Baik</option>
+                            <select name="kondisi" class="form-control select2" required>
+                              <option>--Pilih kondisi--</option>
+                              <option value="Baik">Baik</option>
                               <option value="Rusak Ringan">Rusak Ringan</option>
                               <option value="Rusak Berat">Rusak Berat</option>
-                            </select>
+                            </select>                            
                           </div>
-                          <!-- /.Kondisi -->
+                          <!-- /.kondisi -->             
                           <div class="form-group">
                             <label>Status</label>
-                            <select class="form-control" name="status" style="width: 100%;">
-                              <option selected="selected" value="Pembelian">Pembelian</option>
+                            <select name="status" class="form-control select2" required>
+                              <option>--Pilih status--</option>
+                              <option value="Pembelian">Pembelian</option>
                               <option value="Hibah">Hibah</option>
-                            </select>
+                              <option value="Lain-lain">Lain-lain</option>
+                            </select>                            
                           </div>
-                          <!-- /.Status -->                
+                          <!-- /.status -->  
+                          <div class="form-group">
+                            <label>Merek</label>
+                            <input
+                              type="text"
+                              name="brand"
+                              class="form-control"
+                              placeholder="Merek Barang"
+                              required
+                            />
+                          </div>
+                          <!-- /.merek -->      
                         </div>
-
                         <div class="col-md-6">
                           <div class="form-group">
                             <label>Satuan</label>
-                            <select name="satuan" class="form-control select2">
+                            <select name="satuan" class="form-control select2" required>
+                              <option>--Pilih satuan--</option>
                               <option value="Bidang">Bidang</option>
                               <option value="Unit">Unit</option>
                               <option value="Buah">Buah</option>
+                              <option value="Roll">Roll</option>
+                              <option value="Stell">Stell</option>
                               <option value="Jalan">Jalan</option>
                               <option value="Paket">Paket</option>
                               <option value="Besi">Besi</option>
@@ -234,90 +263,79 @@
                               <option value="m'">m'</option>
                               <option value="KVA">KVA</option>
                               <option value="Keping">Keping</option>
-                            </select>
+                            </select>                            
                           </div>
-                          <!-- /.Satuan -->
+                          <!-- /.satuan --> 
                           <div class="form-group">
                             <label>Jumlah</label>
                             <input
                               type="number"
-                              name="qty" 
+                              name="qty"
                               id="qty" 
                               onkeyup="sum()"
                               class="form-control"
                               placeholder="Jumlah Barang"
+                              required
                             />
                           </div>
-                          <!-- /.Jumlah Barang -->
+                          <!-- /.Jumlah -->            
                           <div class="form-group">
                             <label>Harga Satuan</label>
                             <input
                               type="number"
-                              name="price" 
+                              name="price"
                               id="price" 
                               onkeyup="sum()"
                               class="form-control"
                               placeholder="Harga Satuan"
+                              required
                             />
                           </div>
-                          <!-- /.Harga Satuan -->              
+                          <!-- /.Harga Satuan -->            
                           <div class="form-group">
                             <label>Total Harga</label>
                             <input
                               type="number"
-                              name="total_price" 
+                              name="total_price"
                               id="total_price"
                               class="form-control"
                               placeholder="Total Harga"
-                              disabled
+                              readonly
                             />
                           </div>
-                          <!-- /.Total Harga -->    
+                          <!-- /.Total Harga -->
                           <div class="form-group">
-                            <label>Merek Barang</label>
-                            <input
-                              type="text"
-                              name="brand"
-                              class="form-control"
-                              placeholder="Merek Barang"
-                            />
-                          </div>
-                          <!-- /.Merek Barang -->          
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <!-- /.Link Video --> 
-                          <div class="form-group">
-                            <label>Link Video</label>
+                            <label>Link Video</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
                             <input
                               type="text"
                               name="link"
                               class="form-control"
-                              placeholder="Link Video"
+                              placeholder="Link Video Barang"
                             />
                           </div>
-                          <!-- fungsi -->
+                          <!-- /.link -->
                           <div class="form-group">
-                            <label>Fungsi</label>
-                            <textarea
-                              class="form-control"
-                              name="fungsi"
-                              rows="3"
-                              placeholder="Fungsi Barang"
-                            ></textarea>
+                            <label>Fungsi Barang</label>
+                            <textarea class="form-control" name="fungsi" rows="1" placeholder="Fungsi/kegunaan barang"></textarea>
                           </div>
-                          <!-- Keterangan -->
+                          <!-- /.Fungsi -->
+                        </div>
+                        <div class="col-md-12">
                           <div class="form-group">
-                            <label>Keterangan/Spesifikasi</label>
-                            <textarea
-                              class="form-control"
-                              rows="3"
-                              placeholder="Keterangan/Spesifikasi"
-                              name="description"
-                              id="summernote"
-                            ></textarea>
+                            <label>Deskripsi Barang</label>
+                            <textarea id="summernote" name="description" rows="3" required>
+                              Tuliskan deskripsi atau spesifikasi barang
+                            </textarea>
                           </div>
+                          <!-- /.deskripsi -->
+                          <div class="form-group">
+                            <label>Thumbnail</label>
+                            <input type="file" name="photos" class="form-control"/>
+                            <p class="text-muted">
+                              Masukkan gambar barang
+                            </p>
+                          </div>
+                          <!-- /.deskripsi -->
                         </div>
                       </div>
                     </div>
@@ -350,6 +368,17 @@
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
   <!-- Summernote -->
   <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+  <script>
+    function sum() {
+        var qty = document.getElementById('qty').value;
+        var price = document.getElementById('price').value;
+        var result = parseInt(price) * parseInt(qty);
+        if (!isNaN(result)) {
+            document.getElementById('total_price').value = result;
+        }
+    }
+  </script>
+
   <script>
      $(function () {
         //Initialize Select2 Elements
@@ -401,5 +430,49 @@
               document.getElementById('total_price').value = result;
           }
       }
+  </script>
+  <script>
+    $('button#delete').on('click', function(e){
+      e.preventDefault();
+      var href = $(this).attr('href');
+    
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "Data yang dihapus tidak bisa dikembalikan lagi!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Hapus Saja!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('deleteForm').action = href;
+          document.getElementById('deleteForm').submit();
+          
+          swalWithBootstrapButtons.fire(
+            'Terhapus!',
+            'Data kategori berhasil dihapus.',
+            'success'
+          )
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Data anda tidak jadi dihapus',
+            'error'
+          )
+        }
+      })
+    })
   </script>
 @endpush
