@@ -20,6 +20,8 @@ Route::prefix('admin')
     ->namespace('Admin')
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
+        Route::resource('category', 'CategoryController');
+        Route::resource('user', 'UserController');
         Route::resource('data-aset/aset', 'ProductController');
     });
 

@@ -42,6 +42,22 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="{{ route('category.index') }}" class="nav-link {{ (request()->is('admin/category*')) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Kategori
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ route('user.index') }}" class="nav-link {{ (request()->is('admin/user*')) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Data User
+            </p>
+          </a>
+        </li>
         <li class="nav-item {{ (request()->is('admin/data-aset*')) ? 'menu-open' : '' }}">
           <a href="#" class="nav-link {{ (request()->is('admin/data-aset*')) ? 'active' : '' }} ">
             <i class="nav-icon fas fa-tachometer-alt"></i>
