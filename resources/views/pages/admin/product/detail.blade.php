@@ -124,7 +124,7 @@
       </div>
       <div class="modal-body">
         <div class="embed-responsive embed-responsive-21by9">
-          <<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ $item->video }}" allowfullscreen></iframe>
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{$item->link}}" allowfullscreen></iframe>
         </div>
       </div>
       <div class="modal-footer justify-content-between">
