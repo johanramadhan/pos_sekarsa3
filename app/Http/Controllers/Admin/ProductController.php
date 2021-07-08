@@ -79,7 +79,15 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $categories = Category::all();
+        $users = User::all(); 
+        $item = Product::with(['galleries','user','category'])->findOrFail($id);
+
+        return view('pages.admin.product.detail', [
+          'item' => $item,
+          'users' => $users,
+          'categories' => $categories,
+        ]);
     }
 
     /**
@@ -99,6 +107,26 @@ class ProductController extends Controller
           'categories' => $categories,
           'users' => $users,
         ]);
+    }
+
+    public function uploadGallery(Request $request)
+    {
+        $data = $request->all();
+
+        $data['photos'] = $request->file('photos')->store('assets/product','public');
+
+        ProductGallery::create($data);
+
+        return redirect()->route('aset.edit', $request->products_id)
+         ->with('success', 'Gambar berhasil ditambahkan');
+    }
+
+    public function deleteGallery(Request $request, $id)
+    {
+        $item = ProductGallery::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('aset.edit', $item->products_id);
     }
 
     /**

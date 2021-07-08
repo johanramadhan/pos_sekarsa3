@@ -99,6 +99,9 @@
                                   <a class="dropdown-item" href="{{ route('aset.edit', $item->id) }}">
                                     Sunting
                                   </a>
+                                  <a class="dropdown-item" href="{{ route('aset.show', $item->id) }}">
+                                    Detail
+                                  </a>
                                   <button type="submit" id="delete" href="{{ route('aset.destroy', $item->id) }}" 
                                     class="dropdown-item text-danger">
                                     Hapus
@@ -420,16 +423,6 @@
         "responsive": true,
       });
     });
-  </script>
-  <script>
-      function sum() {
-          var qty = document.getElementById('qty').value;
-          var price = document.getElementById('price').value;
-          var result = parseInt(price) * parseInt(qty);
-          if (!isNaN(result)) {
-              document.getElementById('total_price').value = result;
-          }
-      }
   </script>
   <script>
     $('button#delete').on('click', function(e){

@@ -211,7 +211,7 @@
                       <!-- /.link --> 
                       <div class="form-group">
                         <label>Fungsi Barang</label>
-                        <textarea class="form-control" name="fungsi" rows="1" placeholder="Fungsi/kegunaan barang" required>{{ $item->description }}</textarea>
+                        <textarea class="form-control" name="fungsi" rows="1" placeholder="Fungsi/kegunaan barang" required>{{ $item->fungsi }}</textarea>
                       </div>
                       <!-- /.Fungsi -->
                     </div>
@@ -228,56 +228,59 @@
                 </div>
 
                 <div class="card-footer text-right">
-                  <a href="{{ route('user.index') }}" class="btn btn-default">Kembali</a>
-                  <button type="submit" class="btn btn-primary">
+                  
+                  <button type="submit" class="btn btn-block btn-primary">
                     Edit
                   </button>
+                  <a href="{{ route('aset.index') }}" class="btn btn-block btn-default">Kembali</a>
                 </div>
               </form>
-              <div class="row mt-2">
-                    @foreach ($item->galleries as $gallery)
-                      <div class="col-md-12 col-lg-6 col-xl-4">
-                        <div class="card mb-2 bg-gradient-dark">
-                          <img
-                            src="{{ Storage::url($gallery->photos ?? '') }}"
-                            alt=""
-                            class="card-img-top"
-                            />
-                            <a
-                              href="{{ route('aset.destroy', $gallery->id) }}" class="delete-gallery">
-                              <img
-                                src="/images/icon-delete.svg"
-                                alt=""
-                              />
-                            </a>
-                        </div>
-                      </div>
-                    @endforeach
-                  </div>
-                  <div class="row">
+              <div class=" card-body mt-2">
+                <div class="row">
+                  @foreach ($item->galleries as $gallery)
                     <div class="col-md-12 col-lg-6 col-xl-4">
-                      <form action="{{ route('aset.store') }}" method="POST" enctype="multipart/form-data">
-                         @csrf
-                         <input type="hidden" name="products_id" value="{{ $item->id }}">
-
-                         <input
-                            type="file"
-                            name="photos"
-                            id="file"
-                            style="display: none;"
-                            onchange="form.submit()"
+                      <div class="small-box bg-dark mb-2">
+                        <div class="inner">
+                          <img
+                          src="{{ Storage::url($gallery->photos ?? '') }}"
+                          alt=""
+                          class="w-100"
                           />
-                          <button
-                            type="button"
-                            class="btn btn-secondary btn-block mt-3"
-                            onclick="thisFileUpload()">
-                            Add Photo
-                          </button>
-
-                      </form>
-
+                        </div>
+                        <div class="icon">
+                          <i class="ion ion-bag"></i>
+                        </div>
+                        <a
+                          href="{{ route('product-gallery-delete', $gallery->id) }}" class="small-box-footer">Delete <i class="fas fa-times"></i></a>
+                      </div>
                     </div>
+                  @endforeach
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <form action="{{ route('product-gallery-upload') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="products_id" value="{{ $item->id }}">
+
+                        <input
+                          type="file"
+                          name="photos"
+                          id="file"
+                          style="display: none;"
+                          onchange="form.submit()"
+                        />
+                        <button
+                          type="button"
+                          class="btn btn-secondary btn-block mt-3"
+                          onclick="thisFileUpload()">
+                          Add Photo
+                        </button>
+
+                    </form>
+
                   </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -287,6 +290,9 @@
 @endsection
 
 @push('addon-script')
+  <!-- Sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  @include('includes.admin.alerts')
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
   <!-- Summernote -->
