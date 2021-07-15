@@ -6,11 +6,14 @@ use App\User;
 use App\Product;
 use App\ProductGallery;
 use App\Category;
+use PDF;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 Use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
@@ -34,6 +37,23 @@ class ProductController extends Controller
             'categories' => $categories,
             'code' => $code
         ]);
+    }
+
+    public function exportPdfTable()
+    {
+      $products = Product::all();
+      $total = Product::sum('total_price');
+      $customPaper = array(0,0,615,940);
+      $pdf = PDF::loadView('pages.admin.exports.pdf',[
+        'products' => $products, 
+        'total' => $total
+      
+      ])->setPaper($customPaper, 'landscape')
+      ->setWarnings(false);
+
+      // ->setPaper('f4', 'portrait')
+      return $pdf->stream();
+      
     }
 
     /**
@@ -158,6 +178,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Product::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('aset.index');
     }
 }

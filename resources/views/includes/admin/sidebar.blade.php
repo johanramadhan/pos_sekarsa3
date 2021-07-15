@@ -74,9 +74,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('product-gallery.index') }}" class="nav-link {{ (request()->is('admin/data-aset/product-gallery*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Inactive Page</p>
+                <p>Gallery</p>
               </a>
             </li>
           </ul>

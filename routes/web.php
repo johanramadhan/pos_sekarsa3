@@ -23,10 +23,13 @@ Route::prefix('admin')
         Route::resource('category', 'CategoryController');
         Route::resource('user', 'UserController');
         Route::resource('data-aset/aset', 'ProductController');
+        Route::resource('data-aset/product-gallery', 'ProductGalleryController');
 
         // dashboard proposal gallery
         Route::post('data-aset/aset/gallery/upload', 'ProductController@uploadGallery')->name('product-gallery-upload');
         Route::get('data-aset/aset/gallery/delete/{id}', 'ProductController@deleteGallery')->name('product-gallery-delete');
+
+        Route::get('aset/exportpdf', 'ProductController@exportPdfTable')->name('productExportPdf');
     });
 
 

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css"/>
 @endpush
 
 @section('content')
@@ -53,6 +54,9 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
                       + Aset
                     </button>
+                    <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3">
+                      Print PDF
+                    </a>
                     <thead>
                       <tr>
                         <th>No</th>
