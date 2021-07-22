@@ -456,7 +456,7 @@
           
           swalWithBootstrapButtons.fire(
             'Terhapus!',
-            'Data kategori berhasil dihapus.',
+            'Data aset berhasil dihapus.',
             'success'
           )
         } else if (

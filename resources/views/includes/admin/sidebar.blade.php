@@ -81,6 +81,30 @@
             </li>
           </ul>
         </li>
+
+        <li class="nav-item {{ (request()->is('admin/data-proposal*')) ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ (request()->is('admin/data-proposal*')) ? 'active' : '' }} ">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Data Pengajuan
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{ route('proposal.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/proposal*')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Pengajuan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('proposal-gallery.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/proposal-gallery*')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Gallery</p>
+              </a>
+            </li>
+          </ul>
+        </li>
         
       </ul>
     </nav>

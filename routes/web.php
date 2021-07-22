@@ -24,10 +24,18 @@ Route::prefix('admin')
         Route::resource('user', 'UserController');
         Route::resource('data-aset/aset', 'ProductController');
         Route::resource('data-aset/product-gallery', 'ProductGalleryController');
+        Route::resource('data-proposal/proposal', 'ProposalController');
+        Route::resource('data-proposal/proposal-gallery', 'ProposalGalleryController');
 
-        // dashboard proposal gallery
+        // dashboard product gallery
         Route::post('data-aset/aset/gallery/upload', 'ProductController@uploadGallery')->name('product-gallery-upload');
         Route::get('data-aset/aset/gallery/delete/{id}', 'ProductController@deleteGallery')->name('product-gallery-delete');
+
+        Route::get('aset/exportpdf', 'ProductController@exportPdfTable')->name('productExportPdf');
+
+        // dashboard proposal gallery
+        Route::post('data-aset/proposal/gallery/upload', 'ProposalController@uploadGallery')->name('proposal-gallery-upload');
+        Route::get('data-aset/proposal/gallery/delete/{id}', 'ProposalController@deleteGallery')->name('proposal-gallery-delete');
 
         Route::get('aset/exportpdf', 'ProductController@exportPdfTable')->name('productExportPdf');
     });
