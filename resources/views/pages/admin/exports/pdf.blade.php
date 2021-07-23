@@ -45,20 +45,20 @@ use Illuminate\Support\Facades\Storage;
     <img src="{{ public_path('images/logo-sidebar.png') }}" width="200px" >
   </div>
   <div class="position-relative">
-    <h5 class="text-center cover">RENCANA KEBUTUHAN BARANG MILIK DAERAH (RKBMD) OLEH BIDANG DAN SUB BAGIAN PADA <br> DINAS PEMADAM KEBAKARAN DAN PENYELAMATAN KOTA PEKANBARU <br> TAHUN ANGGARAN 2021</h5>
+    <h5 class="text-center cover">DATA ASET <br> DINAS PEMADAM KEBAKARAN DAN PENYELAMATAN KOTA PEKANBARU <br> TAHUN ANGGARAN 2021</h5>
   </div>
 
   <div class="page-break"></div>
 
-  <h6 class="text-center" style="font-size: 14px;">RENCANA KEBUTUHAN BARANG MILIK DAERAH (RKBMD) OLEH BIDANG DAN SUB BAGIAN <br> PADA DINAS PEMADAM KEBAKARAN DAN PENYELAMATAN KOTA PEKANBARU <br> TAHUN ANGGARAN 2021</h6>
+  <h6 class="text-center" style="font-size: 14px;">DATA ASET <br> PADA DINAS PEMADAM KEBAKARAN DAN PENYELAMATAN KOTA PEKANBARU <br> TAHUN ANGGARAN 2021</h6>
 
   <table class="table" style="border: 1px solid black; font-size: 12px;">
     <thead>
       <tr>
         <th class="text-center">No</th>
         <th class="text-center">Bidang Pengusul</th>
-        <th class="text-center">Nama Barang</th>
         <th class="text-center">Kategori</th>
+        <th class="text-center">Nama Barang</th>
         <th class="text-center">Kondisi</th>
         <th class="text-center">Jumlah</th>
         <th class="text-center">Satuan</th>
@@ -74,9 +74,9 @@ use Illuminate\Support\Facades\Storage;
       @foreach ($products as $item)
         <tr style="line-height: 12px;">
           <td>{{ $loop->iteration }}</td>
-          <td>{{ $item->name }}</td>
           <td>Bidang {{ $item->user->bidang }}</td>
           <td>{{ $item->category->name }}</td>
+          <td>{{ $item->name }}</td>
           <td>{{ $item->kondisi }}</td>
           <td>{{ $item->qty }}</td>
           <td>{{ $item->satuan }}</td>
@@ -85,7 +85,7 @@ use Illuminate\Support\Facades\Storage;
           <td>{{ $item->fungsi }}</td>
           <td>{!! $item->description !!}</td>
           <td>
-            {{-- <img src="{{ public_path("storage/".$proposal->galleries->first()->photos ?? 'tidak ada foto') }}" style="width: 100px; margin-top:10px;"> --}}
+            <img src="{{ public_path("storage/".$item->galleries->first()->photos ?? 'tidak ada foto') }}" style="width: 100px; margin-top:10px;">
           </td>
         </tr>
       @endforeach

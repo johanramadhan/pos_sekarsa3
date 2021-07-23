@@ -54,7 +54,10 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
                       + Pengajuan
                     </button>
-                    <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3">
+                    <a href="{{ route('proposalExportPdf') }}" class="btn btn-danger ml-3">
+                      Print PDF
+                    </a>
+                    <a href="{{ route('proposalExport') }}" class="btn btn-warning ml-3">
                       Print PDF
                     </a>
                     <thead>
@@ -112,13 +115,13 @@
                                   Aksi
                                 </button>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('proposal.edit', $item->id) }}">
+                                  <a class="dropdown-item" href="{{ route('pengajuan.edit', $item->id) }}">
                                     Sunting
                                   </a>
-                                  <a class="dropdown-item" href="{{ route('proposal.show', $item->id) }}">
+                                  <a class="dropdown-item" href="{{ route('pengajuan.show', $item->id) }}">
                                     Detail
                                   </a>
-                                  <button type="submit" id="delete" href="{{ route('proposal.destroy', $item->id) }}" 
+                                  <button type="submit" id="delete" href="{{ route('pengajuan.destroy', $item->id) }}" 
                                     class="dropdown-item text-danger">
                                     Hapus
                                   </button>
@@ -153,7 +156,7 @@
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
-      <form action="{{ route('proposal.store') }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('pengajuan.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
         <div class="modal-content bg-default">
           <div class="modal-header">

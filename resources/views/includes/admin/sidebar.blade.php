@@ -92,7 +92,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ route('proposal.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/proposal*')) ? 'active' : '' }}">
+              <a href="{{ route('pengajuan.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/pengajuan*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Pengajuan</p>
               </a>

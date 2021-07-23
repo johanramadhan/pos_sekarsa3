@@ -43,7 +43,7 @@
                 <h3 class="card-title">Edit Pengajuan</h3>
               </div>
               <!-- /.card-header -->
-              <form action="{{ route('proposal.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('pengajuan.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
@@ -240,7 +240,7 @@
                   <button type="submit" class="btn btn-block btn-primary">
                     Edit
                   </button>
-                  <a href="{{ route('proposal.index') }}" class="btn btn-block btn-default">Kembali</a>
+                  <a href="{{ route('pengajuan.index') }}" class="btn btn-block btn-default">Kembali</a>
                 </div>
               </form>
               <div class=" card-body mt-2">

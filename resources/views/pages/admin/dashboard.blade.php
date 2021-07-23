@@ -26,66 +26,85 @@
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
+      <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
-                <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-                </div>
+              <div class="info-box-content">
+                <span class="info-box-text">User</span>
+                <span class="info-box-number">{{ $user }}</span>
+              </div>
+              <!-- /.info-box-content -->
             </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
 
-            <div class="card card-primary card-outline">
-                <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-                </div>
-            </div><!-- /.card -->
+              <div class="info-box-content">
+                <span class="info-box-text">Jumlah Aset</span>
+                <span class="info-box-number">
+                {{ $product }}
+                <small></small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
             </div>
-            <!-- /.col-md-6 -->
-            <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-                </div>
-                <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+              <div class="info-box-content">
+                <span class="info-box-text">Jumlah Pengajuan</span>
+                <span class="info-box-number">{{ $proposal }}</span>
+              </div>
+              <!-- /.info-box-content -->
             </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
 
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-                </div>
-                <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-            </div>
-            </div>
-            <!-- /.col-md-6 -->
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+            
         </div>
         <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-6">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total Aset</span>
+                <span class="info-box-number">Rp{{ number_format($transaction) }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-6">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total Pengajuan</span>
+                <span class="info-box-number">Rp{{ number_format($proposals) }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+      </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>

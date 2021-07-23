@@ -36,6 +36,40 @@ class ProposalController extends Controller
         ]);
     }
 
+    public function exportPdfTable()
+    {
+      $proposals = Proposal::all();
+      $total = Proposal::sum('total_price');
+      $customPaper = array(0,0,615,940);
+      $pdf = PDF::loadView('pages.admin.exports.proposalpdf',[
+        'proposals' => $proposals, 
+        'total' => $total
+      
+      ])->setPaper($customPaper, 'landscape')
+      ->setWarnings(false);
+
+      // ->setPaper('f4', 'portrait')
+      return $pdf->stream();
+      
+    }
+
+    public function exportPdf()
+    {
+      $proposals = Proposal::all();
+      $total = Proposal::sum('total_price');
+      $customPaper = array(0,0,615,936);
+      $pdf = PDF::loadView('pages.admin.exports.proposalexport',[
+        'proposals' => $proposals,
+        'total' => $total
+        
+      ])->setPaper($customPaper, 'portrait')->setWarnings(false);
+
+      // ->setPaper('f4', 'portrait')
+
+      return $pdf->stream();
+      
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -66,7 +100,7 @@ class ProposalController extends Controller
 
         ProposalGallery::create($gallery);
 
-        return redirect()->route('proposal.index')
+        return redirect()->route('pengajuan.index')
           ->with('success', 'Data pengajuan berhasil ditambahkan');
     }
 
@@ -116,7 +150,7 @@ class ProposalController extends Controller
 
         ProposalGallery::create($data);
 
-        return redirect()->route('proposal.edit', $request->proposals_id)
+        return redirect()->route('pengajuan.edit', $request->proposals_id)
          ->with('success', 'Gambar berhasil ditambahkan');
     }
 
@@ -125,7 +159,7 @@ class ProposalController extends Controller
         $item = ProposalGallery::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('proposal.edit', $item->proposals_id);
+        return redirect()->route('pengajuan.edit', $item->proposals_id);
     }
 
     /**
@@ -145,7 +179,7 @@ class ProposalController extends Controller
 
         $item->update($data);
 
-        return redirect()->route('proposal.index')
+        return redirect()->route('pengajuan.index')
             ->with('update', 'Data Pengajuan berhasil diedit');
     }
 
@@ -160,6 +194,6 @@ class ProposalController extends Controller
         $item = Proposal::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('proposal.index');
+        return redirect()->route('pengajuan.index');
     }
 }
