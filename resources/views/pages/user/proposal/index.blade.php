@@ -51,9 +51,12 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-                      + Pengajuan
-                    </button>
+                    @if ((Auth::user()->store_status) === 1)
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+                        + Pengajuan
+                      </button>
+                    @endif
+                    
                     <a href="{{ route('proposalExportPdf') }}" class="btn btn-danger ml-3">
                       Print PDF
                     </a>

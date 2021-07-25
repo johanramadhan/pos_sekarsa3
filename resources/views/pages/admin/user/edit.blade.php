@@ -71,6 +71,19 @@
                           required
                         />
                       </div>
+                      <!-- /.Nama Kabid/Kasubbag/Kasi --> 
+                      <div class="form-group">
+                        <label>Status User</label>
+                        <select name="store_status" class="form-control">
+                          @if (($item->store_status) === 1)
+                            <option value="{{ $item->store_status }}" selected>Tidak diganti -- (Aktif)</option>
+                          @elseif(($item->store_status) === 0)
+                            <option value="{{ $item->store_status }}" selected>Tidak diganti -- (Tidak Aktif)</option>
+                          @endif
+                          <option value="1">Aktif</option>
+                          <option value="0">Tidak Aktif</option>
+                        </select>                            
+                      </div>
                       <!-- /.Nama Kabid/Kasubbag/Kasi -->  
                     </div>
                     <div class="col-md-6">
@@ -107,9 +120,7 @@
                           placeholder="Password"
                         />
                       </div>
-                      <!-- /.Password -->  
-                    </div>
-                    <div class="col-md-12">
+                      <!-- /.Password --> 
                       <div class="form-group">
                         <label>Icon Bidang</label> (<i><small>Kosongkan jika tidak ingin mengganti Icon</small></i>)
                         <div class="input-group">
@@ -127,7 +138,7 @@
                           </div>
                         </div>
                       </div>
-                      <!-- /.Nama Icon -->
+                      <!-- /.Nama Icon --> 
                     </div>
                   </div>
                 </div>

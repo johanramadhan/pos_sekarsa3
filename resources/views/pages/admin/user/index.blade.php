@@ -59,6 +59,7 @@
                         <th>NIP</th>
                         <th>Email</th>
                         <th>Roles</th>
+                        <th>Status User</th>
                         <th>Foto</th>
                         <th>Aksi</th>
                       </tr>
@@ -72,6 +73,13 @@
                           <td>{{ $item->nip }}</td>
                           <td>{{ $item->email }}</td>
                           <td>{{ $item->roles }}</td>
+                          <td class="text-center">
+                            @if (($item->store_status) === 1)
+                              <span class="badge badge-primary">Aktif</span>
+                            @else
+                              <span class="badge badge-danger">Tidak Aktif</span>
+                            @endif
+                          </td>
                           <td>
                             <img src="{{Storage::url($item->photo)}}" style="max-height: 50px;">
                           </td>
