@@ -17,10 +17,10 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a href="{{ route('home') }}" class="nav-link">Home</a>
+          <a href="{{ route('home') }}" class="nav-link {{ (request()->is('/*')) ? 'active' : '' }} ">Home</a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('categories') }}" class="nav-link">Kategori</a>
+          <a href="{{ route('categories') }}" class="nav-link {{ (request()->is('categories*')) ? 'active' : '' }}">Kategori</a>
         </li>
         @guest
           {{-- <li class="nav-item">
@@ -50,12 +50,11 @@
                 alt=""
                 class="rounded-circle-2 mr-2 profile-picture"
               />
-              Hi, {{ Auth::user()->name }}
+              Hi, {{ Auth::user()->bidang }}
             </a>
             <div class="dropdown-menu">
               <a href="{{ route('home') }}" class="dropdown-item">Home</a>
-              <a href="{{ route('pengajuans') }}" class="dropdown-item">Pengajuan</a>
-              <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+              <a href="{{ route('dashboard-user') }}" class="dropdown-item">Dashboard</a>
               {{-- <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item"
                 >Settings</a
               > --}}
@@ -88,16 +87,12 @@
         <!-- Mobile Menu -->
         <ul class="navbar-nav d-block d-lg d-lg-none">
           <li class="nav-item">
-          <a href="{{ route('pengajuans') }}" class="nav-link">
-             Pengajuan
-            </a>
-          </li>
           <li class="nav-item">
-            <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a>
+            {{-- <a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a> --}}
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              Hi {{ Auth::user()->name }}
+              Hi {{ Auth::user()->bidang }}
             </a>
           </li>          
           <li class="nav-item">

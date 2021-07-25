@@ -43,7 +43,7 @@
                 <h3 class="card-title">Edit Aset</h3>
               </div>
               <!-- /.card-header -->
-              <form action="{{ route('aset.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('asets.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
@@ -232,7 +232,7 @@
                   <button type="submit" class="btn btn-block btn-primary">
                     Edit
                   </button>
-                  <a href="{{ route('aset.index') }}" class="btn btn-block btn-default">Kembali</a>
+                  <a href="{{ route('asets.index') }}" class="btn btn-block btn-default">Kembali</a>
                 </div>
               </form>
               <div class=" card-body mt-2">

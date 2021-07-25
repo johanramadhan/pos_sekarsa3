@@ -19,6 +19,9 @@ Route::get('/categories', 'CategoryController@index')->name('categories');
 Route::get('/categories/{id}', 'CategoryController@detail')->name('categories-detail');
 
 Route::get('/details/{id}', 'DetailController@index')->name('detail');
+Route::post('/details/{id}', 'DetailController@add')->name('detail-add');
+
+Route::get('/register/success', 'Auth\RegisterController@success')->name('register-success');
 
 Route::prefix('admin')
     ->namespace('Admin')
@@ -27,7 +30,7 @@ Route::prefix('admin')
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
         Route::resource('category', 'CategoryController');
         Route::resource('user', 'UserController');
-        Route::resource('data-aset/aset', 'ProductController');
+        Route::resource('data-aset/asets', 'ProductController');
         Route::resource('data-aset/product-gallery', 'ProductGalleryController');
         Route::resource('data-proposal/pengajuan', 'ProposalController');
         Route::resource('data-proposal/proposal-gallery', 'ProposalGalleryController');

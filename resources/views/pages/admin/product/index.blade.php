@@ -100,13 +100,13 @@
                                   Aksi
                                 </button>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('aset.edit', $item->id) }}">
+                                  <a class="dropdown-item" href="{{ route('asets.edit', $item->id) }}">
                                     Sunting
                                   </a>
-                                  <a class="dropdown-item" href="{{ route('aset.show', $item->id) }}">
+                                  <a class="dropdown-item" href="{{ route('asets.show', $item->id) }}">
                                     Detail
                                   </a>
-                                  <button type="submit" id="delete" href="{{ route('aset.destroy', $item->id) }}" 
+                                  <button type="submit" id="delete" href="{{ route('asets.destroy', $item->id) }}" 
                                     class="dropdown-item text-danger">
                                     Hapus
                                   </button>
@@ -141,7 +141,7 @@
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
-      <form action="{{ route('aset.store') }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('asets.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
         <div class="modal-content bg-default">
           <div class="modal-header">

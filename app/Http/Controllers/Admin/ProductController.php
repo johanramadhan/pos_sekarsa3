@@ -86,7 +86,7 @@ class ProductController extends Controller
 
         ProductGallery::create($gallery);
 
-        return redirect()->route('aset.index')
+        return redirect()->route('asets.index')
           ->with('success', 'Data aset berhasil ditambahkan');
     
     }
@@ -137,7 +137,7 @@ class ProductController extends Controller
 
         ProductGallery::create($data);
 
-        return redirect()->route('aset.edit', $request->products_id)
+        return redirect()->route('asets.edit', $request->products_id)
          ->with('success', 'Gambar berhasil ditambahkan');
     }
 
@@ -146,7 +146,7 @@ class ProductController extends Controller
         $item = ProductGallery::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('aset.edit', $item->products_id);
+        return redirect()->route('asets.edit', $item->products_id);
     }
 
     /**
@@ -166,7 +166,7 @@ class ProductController extends Controller
 
         $item->update($data);
 
-        return redirect()->route('aset.index')
+        return redirect()->route('asets.index')
             ->with('update', 'Data aset berhasil diedit');
     }
 
@@ -181,6 +181,6 @@ class ProductController extends Controller
         $item = Product::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('aset.index');
+        return redirect()->route('asets.index');
     }
 }
