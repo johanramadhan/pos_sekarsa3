@@ -44,7 +44,7 @@
         </li>
         <li class="nav-item">
           <a href="{{ route('category.index') }}" class="nav-link {{ (request()->is('admin/category*')) ? 'active' : '' }}">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <i class="nav-icon fas fa-tasks"></i>
             <p>
               Kategori
             </p>
@@ -52,7 +52,7 @@
         </li>
         <li class="nav-item">
           <a href="{{ route('user.index') }}" class="nav-link {{ (request()->is('admin/user*')) ? 'active' : '' }}">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <i class="nav-icon fas fa-users"></i>
             <p>
               Data User
             </p>
@@ -60,7 +60,7 @@
         </li>
         <li class="nav-item {{ (request()->is('admin/data-aset*')) ? 'menu-open' : '' }}">
           <a href="#" class="nav-link {{ (request()->is('admin/data-aset*')) ? 'active' : '' }} ">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <i class="nav-icon fas fa-balance-scale"></i>
             <p>
               Data Aset
               <i class="right fas fa-angle-left"></i>
@@ -84,7 +84,7 @@
 
         <li class="nav-item {{ (request()->is('admin/data-proposal*')) ? 'menu-open' : '' }}">
           <a href="#" class="nav-link {{ (request()->is('admin/data-proposal*')) ? 'active' : '' }} ">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <i class="nav-icon fas fa-archive"></i>
             <p>
               Data Pengajuan
               <i class="right fas fa-angle-left"></i>
@@ -106,6 +106,24 @@
           </ul>
         </li>
         
+      </ul>
+
+      <ul class="nav nav-pills nav-sidebar flex-column mt-5" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-item">
+          <a href="{{ route('logout') }}"
+           onclick="event.preventDefault();
+           document.getElementById('logout-form').submit();"
+            class="nav-link">
+            <i class="nav-icon fas fa-power-off"></i>
+            <p>
+              Logout
+            </p>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+          </a>
+        </li>
+
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

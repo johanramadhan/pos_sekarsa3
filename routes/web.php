@@ -15,9 +15,14 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/categories', 'CategoryController@index')->name('categories');
+Route::get('/categories/{id}', 'CategoryController@detail')->name('categories-detail');
+
+Route::get('/details/{id}', 'DetailController@index')->name('detail');
 
 Route::prefix('admin')
     ->namespace('Admin')
+    ->middleware(['auth', 'admin'])
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
         Route::resource('category', 'CategoryController');
@@ -40,6 +45,22 @@ Route::prefix('admin')
         Route::get('proposal/exportpdftable', 'ProposalController@exportPdfTable')->name('proposalExportPdf');
         Route::get('proposal/exportpdf', 'ProposalController@exportPdf')->name('proposalExport');
     });
+
+Route::prefix('user')
+    ->namespace('User')
+    ->middleware(['auth'])
+    ->group(function() {
+        Route::get('/', 'DashboardController@index')->name('dashboard-user');
+
+        Route::resource('data-aset/aset', 'ProductController');
+        Route::resource('data-proposal/pengajuans', 'ProposalController');
+        Route::resource('data-proposal/proposal-gallery', 'ProposalGalleryController');
+
+        // dashboard proposal gallery
+        Route::post('data-proposal/proposal/gallery/upload', 'ProposalController@uploadGallery')->name('proposal-gallery-upload');
+        Route::get('data-proposal/proposal/gallery/delete/{id}', 'ProposalController@deleteGallery')->name('proposal-gallery-delete');
+
+});
 
 
 Auth::routes();
