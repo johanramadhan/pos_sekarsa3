@@ -43,7 +43,7 @@
                 <h3 class="card-title">Edit Pengajuan</h3>
               </div>
               <!-- /.card-header -->
-              <form action="{{ route('pengajuan.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('pengajuans.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="card-body">

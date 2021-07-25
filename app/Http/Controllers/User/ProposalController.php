@@ -143,7 +143,7 @@ class ProposalController extends Controller
 
         $item->update($data);
 
-        return redirect()->route('pengajuan.index')
+        return redirect()->route('pengajuans.index')
             ->with('update', 'Data Pengajuan berhasil diedit');
     }
 
