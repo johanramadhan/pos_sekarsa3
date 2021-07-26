@@ -15,9 +15,8 @@ class CreateCountdownTable extends Migration
     {
         Schema::create('countdown', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('date');
-            $table->dateTime('hour');
+            $table->string('name', 70);
+            $table->string('date', 70);
             $table->timestamps();
         });
     }

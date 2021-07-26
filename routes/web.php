@@ -28,12 +28,14 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
+        Route::post('/', 'DashboardController@update')->name('countdown');
+        
         Route::resource('category', 'CategoryController');
         Route::resource('user', 'UserController');
         Route::resource('data-aset/asets', 'ProductController');
         Route::resource('data-aset/product-gallery', 'ProductGalleryController');
         Route::resource('data-proposal/pengajuan', 'ProposalController');
-        Route::resource('data-proposal/proposal-gallery', 'ProposalGalleryController');
+        Route::resource('data-proposal/proposal-galleries', 'ProposalGalleryController');
 
         // dashboard product gallery
         Route::post('data-aset/aset/gallery/upload', 'ProductController@uploadGallery')->name('product-gallery-upload');
@@ -62,6 +64,10 @@ Route::prefix('user')
         // dashboard proposal gallery
         Route::post('data-proposal/proposal/gallery/upload', 'ProposalController@uploadGallery')->name('proposal-gallery-upload');
         Route::get('data-proposal/proposal/gallery/delete/{id}', 'ProposalController@deleteGallery')->name('proposal-gallery-delete');
+
+         // dashboard proposal export
+        Route::get('proposal/exportpdftable', 'ProposalController@pdfTable')->name('pdfTable');
+        Route::get('proposal/exportpdf', 'ProposalController@exportPdf')->name('exportpdf');
 
 });
 

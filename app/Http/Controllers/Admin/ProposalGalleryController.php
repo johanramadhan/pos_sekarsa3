@@ -47,7 +47,7 @@ class ProposalGalleryController extends Controller
 
         ProposalGallery::create($data);
 
-        return redirect()->route('proposal-gallery.index')->with('success', 'Foto berhasil ditambahkan');
+        return redirect()->route('proposal-galleries.index')->with('success', 'Foto berhasil ditambahkan');
     }
 
     /**
@@ -95,6 +95,6 @@ class ProposalGalleryController extends Controller
         $item = ProposalGallery::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('proposal-gallery.index');
+        return redirect()->route('proposal-galleries.index');
     }
 }

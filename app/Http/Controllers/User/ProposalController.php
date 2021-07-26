@@ -34,6 +34,59 @@ class ProposalController extends Controller
         ]);
     }
 
+    public function pdfTable()
+    {
+      $proposals = Proposal::all()->where('users_id', Auth::user()->id)->sortBy('categories_id');
+      $judul = Proposal::with(['user','galleries'])
+                        ->where('users_id', Auth::user()->id)->first();
+      
+        $proposal = Proposal::with(['user','galleries'])
+                          ->where('users_id', Auth::user()->id);
+        $total = $proposal->get()->reduce(function ($carry, $item){
+                return $carry + $item->total_price;
+        });
+
+      $customPaper = array(0,0,615,940);
+      $pdf = PDF::loadView('pages.user.exports.proposalpdf',[
+        'proposals' => $proposals, 
+        'proposal' => $proposal,
+        'total' => $total,
+        'judul' => $judul,
+      
+      ])->setPaper($customPaper, 'landscape')
+      ->setWarnings(false);
+
+      // ->setPaper('f4', 'portrait')
+      return $pdf->stream();
+      
+    }
+
+    public function exportPdf()
+    {
+      $proposals = Proposal::all()->where('users_id', Auth::user()->id)->sortBy('categories_id');
+      $judul = Proposal::with(['user','galleries'])
+                        ->where('users_id', Auth::user()->id)->first();
+      
+        $proposal = Proposal::with(['user','galleries'])
+                            ->where('users_id', Auth::user()->id);
+        $total = $proposal->get()->reduce(function ($carry, $item){
+                return $carry + $item->total_price;
+        });
+      $customPaper = array(0,0,615,936);
+      $pdf = PDF::loadView('pages.user.exports.proposalexport',[
+        'proposals' => $proposals,
+        'proposal' => $proposal,
+        'total' => $total,
+        'judul' => $judul,
+        
+      ])->setPaper($customPaper, 'portrait')->setWarnings(false);
+
+      // ->setPaper('f4', 'portrait')
+
+      return $pdf->stream();
+      
+    }
+
     /**
      * Show the form for creating a new resource.
      *

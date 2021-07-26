@@ -57,10 +57,10 @@
                       </button>
                     @endif
                     
-                    <a href="{{ route('proposalExportPdf') }}" class="btn btn-danger ml-3">
+                    <a href="{{ route('pdfTable') }}" class="btn btn-danger ml-3">
                       Print PDF
                     </a>
-                    <a href="{{ route('proposalExport') }}" class="btn btn-warning ml-3">
+                    <a href="{{ route('exportpdf') }}" class="btn btn-warning ml-3">
                       Print PDF
                     </a>
                     <thead>

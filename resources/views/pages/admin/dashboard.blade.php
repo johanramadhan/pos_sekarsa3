@@ -127,11 +127,79 @@
           <!-- /.col -->
         </div>
 
-        <h2>Time until 2014</h2> 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-          Edit Countdown
-        </button>
-        <div id="CountDownTimer" data-date="2021-07-26 23:03:00" class="w-25"></div>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-6">
+            <h2>Time until 2014</h2> 
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+              Countdown
+            </button>
+            <div id="CountDownTimer" data-date="{{ $countdown->date }}" class="w-75"></div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-6">
+            <div class="card card-success">
+              <div class="card-header">
+                <h3 class="card-title">Data Countdown</h3>
+              </div>
+
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+                      + Countdown
+                    </button>
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Countdown</th>
+                        <th>Date</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @forelse ($countdowns as $item)
+                        <tr>
+                          <td>{{ $loop->iteration }}</td>
+                          <td>{{ $item->name }}</td>
+                          <td>{{ $item->date }}</td>
+                          <td>
+                            <div class="btn-group">
+                              <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle mr-1 mb-1"        
+                                  type="button"
+                                  data-toggle="dropdown">
+                                  Aksi
+                                </button>
+                                <div class="dropdown-menu">
+                                  <a class="dropdown-item" href="{{ route('category.edit', $item->id) }}">
+                                    Sunting
+                                  </a>
+                                  <button type="submit" id="delete" href="{{ route('category.destroy', $item->id) }}" 
+                                    class="dropdown-item text-danger">
+                                    Hapus
+                                  </button>
+                                  <form action="" method="POST" id="deleteForm">
+                                    @csrf
+                                    @method("DELETE")
+                                    <input type="submit" value="Hapus" style="display: none">
+                                    
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      @empty
+                          
+                      @endforelse
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -139,7 +207,7 @@
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
-      <form action="{{ route('countdown.store') }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('countdown') }}" method="POST" enctype="multipart/form-data">
       @csrf
         <div class="modal-content bg-default">
           <div class="modal-header">
@@ -182,7 +250,7 @@
                           <div class="form-group">
                             <label>Date and time:</label>
                               <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                                <input type="text" name="hour" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
                                 <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
