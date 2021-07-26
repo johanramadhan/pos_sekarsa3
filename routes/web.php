@@ -28,7 +28,10 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
-        Route::post('/', 'DashboardController@update')->name('countdown');
+        Route::post('/', 'DashboardController@add')->name('countdown');
+        Route::get('/countdown/edit/{id}', 'DashboardController@edit')->name('countdown-edit');
+        Route::post('/countdown/{id}', 'DashboardController@update')->name('countdown-update');
+        Route::delete('/countdown/{id}', 'DashboardController@destroy')->name('countdown-delete');
         
         Route::resource('category', 'CategoryController');
         Route::resource('user', 'UserController');

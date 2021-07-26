@@ -4,6 +4,11 @@
     Dashboard User
 @endsection
 
+@push('addon-style')
+    
+    <link rel="stylesheet" href="{{ asset('vendor/inc/TimeCircles.css') }}" />
+@endpush
+
 @section('content')
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -89,15 +94,24 @@
             <!-- /.info-box -->
           </div>
           <!-- /.col -->
+          
 
           <!-- fix for small devices only -->
           <div class="clearfix hidden-md-up"></div>
             
         </div>
         <!-- /.row -->
+        
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
     
 @endsection
+
+@push('addon-script')
+  <script type="text/javascript" src="{{ asset('vendor/inc/TimeCircles.js') }}"></script>
+  <script>
+    $("#CountDownTimer").TimeCircles({ time: { Days: { show: true }, Hours: { show: true } }});
+  </script>
+@endpush

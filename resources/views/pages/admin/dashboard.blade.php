@@ -5,6 +5,9 @@
 @endsection
 
 @push('addon-style')
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <!-- daterange picker -->
   <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
   <!-- iCheck for checkboxes and radio inputs -->
@@ -18,10 +21,6 @@
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- Bootstrap4 Duallistbox -->
   <link rel="stylesheet" href="{{ asset('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
-  <!-- BS Stepper -->
-  <link rel="stylesheet" href="{{ asset('plugins/bs-stepper/css/bs-stepper.min.css') }}">
-  <!-- dropzonejs -->
-  <link rel="stylesheet" href="{{ asset('plugins/dropzone/min/dropzone.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 @endpush
@@ -127,12 +126,8 @@
           <!-- /.col -->
         </div>
 
-        <div class="row">
+        <div class="row mt-5">
           <div class="col-12 col-sm-6 col-md-6">
-            <h2>Time until 2014</h2> 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-              Countdown
-            </button>
             <div id="CountDownTimer" data-date="{{ $countdown->date }}" class="w-75"></div>
           </div>
           <div class="col-12 col-sm-6 col-md-6">
@@ -143,15 +138,15 @@
 
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+                  <table id="example2" class="table table-bordered table-striped">
+                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
                       + Countdown
-                    </button>
+                    </button> --}}
                     <thead>
                       <tr>
                         <th>No</th>
+                        <th>Nama</th>
                         <th>Countdown</th>
-                        <th>Date</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -170,13 +165,9 @@
                                   Aksi
                                 </button>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('category.edit', $item->id) }}">
-                                    Sunting
+                                  <a class="dropdown-item" href="{{ route('countdown-edit', $item->id) }}">
+                                    Edit
                                   </a>
-                                  <button type="submit" id="delete" href="{{ route('category.destroy', $item->id) }}" 
-                                    class="dropdown-item text-danger">
-                                    Hapus
-                                  </button>
                                   <form action="" method="POST" id="deleteForm">
                                     @csrf
                                     @method("DELETE")
@@ -250,7 +241,7 @@
                           <div class="form-group">
                             <label>Date and time:</label>
                               <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                <input type="text" name="hour" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                                <input type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
                                 <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
@@ -280,6 +271,12 @@
 @endsection
 
 @push('addon-script')
+  <!-- Sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  @include('includes.admin.alerts')
+  <!-- DataTables  & Plugins -->
+  <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
   <!-- InputMask -->
@@ -326,5 +323,22 @@
       $('.duallistbox').bootstrapDualListbox()
 
     })
+  </script>
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": true,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
   </script>
 @endpush
