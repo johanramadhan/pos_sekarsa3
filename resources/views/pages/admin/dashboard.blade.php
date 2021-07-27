@@ -126,7 +126,7 @@
           <!-- /.col -->
         </div>
 
-        <div class="row mt-5">
+        <div class="row mt-5 d-none">
           <div class="col-12 col-sm-6 col-md-6">
             <div id="CountDownTimer" data-date="{{ $countdown->date }}" class="w-75"></div>
           </div>

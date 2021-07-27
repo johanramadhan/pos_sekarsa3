@@ -117,7 +117,7 @@ class ProposalController extends Controller
 
         ProposalGallery::create($gallery);
 
-        return redirect()->route('pengajuan.index')
+        return redirect()->route('pengajuans.index')
           ->with('success', 'Data pengajuan berhasil ditambahkan');
     }
 

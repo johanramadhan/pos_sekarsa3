@@ -118,16 +118,24 @@
                                   Aksi
                                 </button>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('pengajuans.edit', $item->id) }}">
-                                    Edit
-                                  </a>
+                                  @if ((Auth::user()->store_status) === 1)
+                                    <a class="dropdown-item" href="{{ route('pengajuans.edit', $item->id) }}">
+                                      Edit
+                                    </a>
+                                  @else
+
+                                  @endif
                                   <a class="dropdown-item" href="{{ route('pengajuans.show', $item->id) }}">
                                     Detail
                                   </a>
-                                  <button type="submit" id="delete" href="{{ route('pengajuans.destroy', $item->id) }}" 
+                                  @if ((Auth::user()->store_status) === 1)
+                                    <button type="submit" id="delete" href="{{ route('pengajuans.destroy', $item->id) }}" 
                                     class="dropdown-item text-danger">
-                                    Hapus
-                                  </button>
+                                      Hapus
+                                    </button>
+                                  @else
+                                      
+                                  @endif
                                   <form action="" method="POST" id="deleteForm">
                                     @csrf
                                     @method("DELETE")

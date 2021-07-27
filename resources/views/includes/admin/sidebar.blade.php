@@ -35,7 +35,7 @@
         <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="{{ route('dashboard-admin') }}" class="nav-link {{ (request()->is('admin*')) ? 'active' : '' }}">
+          <a href="{{ route('dashboard-admin') }}" class="nav-link {{ (request()->is('admin')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
@@ -73,7 +73,7 @@
                 <p>Aset</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item d-none">
               <a href="{{ route('product-gallery.index') }}" class="nav-link {{ (request()->is('admin/data-aset/product-gallery*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Gallery</p>
@@ -97,7 +97,7 @@
                 <p>Pengajuan</p>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item d-none">
               <a href="{{ route('proposal-galleries.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/proposal-galleries*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Gallery</p>
