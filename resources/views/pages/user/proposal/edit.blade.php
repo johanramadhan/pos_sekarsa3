@@ -51,7 +51,7 @@
                     <div class="col-md-6">            
                       <div class="form-group">
                         <label>Kategori</label>
-                        <select name="category" class="form-control select2">
+                        <select name="categories_id" class="form-control select2">
                           <option value="{{ $item->category->id }}" selected>Tidak diganti -- ({{ $item->category->name }})</option>
                           @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -145,7 +145,7 @@
                       </div>
                       <!-- /.satuan -->              
                       <div class="form-group">
-                        <label>Jumlah</label>
+                        <label>Jumlah Pengajuan</label>
                         <input
                           type="number"
                           name="qty"

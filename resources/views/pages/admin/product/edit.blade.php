@@ -63,7 +63,7 @@
                       <!-- /.Nama Barang --> 
                       <div class="form-group">
                         <label>Nama Bidang</label>
-                        <select name="bidang" class="form-control select2">
+                        <select name="users_id" class="form-control select2">
                           <option value="{{ $item->user->id }}" selected>Tidak diganti -- ({{ $item->user->bidang }})</option>
                           @foreach ($users as $user)
                             <option value="{{ $user->id }}">{{ $user->bidang }}</option>
@@ -73,7 +73,7 @@
                       <!-- /.Nama Bidang -->             
                       <div class="form-group">
                         <label>Kategori</label>
-                        <select name="category" class="form-control select2">
+                        <select name="categories_id" class="form-control select2">
                           <option value="{{ $item->category->id }}" selected>Tidak diganti -- ({{ $item->category->name }})</option>
                           @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -93,7 +93,7 @@
                       <!-- /.kondisi -->          
                       <div class="form-group">
                         <label>Status</label>
-                        <select name="category" class="form-control">
+                        <select name="status" class="form-control">
                           <option value="{{ $item->status }}" selected>Tidak diganti -- ({{ $item->status}})</option>
                           <option value="Pembelian">Pembelian</option>
                           <option value="Hibah">Hibah</option>

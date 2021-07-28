@@ -70,8 +70,8 @@
                         <th>Kategori</th>
                         <th>Nama Barang</th>
                         <th>Merek</th>
-                        <th>Jumlah</th>
-                        <th>Jumlah Maksimum</th>
+                        <th>Kebutuhan Maksimum</th>
+                        <th>Jumlah Pengajuan</th>
                         <th>Satuan</th>
                         <th>Harga Satuan</th>
                         <th>Total Harga</th>
@@ -89,8 +89,8 @@
                           <td>{{ $item->category->name }}</td>
                           <td>{{ $item->name }}</td>
                           <td>{{ $item->brand }}</td>
-                          <td class="text-center">{{ $item->qty }}</td>
                           <td class="text-center">{{ $item->max_requirement }}</td>
+                          <td class="text-center">{{ $item->qty }}</td>
                           <td class="text-center">{{ $item->satuan }}</td>
                           <td>{{ number_format($item->price) }}</td>
                           <td>{{ number_format($item->total_price) }}</td>
