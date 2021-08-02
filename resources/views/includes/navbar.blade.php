@@ -54,7 +54,14 @@
             </a>
             <div class="dropdown-menu">
               <a href="{{ route('home') }}" class="dropdown-item">Home</a>
-              <a href="{{ route('dashboard-user') }}" class="dropdown-item">Dashboard</a>
+              @if ((Auth::user()->roles) === "PPBJ")
+                <a href="{{ route('dashboard-ppbj') }}" class="dropdown-item">Dashboard 1</a>
+              @elseif((Auth::user()->roles) === "ADMIN")
+                <a href="{{ route('dashboard-admin') }}" class="dropdown-item">Dashboard 2</a>
+              @else 
+                <a href="{{ route('dashboard-user') }}" class="dropdown-item">Dashboard</a>
+              @endif
+              
               {{-- <a href="{{ route('dashboard-settings-account') }}" class="dropdown-item"
                 >Settings</a
               > --}}

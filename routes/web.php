@@ -54,6 +54,20 @@ Route::prefix('admin')
         Route::get('proposal/exportpdf', 'ProposalController@exportPdf')->name('proposalExport');
     });
 
+Route::prefix('ppbj')
+    ->namespace('Ppbj')
+    ->middleware(['auth', 'ppbj'])
+    ->group(function() {
+        Route::get('/', 'DashboardController@index')->name('dashboard-ppbj');
+
+        Route::resource('data-asett/asett', 'ProductController');
+        // dashboard product export
+        Route::get('aset/exportpdfppbj ', 'ProductController@exportPdfTable')->name('productExportPPBJ');
+
+        Route::resource('data-proposaal/proposal', 'ProposalController');
+
+    });
+
 Route::prefix('user')
     ->namespace('User')
     ->middleware(['auth'])
