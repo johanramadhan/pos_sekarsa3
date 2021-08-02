@@ -62,20 +62,23 @@
                     </a>
                     <thead>
                       <tr>
-                        <th>No</th>
-                        <th>Nama Bidang</th>
-                        <th>Kategori</th>
-                        <th>Nama Barang</th>
-                        <th>Merek</th>
-                        <th>Jumlah</th>
-                        <th>Jumlah Maksimum</th>
-                        <th>Satuan</th>
-                        <th>Harga Satuan</th>
-                        <th>Total Harga</th>
-                        <th>Fungsi</th>
-                        <th>Status</th>
-                        <th>Foto</th>
-                        <th>Aksi</th>
+                       <th class="text-center">No</th>
+                        <th class="text-center">Nama Bidang</th>
+                        <th class="text-center">Kategori</th>
+                        <th class="text-center">Nama Barang</th>
+                        <th class="text-center">Merek</th>
+                        <th class="text-center">Kebutuhan Maksimum</th>
+                        <th class="text-center">Jumlah Pengajuan</th>
+                        <th class="text-center">Satuan</th>
+                        <th class="text-center">Harga Satuan</th>
+                        <th class="text-center">Total Harga</th>
+                        <th class="text-center">Harga RKA</th>
+                        <th class="text-center">Fungsi</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Jumlah Realisasi</th>
+                        <th class="text-center">Catatan Pengajuan</th>
+                        <th class="text-center">Foto</th>
+                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -86,11 +89,12 @@
                           <td>{{ $item->category->name }}</td>
                           <td>{{ $item->name }}</td>
                           <td>{{ $item->brand }}</td>
-                          <td class="text-center">{{ $item->qty }}</td>
                           <td class="text-center">{{ $item->max_requirement }}</td>
+                          <td class="text-center">{{ $item->qty }}</td>
                           <td class="text-center">{{ $item->satuan }}</td>
                           <td>{{ number_format($item->price) }}</td>
                           <td>{{ number_format($item->total_price) }}</td>
+                          <td>{{ number_format($item->price_dpa) }}</td>
                           <td>{{ $item->benefit }}</td>
                           <td>
                             @if (($item->proposal_status) === "Pending")
@@ -103,6 +107,8 @@
                               <span class="badge badge-primary">RKA</span>
                             @endif                            
                           </td>
+                          <td>{{ $item->realisasi }}</td>
+                          <td>{{ $item->note }}</td>
                           <td>
                             <img src="{{Storage::url($item->galleries->first()->photos ?? 'tidak ada foto')}}" style="max-height: 50px;">
                           </td>
@@ -235,7 +241,12 @@
                               required
                             />
                           </div>
-                          <!-- /.Jumlah -->
+                          <!-- /.Jumlah Kebutuhan Maksimum -->
+                          <div class="form-group">
+                            <label>Justifikasi Kebutuhan Maksimum</label>
+                            <textarea class="form-control" name="justifikasi" rows="3" placeholder="Justifikasi Kebutuhan Maksimum" required></textarea>
+                          </div>
+                          <!-- /.Justifikasi Kebutuhan Maksimum -->
                           <div class="form-group">
                             <label>Status Pengajuan</label>
                             <select name="proposal_status" class="form-control select2" required>
@@ -246,7 +257,12 @@
                               <option value="RKA">RKA</option>
                             </select>                            
                           </div>
-                          <!-- /.satuan -->        
+                          <!-- /.satuan --> 
+                          <div class="form-group">
+                            <label>Catatan Pengajuan</label>
+                            <textarea class="form-control" name="note" rows="1" placeholder="Catatan Pengajuan"></textarea>
+                          </div>
+                          <!-- /.Catatan Pengajuan -->       
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -305,7 +321,7 @@
                           </div>
                           <!-- /.Jumlah -->            
                           <div class="form-group">
-                            <label>Harga Satuan</label>
+                            <label>Harga Satuan</label> (<i><small>Harga Rill</small></i>)
                             <input
                               type="number"
                               name="price"
@@ -330,6 +346,22 @@
                           </div>
                           <!-- /.Total Harga -->
                           <div class="form-group">
+                            <label>Harga Satuan di RKA</label>
+                            <input
+                              type="number"
+                              name="price_dpa"
+                              id="price_dpa"
+                              class="form-control"
+                              placeholder="Harga Satuan di RKA"
+                            />
+                          </div>
+                          <!-- /.Harga di RKA -->
+                          <div class="form-group">
+                            <label>Fungsi Barang</label>
+                            <textarea class="form-control" name="benefit" rows="3" placeholder="Fungsi/kegunaan barang"></textarea>
+                          </div>
+                          <!-- /.Fungsi -->
+                          <div class="form-group">
                             <label>Link Video</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
                             <input
                               type="text"
@@ -340,22 +372,20 @@
                           </div>
                           <!-- /.link -->
                           <div class="form-group">
-                            <label>Fungsi Barang</label>
-                            <textarea class="form-control" name="benefit" rows="1" placeholder="Fungsi/kegunaan barang"></textarea>
+                            <label>Jumlah Realisasi</label>
+                            <input
+                              type="number"
+                              name="realisasi" 
+                              class="form-control"
+                              placeholder="Jumlah Realisasi Barang Yang Diajukan"
+                            />
                           </div>
-                          <!-- /.Fungsi -->
+                          <!-- /.Jumlah Realisasi -->
                         </div>
                         <div class="col-md-12">
                           <div class="form-group">
-                            <label>Catatan Pengajuan</label>
-                            <textarea class="form-control" name="note" rows="1" placeholder="Catatan Pengajuan"></textarea>
-                          </div>
-                          <!-- /.Fungsi -->
-                          <div class="form-group">
                             <label>Deskripsi Barang</label>
-                            <textarea id="summernote" name="description" rows="3" required>
-                              Tuliskan deskripsi atau spesifikasi barang
-                            </textarea>
+                            <textarea class="form-control" name="description" rows="3" placeholder="Tuliskan deskripsi atau spesifikasi barang" required></textarea>
                           </div>
                           <!-- /.deskripsi -->
                           <div class="form-group">

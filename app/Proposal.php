@@ -10,7 +10,7 @@ class Proposal extends Model
     use SoftDeletes;
 
     protected $fillable = [
-    'code', 'users_id', 'categories_id', 'name', 'slug', 'brand', 'qty', 'max_requirement', 'satuan', 'price', 'total_price', 'benefit', 'description', 'proposal_status', 'note', 'link'
+    'code', 'users_id', 'categories_id', 'name', 'slug', 'brand', 'qty', 'max_requirement', 'justifikasi', 'satuan', 'price', 'total_price', 'price_dpa', 'benefit', 'description', 'proposal_status', 'note', 'link', 'realisasi'
     ];
 
     protected $hidden = [

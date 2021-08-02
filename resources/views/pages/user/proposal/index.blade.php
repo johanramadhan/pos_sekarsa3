@@ -65,20 +65,24 @@
                     </a>
                     <thead>
                       <tr>
-                        <th>No</th>
-                        <th>Nama Bidang</th>
-                        <th>Kategori</th>
-                        <th>Nama Barang</th>
-                        <th>Merek</th>
-                        <th>Kebutuhan Maksimum</th>
-                        <th>Jumlah Pengajuan</th>
-                        <th>Satuan</th>
-                        <th>Harga Satuan</th>
-                        <th>Total Harga</th>
-                        <th>Fungsi</th>
-                        <th>Status</th>
-                        <th>Foto</th>
-                        <th>Aksi</th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Nama Bidang</th>
+                        <th class="text-center">Kategori</th>
+                        <th class="text-center">Nama Barang</th>
+                        <th class="text-center">Merek</th>
+                        <th class="text-center">Kebutuhan Maksimum</th>
+                        <th class="text-center">Jumlah Pengajuan</th>
+                        <th class="text-center">Satuan</th>
+                        <th class="text-center">Harga Satuan</th>
+                        <th class="text-center">Total Harga</th>
+                        <th class="text-center">Fungsi</th>
+                        <th class="text-center">Justifikasi Kebutuhan Max</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Jumlah Realisasi</th>
+                        <th class="text-center">Catatan Pengajuan</th>
+                        <th class="text-center">Waktu Pengajuan</th>
+                        <th class="text-center">Foto</th>
+                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -95,6 +99,7 @@
                           <td>{{ number_format($item->price) }}</td>
                           <td>{{ number_format($item->total_price) }}</td>
                           <td>{{ $item->benefit }}</td>
+                          <td>{{ $item->justifikasi }}</td>
                           <td>
                             @if (($item->proposal_status) === "Pending")
                               <span class="badge badge-danger">Pending</span>
@@ -106,6 +111,9 @@
                               <span class="badge badge-primary">RKA</span>
                             @endif                            
                           </td>
+                          <td>{{ $item->realisasi }}</td>
+                          <td>{{ $item->note }}</td>
+                          <td>{{ $item->created_at }}</td>
                           <td>
                             <img src="{{Storage::url($item->galleries->first()->photos ?? 'tidak ada foto')}}" style="max-height: 50px;">
                           </td>
@@ -151,6 +159,13 @@
                           
                       @endforelse
                     </tbody>
+                    <tfoot> 
+                      <tr>
+                        <td colspan="9"><b>Total</b></td>
+                        <td><b>Rp{{ number_format($total ?? '') }}</b></td>
+                        <td colspan="9"></td>
+                      </tr>
+                    </tfoot>
 
                   </table>
                 </div>
@@ -240,10 +255,10 @@
                           </div>
                           <!-- /.Jumlah -->  
                           <div class="form-group">
-                            <label>Fungsi Barang</label>
-                            <textarea class="form-control" name="benefit" rows="1" placeholder="Fungsi/kegunaan barang" required></textarea>
+                            <label>Justifikasi Kebutuhan Maksimum</label>
+                            <textarea class="form-control" name="justifikasi" rows="1" placeholder="Justifikasi Kebutuhan Maksimum" required></textarea>
                           </div>
-                          <!-- /.Fungsi -->      
+                          <!-- /.Justifikasi Kebutuhan Maksimum -->      
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
@@ -302,7 +317,7 @@
                           </div>
                           <!-- /.Jumlah -->            
                           <div class="form-group">
-                            <label>Harga Satuan</label>
+                            <label>Harga Satuan</label> (<i><small>Harga Rill</small></i>)
                             <input
                               type="number"
                               name="price"
@@ -339,10 +354,13 @@
                         </div>
                         <div class="col-md-12">
                           <div class="form-group">
+                            <label>Fungsi Barang</label>
+                            <textarea class="form-control" name="benefit" rows="3" placeholder="Fungsi/kegunaan barang" required></textarea>
+                          </div>
+                          <!-- /.Fungsi -->
+                          <div class="form-group">
                             <label>Deskripsi Barang</label>
-                            <textarea id="summernote" name="description" rows="3" required>
-                              Tuliskan deskripsi atau spesifikasi barang
-                            </textarea>
+                            <textarea class="form-control" name="description" rows="3" placeholder="Tuliskan deskripsi atau spesifikasi barang" required></textarea>
                           </div>
                           <!-- /.deskripsi -->
                           <div class="form-group">

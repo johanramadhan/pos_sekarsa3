@@ -27,10 +27,17 @@ class ProposalController extends Controller
                     ->latest()->get();
         $categories = Category::all(); 
         $code = 'SISPRAS-' . mt_rand(0000,999999);
+        $proposal = Proposal::with(['user','galleries'])
+                          ->where('users_id', Auth::user()->id);
+        $total = $proposal->get()->reduce(function ($carry, $item){
+                return $carry + $item->total_price;
+        });
+
         return view('pages.user.proposal.index',[
           'proposals' => $proposals,
           'categories' => $categories,
           'code' => $code,
+          'total' => $total,
         ]);
     }
 

@@ -83,10 +83,14 @@
                   @elseif(($item->proposal_status) === "RKA")
                     <span class="badge badge-primary">RKA</span>
                   @endif  
-                  </small> <br>
+                  </small> | {{ $item->created_at->diffForHumans }}
+                   <br>
                 <p>{!! $item->benefit !!}</p>
                 <h5>Catatan Pengajuan</h5>
                 <p>{!! $item->note !!}</p>
+                <p>Jumlah realisasi pengajuan : {{$item->realisasi }} {{ $item->satuan }}</p>
+                <p>Harga Satuan di RKA : Rp{{ number_format($item->price_dpa) }}</p>
+                <p>Justifikasi Kebutuhan Maksimum : {!! $item->justifikasi !!}</p>
                 <hr>
 
                 <small>Merek : {{ $item->brand }}</small> <br>
@@ -94,7 +98,7 @@
                 <small>Kebutuhan Maksimum : {{ $item->max_requirement }} {{ $item->satuan }}</small> <br>
                 <small>Jumlah yang diajukan : {{ $item->qty }} {{ $item->satuan }}</small> <br>
                 <small>Harga Satuan : Rp{{ number_format($item->price) }}</small> <br>
-                <small>Total Harga : Rp{{ number_format($item->total_price) }}</small> <br>
+                <small>Total Harga : Rp{{ number_format($item->total_price) }}</small> <br><br>
                 
                 <div class="mt-4">
                   <button type="button" class="btn btn-danger btn-lg btn-flat" data-toggle="modal" data-target="#modal-primary">
@@ -104,17 +108,24 @@
                 </div>
               </div>
             </div>
-            <div class="row mt-4">
-              <nav class="w-100">
-                <div class="nav nav-tabs" id="product-tab" role="tablist">
-                  <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
-                </div>
-              </nav>
-              <div class="tab-content p-3" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
-                  <textarea id="summernote" name="description" rows="3" readonly required>
-                    {{$item->description}}
-                  </textarea>
+            <div class="row mt-5">
+              <div class="col-12 col-sm-12">
+                <div class="card card-primary card-outline card-tabs">
+                  <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Deskripsi/Spesifikasi</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-three-tabContent">
+                      <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                        {{ $item->description}}
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card -->
                 </div>
               </div>
             </div>

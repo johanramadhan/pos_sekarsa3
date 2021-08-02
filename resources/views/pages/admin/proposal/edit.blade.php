@@ -92,7 +92,7 @@
                           required
                         />
                       </div>
-                      <!-- /.Nama Barang -->         
+                      <!-- /.brand -->         
                       <div class="form-group">
                         <label>Jumlah Kebutuhan Maksimum</label>
                         <input
@@ -104,7 +104,12 @@
                           required
                         />
                       </div>
-                      <!-- /.Nama Barang -->         
+                      <!-- /.Jumlah Maksimum Kebutuhan Barang --> 
+                      <div class="form-group">
+                        <label>Justifikasi Kebutuhan Maksimum</label>
+                        <textarea class="form-control" name="justifikasi" rows="3" placeholder="Justifikasi Kebutuhan Maksimum" required>{{ $item->justifikasi }}</textarea>
+                      </div>
+                      <!-- /.Justifikasi Kebutuhan Maksimum -->        
                       <div class="form-group">
                         <label>Status Pengajuan</label>
                         <select name="proposal_status" class="form-control">
@@ -116,6 +121,11 @@
                         </select>                            
                       </div>
                       <!-- /.Status -->
+                      <div class="form-group">
+                        <label>Catatan Pengajuan</label>
+                        <textarea class="form-control" name="note" rows="1" placeholder="Catatan Pengajuan" required>{{ $item->note }}</textarea>
+                      </div>
+                      <!-- /.Catatan Pengajuan -->
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
@@ -175,7 +185,7 @@
                       </div>
                       <!-- /.Jumlah -->   
                       <div class="form-group">
-                        <label>Harga Satuan</label>
+                        <label>Harga Satuan</label> (<i><small>Harga Rill</small></i>)
                         <input
                           type="number"
                           name="price"
@@ -200,7 +210,23 @@
                           readonly
                         />
                       </div>
-                      <!-- /.Total Harga -->        
+                      <!-- /.Total Harga -->    
+                      <div class="form-group">
+                        <label>Harga Satuan di RKA</label>
+                        <input
+                          type="number"
+                          name="price_dpa"
+                          class="form-control"
+                           value="{{ $item->price_dpa }}"
+                          placeholder="Harga Satuan di RKA"
+                        />
+                      </div>
+                      <!-- /.Harga di RKA --> 
+                      <div class="form-group">
+                        <label>Fungsi Barang</label>
+                        <textarea class="form-control" name="benefit" rows="3" placeholder="Fungsi/kegunaan barang" required>{{ $item->benefit }}</textarea>
+                      </div>
+                      <!-- /.Fungsi -->
                       <div class="form-group">
                         <label>Link Video</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
                         <input
@@ -213,20 +239,21 @@
                       </div>
                       <!-- /.link --> 
                       <div class="form-group">
-                        <label>Fungsi Barang</label>
-                        <textarea class="form-control" name="benefit" rows="1" placeholder="Fungsi/kegunaan barang" required>{{ $item->benefit }}</textarea>
+                        <label>Jumlah Realisasi</label>
+                        <input
+                          type="number"
+                          name="realisasi" 
+                          class="form-control"
+                          value="{{ $item->realisasi }}"
+                          placeholder="Jumlah Realisasi Barang Yang Diajukan"
+                        />
                       </div>
-                      <!-- /.Fungsi -->
+                      <!-- /.Jumlah Realisasi -->
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Catatan Pengajuan</label>
-                        <textarea class="form-control" name="note" rows="3" placeholder="Catatan Pengajuan" required>{{ $item->note }}</textarea>
-                      </div>
-                      <!-- /.Fungsi -->
-                      <div class="form-group">
                         <label>Deskripsi Barang</label>
-                        <textarea id="summernote" name="description" rows="3" required>
+                        <textarea class="form-control" name="description" rows="3" required>
                           {{ $item->description }}
                         </textarea>
                       </div>

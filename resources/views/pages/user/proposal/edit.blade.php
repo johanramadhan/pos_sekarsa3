@@ -96,10 +96,13 @@
                       </div>
                       <!-- /.Jumlah Kebutuhan Maksimum -->
                       <div class="form-group">
-                        <label>Fungsi Barang</label>
-                        <textarea class="form-control" name="benefit" rows="1" placeholder="Fungsi/kegunaan barang" required>{{ $item->benefit }}</textarea>
+                        <label>Justifikasi Kebutuhan Maksimum</label>
+                        <textarea class="form-control" name="justifikasi" rows="1" placeholder="Justifikasi Kebutuhan Maksimum" required>
+                          {{ $item->justifikasi }}
+                        </textarea>
                       </div>
-                      <!-- /.Fungsi -->
+                      <!-- /.Justifikasi Kebutuhan Maksimum --> 
+                      
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
@@ -199,8 +202,13 @@
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
+                        <label>Fungsi Barang</label>
+                        <textarea class="form-control" name="benefit" rows="3" placeholder="Fungsi/kegunaan barang" required>{{ $item->benefit }}</textarea>
+                      </div>
+                      <!-- /.Fungsi -->
+                      <div class="form-group">
                         <label>Deskripsi Barang</label>
-                        <textarea id="summernote" name="description" rows="3" required>
+                        <textarea class="form-control" name="description" rows="3" required>
                           {{ $item->description }}
                         </textarea>
                       </div>
