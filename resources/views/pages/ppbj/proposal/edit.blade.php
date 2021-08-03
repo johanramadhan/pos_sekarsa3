@@ -219,7 +219,7 @@
                       <div class="form-group">
                         <label>Deskripsi Barang</label>
                         <textarea class="form-control" name="description" rows="3" readonly>
-                          {{ $item->description }}
+                          {!! $item->description !!}
                         </textarea>
                       </div>
                       <!-- /.deskripsi -->

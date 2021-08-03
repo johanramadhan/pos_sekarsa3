@@ -121,7 +121,7 @@
                   <div class="card-body">
                     <div class="tab-content" id="custom-tabs-three-tabContent">
                       <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
-                        {{ $item->description}}
+                        {!! $item->description !!}
                       </div>
                     </div>
                   </div>

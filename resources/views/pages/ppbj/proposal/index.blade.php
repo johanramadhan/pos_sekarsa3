@@ -51,10 +51,10 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table id="example1" class="table table-bordered table-striped">
-                    <a href="{{ route('proposalExportPdf') }}" class="btn btn-danger ml-3">
+                    <a href="{{ route('proposalExportPPBJ') }}" class="btn btn-danger ml-3">
                       Print PDF
                     </a>
-                    <a href="{{ route('proposalExport') }}" class="btn btn-warning ml-3">
+                    <a href="{{ route('proposalExports') }}" class="btn btn-warning ml-3">
                       Print PDF
                     </a>
                     <thead>

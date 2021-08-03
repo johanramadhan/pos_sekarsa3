@@ -43,7 +43,7 @@ use Illuminate\Support\Facades\Storage;
       </tr>
     </thead>
     @foreach ($proposals  as $proposal)
-        <tr>
+        <tr style="line-height: 12px;">
           <td class="text-center col-0 mt-2">{{ $loop->iteration }}</td>
           <td class="col-2 mt-2">
             <img src="{{ public_path("storage/".$proposal->galleries->first()->photos) }}" style="width: 300px;" class="m-4">
@@ -101,6 +101,11 @@ use Illuminate\Support\Facades\Storage;
                 <td>{{ $proposal->qty }}</td>
               </tr>
               <tr>
+                <td>Jumlah Terealisasi</td>
+                <td>:</td>
+                <td>{{ $proposal->realisasi }}</td>
+              </tr>
+              <tr>
                 <td>Satuan</td>
                 <td>:</td>
                 <td>{{ $proposal->satuan }}</td>
@@ -116,6 +121,11 @@ use Illuminate\Support\Facades\Storage;
                 <td>Rp{{ number_format($proposal->total_price) }}</td>
               </tr>
               <tr>
+                <td>Harga Satuan RKA</td>
+                <td>:</td>
+                <td>Rp{{ number_format($proposal->price_dpa) }}</td>
+              </tr>
+              <tr>
                 <td>Fungsi</td>
                 <td>:</td>
                 <td>{{ $proposal->benefit }}</td>
@@ -124,11 +134,15 @@ use Illuminate\Support\Facades\Storage;
           </td>
         </tr>
         <tr>
-          <td colspan="3">Spesifikasi :</td>
+          <td colspan="2">Spesifikasi :</td>
+          <td colspan="1">Catatan Pengajuan :</td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="2">
             {!! Str::limit($proposal->description, 500) !!}
+          </td>
+          <td colspan="1">
+            {!! Str::limit($proposal->note, 500) !!}
           </td>
         </tr>
     @endforeach

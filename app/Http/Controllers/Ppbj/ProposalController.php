@@ -36,6 +36,40 @@ class ProposalController extends Controller
         ]);
     }
 
+    public function exportPdfTables()
+    {
+      $proposals = Proposal::all();
+      $total = Proposal::sum('total_price');
+      $customPaper = array(0,0,615,940);
+      $pdf = PDF::loadView('pages.ppbj.exports.proposalpdf',[
+        'proposals' => $proposals, 
+        'total' => $total
+      
+      ])->setPaper($customPaper, 'landscape')
+      ->setWarnings(false);
+
+      // ->setPaper('f4', 'portrait')
+      return $pdf->stream();
+      
+    }
+
+    public function exportPdfs()
+    {
+      $proposals = Proposal::all();
+      $total = Proposal::sum('total_price');
+      $customPaper = array(0,0,615,936);
+      $pdf = PDF::loadView('pages.ppbj.exports.proposalexport',[
+        'proposals' => $proposals,
+        'total' => $total
+        
+      ])->setPaper($customPaper, 'portrait')->setWarnings(false);
+
+      // ->setPaper('f4', 'portrait')
+
+      return $pdf->stream();
+      
+    }
+
     /**
      * Show the form for creating a new resource.
      *

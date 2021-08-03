@@ -37,7 +37,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function exportPdfTable()
+    public function exportPdfTables()
     {
       $products = Product::all();
       $total = Product::sum('total_price');

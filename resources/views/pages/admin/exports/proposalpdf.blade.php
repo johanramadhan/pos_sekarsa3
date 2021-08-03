@@ -14,13 +14,11 @@ use Illuminate\Support\Facades\Storage;
   }
 
   th {
-    padding: 3px;
     background-color: #2c2e92;
     color: white;
   }
 
   td {
-    padding: 5px;
     vertical-align: top;
   }
   .cover {
@@ -61,10 +59,11 @@ use Illuminate\Support\Facades\Storage;
         <th class="text-center">Nama Barang</th>
         <th class="text-center">Merek/Type</th>
         <th class="text-center">Kebutuhan Maksimum</th>
-        <th class="text-center">Jumlah</th>
+        <th class="text-center">Jumlah Yang Diajukan</th>
         <th class="text-center">Satuan</th>
         <th class="text-center">Harga Satuan</th>
         <th class="text-center">Total Harga</th>
+        <th class="text-center">Harga Satuan RKA</th>
         <th class="text-center">Fungsi</th>
         <th class="text-center">Spesifikasi</th>
         <th class="text-center">Gambar</th>
@@ -82,19 +81,20 @@ use Illuminate\Support\Facades\Storage;
           <td class="text-center">{{ $item->max_requirement }}</td>
           <td class="text-center">{{ $item->qty }}</td>
           <td class="text-center">{{ $item->satuan }}</td>
-          <td>{{ number_format($item->price) }}</td>
+          <td >{{ number_format($item->price) }}</td>
           <td>{{ number_format($item->total_price) }}</td>
+          <td>{{ number_format($item->price_dpa) }}</td>
           <td>{{ $item->benefit }}</td>
           <td>{!! $item->description !!}</td>
           <td>
-            <img src="{{ public_path("storage/".$item->galleries->first()->photos ?? 'tidak ada foto') }}" style="width: 100px; margin-top:10px;">
+            <img src="{{ public_path("storage/".$item->galleries->first()->photos ?? 'tidak ada foto') }}" style="width: 70px; margin-top:10px;">
           </td>
         </tr>
       @endforeach
       <tr>
         <td colspan="9"><b>Total</b></td>
         <td><b>Rp{{ number_format($total ?? '') }}</b></td>
-        <td colspan="3"></td>
+        <td colspan="4"></td>
       </tr>
     </tbody>    
   </table>
