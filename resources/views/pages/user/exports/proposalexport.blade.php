@@ -121,7 +121,7 @@ use Illuminate\Support\Str;
         </tr>
         <tr>
           <td colspan="2">Spesifikasi :</td>
-          <td colspan="1">Catatan Pengajuan :</td>
+          <td colspan="1">Fungsi :</td>
         </tr>
         <tr>
           <td colspan="2">
