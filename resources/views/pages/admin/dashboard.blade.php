@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- daterange picker -->
   <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
   <!-- iCheck for checkboxes and radio inputs -->
@@ -49,46 +51,64 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-4">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>150</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">User</span>
-                <span class="info-box-number">{{ $user }}</span>
+                <p>Items</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
           </div>
           <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-4">
-            <div class="info-box">
-            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-user"></i></span>
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>150</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Jumlah Aset</span>
-                <span class="info-box-number">
-                {{ $product }}
-                <small></small>
-                </span>
+                <p>Suppliers</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-archive"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
           </div>
           <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-4">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>150</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Jumlah Pengajuan</span>
-                <span class="info-box-number">{{ $proposal }}</span>
+                <p>Cutomers</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>150</h3>
+
+                <p>Users</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
           </div>
           <!-- /.col -->
 
@@ -97,6 +117,7 @@
             
         </div>
         <!-- /.row -->
+
         <div class="row">
           <div class="col-12 col-sm-6 col-md-6">
             <div class="info-box mb-3">
@@ -125,148 +146,57 @@
           </div>
           <!-- /.col -->
         </div>
+        <!-- /.row -->
 
-        <div class="row mt-5 d-none">
-          <div class="col-12 col-sm-6 col-md-6">
-            <div id="CountDownTimer" data-date="{{ $countdown->date }}" class="w-75"></div>
-          </div>
-          <div class="col-12 col-sm-6 col-md-6">
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Data Countdown</h3>
-              </div>
-
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table id="example2" class="table table-bordered table-striped">
-                    {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-                      + Countdown
-                    </button> --}}
-                    <thead>
-                      <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Countdown</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @forelse ($countdowns as $item)
-                        <tr>
-                          <td>{{ $loop->iteration }}</td>
-                          <td>{{ $item->name }}</td>
-                          <td>{{ $item->date }}</td>
-                          <td>
-                            <div class="btn-group">
-                              <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle mr-1 mb-1"        
-                                  type="button"
-                                  data-toggle="dropdown">
-                                  Aksi
-                                </button>
-                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('countdown-edit', $item->id) }}">
-                                    Edit
-                                  </a>
-                                  <form action="" method="POST" id="deleteForm">
-                                    @csrf
-                                    @method("DELETE")
-                                    <input type="submit" value="Hapus" style="display: none">
-                                    
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      @empty
-                          
-                      @endforelse
-                    </tbody>
-
-                  </table>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-12">
+            <div class="card">
+              <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">Sales</h3>
+                  <a href="javascript:void(0);">View Report</a>
                 </div>
               </div>
+              <div class="card-body">
+                <div class="d-flex">
+                  <p class="d-flex flex-column">
+                    <span class="text-bold text-lg">$18,230.00</span>
+                    <span>Sales Over Time</span>
+                  </p>
+                  <p class="ml-auto d-flex flex-column text-right">
+                    <span class="text-success">
+                      <i class="fas fa-arrow-up"></i> 33.1%
+                    </span>
+                    <span class="text-muted">Since last month</span>
+                  </p>
+                </div>
+                <!-- /.d-flex -->
 
+                <div class="position-relative mb-4">
+                  <canvas id="sales-chart" height="200"></canvas>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                  <span class="mr-2">
+                    <i class="fas fa-square text-primary"></i> This year
+                  </span>
+
+                  <span>
+                    <i class="fas fa-square text-gray"></i> Last year
+                  </span>
+                </div>
+              </div>
             </div>
+            <!-- /.card -->
           </div>
         </div>
+        <!-- /.row -->
+
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
 
-  <div class="modal fade" id="modal-primary">
-    <div class="modal-dialog modal-xl">
-      <form action="{{ route('countdown') }}" method="POST" enctype="multipart/form-data">
-      @csrf
-        <div class="modal-content bg-default">
-          <div class="modal-header">
-            <h4 class="modal-title">Setting Countdown</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-12">
-                  @if ($errors->any())
-                    <div class="alert alert-danger">
-                      <ul>
-                        @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                        @endforeach
-                      </ul>
-                    </div>
-                  @endif
-                  <div class="card card-primary">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>Nama Barang</label>
-                            <input
-                              type="text"
-                              name="name"
-                              class="form-control"
-                              placeholder="Nama Barang"
-                              required
-                            />
-                          </div>
-                          <!-- /.Nama Barang -->     
-                        </div>
-                        <div class="col-md-6">
-                          <!-- Date and time -->
-                          <div class="form-group">
-                            <label>Date and time:</label>
-                              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                <input type="text" name="date" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                                <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
-                              </div>
-                          </div>
-                          <!-- /.form group -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </form>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
     
 @endsection
 
@@ -277,6 +207,9 @@
   <!-- DataTables  & Plugins -->
   <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+  <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="{{ asset('dist/js/pages/dashboard3.js') }}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
   <!-- InputMask -->
