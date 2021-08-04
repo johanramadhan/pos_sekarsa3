@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 ?>
 <html>
 <head>
@@ -43,7 +44,7 @@ use Illuminate\Support\Facades\Storage;
       </tr>
     </thead>
     @foreach ($proposals  as $proposal)
-        <tr>
+        <tr style="line-height: 10px;">
           <td class="text-center col-0 mt-2">{{ $loop->iteration }}</td>
           <td class="col-2 mt-2">
             <img src="{{ public_path("storage/".$proposal->galleries->first()->photos) }}" style="width: 300px;" class="m-4">
@@ -69,11 +70,6 @@ use Illuminate\Support\Facades\Storage;
                     <span class="badge badge-primary">RKA</span>
                   @endif
                 </td>
-              </tr>
-              <tr>
-                <td>Bidang Pengusul</td>
-                <td>:</td>
-                <td>{{ $proposal->user->bidang }}</td>
               </tr>
               <tr>
                 <td>Kategori</td>
@@ -116,22 +112,35 @@ use Illuminate\Support\Facades\Storage;
                 <td>Rp{{ number_format($proposal->total_price) }}</td>
               </tr>
               <tr>
-                <td>Fungsi</td>
+                <td>Justifikasi Keb. Max</td>
                 <td>:</td>
-                <td>{{ $proposal->benefit }}</td>
+                <td>{{ $proposal->justifikasi ?? "-" }}</td>
               </tr>
             </table>
           </td>
         </tr>
         <tr>
-          <td colspan="3">Spesifikasi :</td>
+          <td colspan="2">Spesifikasi :</td>
+          <td colspan="1">Catatan Pengajuan :</td>
         </tr>
         <tr>
-          <td colspan="3">
+          <td colspan="2">
             {!! Str::limit($proposal->description, 500) !!}
+          </td>
+          <td colspan="1">
+            {!! Str::limit($proposal->benefit, 500) !!}
           </td>
         </tr>
     @endforeach
+  </table>
+  <table class="table" style="border: 1px solid black; font-size: 12px;">
+    <tr style="line-height: 12.5px;">
+      <td class="w-50"></td>
+      <td colspan="2" class="w-25">
+        <p class="mb-0">Pekanbaru, {{ date("d M Y") }}</p>
+        <b class="text-uppercase">KEPALA BIDANG {{ Auth::user()->bidang }} DINAS PEMADAM KEBAKARAN DAN PENYELAMATAN KOTA PEKANBARU <br><br><br><br> <u>{{Auth::user()->name }}</u> <br>NIP: {{Auth::user()->nip }}</b>
+      </td>
+    </tr>
   </table>
 
   

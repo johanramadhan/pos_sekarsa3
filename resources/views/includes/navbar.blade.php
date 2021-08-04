@@ -1,3 +1,6 @@
+<?php
+use Illuminate\Support\Str;
+?>
 <nav
   class="navbar navbar-expand-lg navbar-light navbar-damkar fixed-top navbar-fixed-top"
   data-aos="fade-down"
@@ -50,7 +53,7 @@
                 alt=""
                 class="rounded-circle-2 mr-2 profile-picture"
               />
-              Hi, {{ Auth::user()->bidang }}
+              Hi, {{ str::limit(Auth::user()->bidang, 10) }}
             </a>
             <div class="dropdown-menu">
               <a href="{{ route('home') }}" class="dropdown-item">Home</a>

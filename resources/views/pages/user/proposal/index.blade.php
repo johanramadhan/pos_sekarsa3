@@ -66,7 +66,6 @@
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Nama Bidang</th>
                         <th class="text-center">Kategori</th>
                         <th class="text-center">Nama Barang</th>
                         <th class="text-center">Merek</th>
@@ -89,7 +88,6 @@
                       @forelse ($proposals as $item)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
-                          <td>{{ $item->user->bidang }}</td>
                           <td>{{ $item->category->name }}</td>
                           <td>{{ $item->name }}</td>
                           <td>{{ $item->brand }}</td>
@@ -161,9 +159,9 @@
                     </tbody>
                     <tfoot> 
                       <tr>
-                        <td colspan="9"><b>Total</b></td>
-                        <td><b>Rp{{ number_format($total ?? '') }}</b></td>
-                        <td colspan="9"></td>
+                        <td colspan="8"><b>Total</b></td>
+                        <td><b>Rp{{ number_format($proposal ?? '') }}</b></td>
+                        <td colspan="8"></td>
                       </tr>
                     </tfoot>
 

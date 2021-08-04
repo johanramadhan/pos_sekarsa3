@@ -3,7 +3,9 @@
 @section('title')
     Data Pengajuan
 @endsection
-
+<?php
+use Illuminate\Support\Str;
+?>
 @push('addon-style')
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -82,7 +84,7 @@
                       @forelse ($proposals as $item)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
-                          <td>{{ $item->user->bidang }}</td>
+                          <td>{{ str::limit($item->user->bidang, 20) }}</td>
                           <td>{{ $item->category->name }}</td>
                           <td>{{ $item->name }}</td>
                           <td>{{ $item->brand }}</td>
@@ -92,7 +94,7 @@
                           <td>{{ number_format($item->price) }}</td>
                           <td>{{ number_format($item->total_price) }}</td>
                           <td>{{ number_format($item->price_dpa) }}</td>
-                          <td>{{ $item->benefit }}</td>
+                          <td>{{ str::limit($item->benefit, 25) }}</td>
                           <td>
                             @if (($item->proposal_status) === "Pending")
                               <span class="badge badge-danger">Pending</span>
@@ -105,7 +107,7 @@
                             @endif                            
                           </td>
                           <td>{{ $item->realisasi }}</td>
-                          <td>{{ $item->note }}</td>
+                          <td>{{ str::limit($item->note, 50) }}</td>
                           <td>
                             <img src="{{Storage::url($item->galleries->first()->photos ?? 'tidak ada foto')}}" style="max-height: 50px;">
                           </td>
@@ -133,6 +135,13 @@
                           
                       @endforelse
                     </tbody>
+                    <tfoot> 
+                      <tr>
+                        <td colspan="9"><b>Total</b></td>
+                        <td><b>Rp{{ number_format($aset ?? '') }}</b></td>
+                        <td colspan="7"></td>
+                      </tr>
+                    </tfoot>
 
                   </table>
                 </div>

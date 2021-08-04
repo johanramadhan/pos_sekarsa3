@@ -1,3 +1,6 @@
+<?php
+use Illuminate\Support\Str;
+?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a href="{{ route('home') }}" class="brand-link">
@@ -13,7 +16,7 @@
         <img src="{{ asset('images/logo-damkar.png') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block">{{ Auth::user()->bidang }}</a>
+        <a href="#" class="d-block">{{ str::limit(Auth::user()->bidang, 20) }}</a>
       </div>
     </div>
 

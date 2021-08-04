@@ -38,6 +38,7 @@ class ProposalController extends Controller
           'categories' => $categories,
           'code' => $code,
           'total' => $total,
+          'proposal' => $proposal->sum('total_price'),
         ]);
     }
 
