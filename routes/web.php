@@ -25,15 +25,11 @@ Route::get('/register/success', 'Auth\RegisterController@success')->name('regist
 
 Route::prefix('admin')
     ->namespace('Admin')
-    ->middleware(['auth', 'admin'])
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
-        Route::post('/', 'DashboardController@add')->name('countdown');
-        Route::get('/countdown/edit/{id}', 'DashboardController@edit')->name('countdown-edit');
-        Route::post('/countdown/{id}', 'DashboardController@update')->name('countdown-update');
-        Route::delete('/countdown/{id}', 'DashboardController@destroy')->name('countdown-delete');
         
         Route::resource('category', 'CategoryController');
+        Route::resource('supplier', 'SupplierController');
         Route::resource('user', 'UserController');
         Route::resource('data-aset/asets', 'ProductController');
         Route::resource('data-aset/product-gallery', 'ProductGalleryController');

@@ -15,7 +15,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   @stack('addon-style')
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->

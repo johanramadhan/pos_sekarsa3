@@ -13,7 +13,7 @@
         <img src="{{ asset('images/logo-damkar.png') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block">Admin - {{ Auth::user()->bidang }}</a>
+        <a href="#" class="d-block">Admin -</a>
       </div>
     </div>
 
@@ -51,7 +51,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('category.index') }}" class="nav-link {{ (request()->is('admin/category*')) ? 'active' : '' }}">
+          <a href="{{ route('supplier.index') }}" class="nav-link {{ (request()->is('admin/supplier*')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-truck"></i>
             <p>
               Suppliers
@@ -59,7 +59,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('category.index') }}" class="nav-link {{ (request()->is('admin/category*')) ? 'active' : '' }}">
+          <a href="{{ route('category.index') }}" class="nav-link {{ (request()->is('admin/customer*')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-users"></i>
             <p>
               Customers
