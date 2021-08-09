@@ -15,19 +15,15 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->string('name');
             $table->string('slug');
-            $table->integer('users_id');
             $table->integer('categories_id');
-            $table->string('kondisi');
-            $table->string('status');
-            $table->Biginteger('qty');
-            $table->Biginteger('price');
-            $table->Biginteger('total_price');
             $table->string('satuan');
-            $table->string('brand');
-            $table->longText('link')->nullable();
-            $table->longText('fungsi')->nullable();
+            $table->string('link');
+            $table->Biginteger('stok');
+            $table->Biginteger('price_modal');
+            $table->Biginteger('price_jual');
             $table->longText('description');
             
             $table->softDeletes();

@@ -299,7 +299,7 @@
           
           swalWithBootstrapButtons.fire(
             'Terhapus!',
-            'Data kategori berhasil dihapus.',
+            'Data supplier berhasil dihapus.',
             'success'
           )
         } else if (

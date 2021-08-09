@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Data Aset
+    Data Produk
 @endsection
 
 @push('addon-style')
@@ -25,12 +25,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Aset</h1>
+            <h1 class="m-0">Produk </h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Data Aset</li>
+                <li class="breadcrumb-item active">Data Produk</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -45,31 +45,29 @@
           <div class="col-lg-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Data Aset</h3>
+                <h3 class="card-title">Data Produk</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="table-responsive">
                   <table id="example1" class="table table-bordered table-striped">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-                      + Aset
+                      + Produk
                     </button>
                     <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3">
                       Print PDF
                     </a>
                     <thead>
-                      <tr>
+                      <tr class="text-center">
                         <th>No</th>
-                        <th>Nama Barang</th>
-                        <th>Pemilik Barang</th>
-                        <th>Kategori</th>
-                        <th>Kondisi</th>
-                        <th>Status</th>
-                        <th>Jumlah</th>
+                        <th>Kode Produk</th>
+                        <th>Nama Produk</th>
                         <th>Satuan</th>
-                        <th>Harga</th>
-                        <th>Total Harga</th>
-                        <th>Fungsi</th>
+                        <th>Kategori</th>
+                        <th>Jumlah Stok</th>
+                        <th>Harga Modal</th>
+                        <th>Harga Jual</th>
+                        <th>Keterangan</th>
                         <th>Foto</th>
                         <th>Aksi</th>
                       </tr>
@@ -78,16 +76,14 @@
                       @forelse ($products as $item)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
+                          <td>{{ $item->code }}</td>
                           <td>{{ $item->name }}</td>
-                          <td>Bidang {{ $item->user->bidang }}</td>
+                          <td class="text-center">{{ $item->satuan }}</td>
                           <td>{{ $item->category->name }}</td>
-                          <td>{{ $item->kondisi }}</td>
-                          <td>{{ $item->status }}</td>
-                          <td>{{ $item->qty }}</td>
-                          <td>{{ $item->satuan }}</td>
-                          <td>{{ number_format($item->price) }}</td>
-                          <td>{{ number_format($item->total_price) }}</td>
-                          <td>{{ $item->fungsi }}</td>
+                          <td class="text-center">{{ $item->stok }}</td>
+                          <td>{{ number_format($item->price_modal) }}</td>
+                          <td>{{ number_format($item->price_jual) }}</td>
+                          <td>{{ $item->description }}</td>
                           <td>
                             <img src="{{Storage::url($item->galleries->first()->photos ?? 'tidak ada foto')}}" style="max-height: 50px;">
                           </td>
@@ -100,13 +96,13 @@
                                   Aksi
                                 </button>
                                 <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('asets.edit', $item->id) }}">
+                                  <a class="dropdown-item" href="{{ route('products.edit', $item->id) }}">
                                     Sunting
                                   </a>
-                                  <a class="dropdown-item" href="{{ route('asets.show', $item->id) }}">
+                                  <a class="dropdown-item" href="{{ route('products.show', $item->id) }}">
                                     Detail
                                   </a>
-                                  <button type="submit" id="delete" href="{{ route('asets.destroy', $item->id) }}" 
+                                  <button type="submit" id="delete" href="{{ route('products.destroy', $item->id) }}" 
                                     class="dropdown-item text-danger">
                                     Hapus
                                   </button>
@@ -141,11 +137,11 @@
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
-      <form action="{{ route('asets.store') }}" method="POST" enctype="multipart/form-data">
+      <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
         <div class="modal-content bg-default">
           <div class="modal-header">
-            <h4 class="modal-title">Tambah Aset</h4>
+            <h4 class="modal-title">Tambah Produk</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -168,7 +164,20 @@
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group">
-                            <label>Nama Barang</label>
+                            <label>Kode Produk*</label>
+                            <input
+                              type="text"
+                              name="code"
+                              class="form-control"
+                              placeholder="Kode Barang"
+                              readonly
+                              value="{{$code}}"
+                              readonly
+                            />
+                          </div>
+                          <!-- /.Kode Barang --> 
+                          <div class="form-group">
+                            <label>Nama Produk*</label>
                             <input
                               type="text"
                               name="name"
@@ -179,7 +188,7 @@
                           </div>
                           <!-- /.Nama Barang --> 
                           <div class="form-group">
-                            <label>Kategori</label>
+                            <label>Kategori*</label>
                             <select name="categories_id" class="form-control select2">
                               <option>--Pilih Kategori--</option>
                               @foreach ($categories as $category)
@@ -187,52 +196,9 @@
                               @endforeach
                             </select>                            
                           </div>
-                          <!-- /.Kategori -->             
+                          <!-- /.Kategori --> 
                           <div class="form-group">
-                            <label>User</label>
-                            <select name="users_id" class="form-control select2">
-                              <option>--Pilih Bidang--</option>
-                              @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->bidang }}</option>
-                              @endforeach
-                            </select>                            
-                          </div>
-                          <!-- /.bidang -->             
-                          <div class="form-group">
-                            <label>Kondisi</label>
-                            <select name="kondisi" class="form-control select2" required>
-                              <option>--Pilih kondisi--</option>
-                              <option value="Baik">Baik</option>
-                              <option value="Rusak Ringan">Rusak Ringan</option>
-                              <option value="Rusak Berat">Rusak Berat</option>
-                            </select>                            
-                          </div>
-                          <!-- /.kondisi -->             
-                          <div class="form-group">
-                            <label>Status</label>
-                            <select name="status" class="form-control select2" required>
-                              <option>--Pilih status--</option>
-                              <option value="Pembelian">Pembelian</option>
-                              <option value="Hibah">Hibah</option>
-                              <option value="Lain-lain">Lain-lain</option>
-                            </select>                            
-                          </div>
-                          <!-- /.status -->  
-                          <div class="form-group">
-                            <label>Merek</label>
-                            <input
-                              type="text"
-                              name="brand"
-                              class="form-control"
-                              placeholder="Merek Barang"
-                              required
-                            />
-                          </div>
-                          <!-- /.merek -->      
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>Satuan</label>
+                            <label>Satuan*</label>
                             <select name="satuan" class="form-control select2" required>
                               <option>--Pilih satuan--</option>
                               <option value="Bidang">Bidang</option>
@@ -272,72 +238,63 @@
                               <option value="Keping">Keping</option>
                             </select>                            
                           </div>
-                          <!-- /.satuan --> 
+                          <!-- /.satuan -->       
+                        </div>
+                        <div class="col-md-6">
                           <div class="form-group">
-                            <label>Jumlah</label>
+                            <label>Stok Barang*</label>
                             <input
                               type="number"
-                              name="qty"
-                              id="qty" 
-                              onkeyup="sum()"
+                              name="stok"
                               class="form-control"
-                              placeholder="Jumlah Barang"
+                              placeholder="Jumlah Stok Barang"
                               required
                             />
                           </div>
-                          <!-- /.Jumlah -->            
+                          <!-- /.Stok -->            
                           <div class="form-group">
-                            <label>Harga Satuan</label>
+                            <label>Harga Modal*</label>
                             <input
                               type="number"
-                              name="price"
-                              id="price" 
-                              onkeyup="sum()"
+                              name="price_modal"
                               class="form-control"
-                              placeholder="Harga Satuan"
+                              placeholder="Harga Modal"
                               required
                             />
                           </div>
-                          <!-- /.Harga Satuan -->            
+                          <!-- /.Harga Modal -->  
                           <div class="form-group">
-                            <label>Total Harga</label>
+                            <label>Harga Jual*</label>
                             <input
                               type="number"
-                              name="total_price"
-                              id="total_price"
+                              name="price_jual"
                               class="form-control"
-                              placeholder="Total Harga"
-                              readonly
+                              placeholder="Harga Jual"
+                              required
                             />
                           </div>
-                          <!-- /.Total Harga -->
+                          <!-- /.Harga Jual -->                           
                           <div class="form-group">
                             <label>Link Video</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
                             <input
                               type="text"
                               name="link"
                               class="form-control"
-                              placeholder="Link Video Barang"
+                              placeholder="Masukkan Link Video"
+                              required
                             />
                           </div>
-                          <!-- /.link -->
-                          <div class="form-group">
-                            <label>Fungsi Barang</label>
-                            <textarea class="form-control" name="fungsi" rows="1" placeholder="Fungsi/kegunaan barang"></textarea>
-                          </div>
-                          <!-- /.Fungsi -->
+                          <!-- /.Harga Jual -->                           
                         </div>
                         <div class="col-md-12">
                           <div class="form-group">
                             <label>Deskripsi Barang</label>
-                            <textarea id="summernote" name="description" rows="3" required>
-                              Tuliskan deskripsi atau spesifikasi barang
-                            </textarea>
+                            <textarea class="form-control" name="description" rows="3" placeholder="Tuliskan deskripsi" required></textarea>
                           </div>
                           <!-- /.deskripsi -->
                           <div class="form-group">
-                            <label>Thumbnail</label>
-                            <input type="file" name="photos" class="form-control"/>
+                            <label>Thumbnail*</label>
+                            <input type="file" name="photos" class="form-control" required/>
                             <p class="text-muted">
                               Masukkan gambar barang
                             </p>
@@ -456,7 +413,7 @@
           
           swalWithBootstrapButtons.fire(
             'Terhapus!',
-            'Data aset berhasil dihapus.',
+            'Data produk berhasil dihapus.',
             'success'
           )
         } else if (

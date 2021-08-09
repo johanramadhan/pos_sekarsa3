@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $user = User::count();
         $product = Product::count();
         $proposal = Proposal::count();
-        $transaction = Product::sum('price');
+        $transaction = Product::sum('price_modal');
         $proposals = Proposal::sum('total_price');
         return view('pages.admin.dashboard', [
             'user'=> $user,

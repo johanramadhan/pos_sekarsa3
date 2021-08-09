@@ -74,17 +74,13 @@ use Illuminate\Support\Facades\Storage;
       @foreach ($proposals as $item)
         <tr style="line-height: 12px;">
           <td>{{ $loop->iteration }}</td>
-          <td>Bidang {{ $item->user->bidang }}</td>
+          <td>{{ $item->code }}</td>
           <td>{{ $item->category->name }}</td>
           <td>{{ $item->name }}</td>
-          <td>{{ $item->brand }}</td>
-          <td class="text-center">{{ $item->max_requirement }}</td>
-          <td class="text-center">{{ $item->qty }}</td>
+          <td class="text-center">{{ $item->stok }}</td>
           <td class="text-center">{{ $item->satuan }}</td>
-          <td >{{ number_format($item->price) }}</td>
-          <td>{{ number_format($item->total_price) }}</td>
-          <td>{{ number_format($item->price_dpa) }}</td>
-          <td>{{ $item->benefit }}</td>
+          <td >{{ number_format($item->price_modal) }}</td>
+          <td>{{ number_format($item->price_jual) }}</td>
           <td>{!! $item->description !!}</td>
           <td>
             <img src="{{ public_path("storage/".$item->galleries->first()->photos ?? 'tidak ada foto') }}" style="width: 70px; margin-top:10px;">
@@ -93,7 +89,6 @@ use Illuminate\Support\Facades\Storage;
       @endforeach
       <tr>
         <td colspan="9"><b>Total</b></td>
-        <td><b>Rp{{ number_format($total ?? '') }}</b></td>
         <td colspan="4"></td>
       </tr>
     </tbody>    

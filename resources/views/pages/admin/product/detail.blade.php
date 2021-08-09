@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Detail Aset
+    Detail Produk
 @endsection
 
 @push('addon-style')
@@ -22,12 +22,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Detail {{ $item->name }}</h1>
+            <h1 class="m-0">Detail Pengajuan {{ $item->name }}</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Detail Data {{ $item->name }}</li>
+                <li class="breadcrumb-item active">Detail Produk {{ $item->name }}</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -72,17 +72,16 @@
                 </div>
               </div>
               <div class="col-12 col-sm-6">
-                <h3 class="my-2">{{ $item->name }}</h3> 
-                <small>Fungsi : {{ $item->fungsi }} | Bidang {{ $item->user->bidang }} | {{ $item->status }} | {{ $item->kondisi }}</small> <br>
-                <p>{!! $item->description !!}</p>
+                <h3 class="my-2">{{ $item->name }} - ({{ $item->code }})</h3> 
+                 {{ $item->category->name }} | {{ $item->created_at }}
+                   <br> <br>
+                <h5>Deskripsi Produk</h5>
+                <p>Stok : {{$item->stok }} {{ $item->satuan }}</p>
+                <p>Harga Modal : Rp{{ number_format($item->price_modal) }}</p>
+                <p>Harga Jual : Rp{{ number_format($item->price_jual) }}</p>
+                <p>{{ $item->description }} </p>
                 <hr>
 
-                <small>Merek : {{ $item->brand }}</small> <br>
-                <small>Kategori : {{ $item->category->name }}</small> <br>
-                <small>Jumlah : {{ $item->qty }} {{ $item->satuan }}</small> <br>
-                <small>Harga Satuan : Rp{{ number_format($item->price) }}</small> <br>
-                <small>Total Harga : Rp{{ number_format($item->total_price) }}</small> <br>
-                
                 <div class="mt-4">
                   <button type="button" class="btn btn-danger btn-lg btn-flat" data-toggle="modal" data-target="#modal-primary">
                     <i class="fas fa-play fa-md mr-2"></i>
@@ -91,20 +90,27 @@
                 </div>
               </div>
             </div>
-            <div class="row mt-4">
-              <nav class="w-100">
-                <div class="nav nav-tabs" id="product-tab" role="tablist">
-                  <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Description</a>
-                </div>
-              </nav>
-              <div class="tab-content p-3" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
-                  <textarea id="summernote" name="description" rows="3" readonly required>
-                    {{$item->description}}
-                  </textarea>
+            {{-- <div class="row mt-5">
+              <div class="col-12 col-sm-12">
+                <div class="card card-primary card-outline card-tabs">
+                  <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Deskripsi/Spesifikasi</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-three-tabContent">
+                      <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                        {{ $item->description}}
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.card -->
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
       </div>

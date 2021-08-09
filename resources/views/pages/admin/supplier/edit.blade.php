@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Edit Kategori Aset
+    Edit Supplier Aset
 @endsection
 
 @section('content')
@@ -11,12 +11,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Edit Kategori</h1>
+            <h1 class="m-0">Edit Supplier</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Edit Data Kategori</li>
+                <li class="breadcrumb-item active">Edit Data Supplier</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -30,43 +30,59 @@
           <div class="col-md-6">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Edit Kategori</h3>
+                <h3 class="card-title">Edit Supplier</h3>
               </div>
               <!-- /.card-header -->
-              <form action="{{ route('category.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('supplier.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
                   <div class="form-group">
-                    <label>Nama Kategori</label>
+                    <label>Nama Supplier*</label>
                     <input
                       type="text"
                       name="name"
                       class="form-control"
+                      placeholder="Nama Supplier"
                       value="{{ $item->name }}"
                       required
                     />
                   </div>
                   <!-- /.Nama Kategori -->             
                   <div class="form-group">
-                    <label>Icon</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input
-                          type="file"
-                          class="custom-file-input"
-                          name="photo"
-                          
-                        />
-                        <label
-                          class="custom-file-label"
-                          for="exampleInputFile"
-                          >Kosongkan jika tidak ingin mengganti icon</label
-                        >
-                      </div>
-                    </div>
+                    <label>Email*</label>
+                    <input
+                      type="email"
+                      name="email"
+                      class="form-control"
+                      placeholder="Email"
+                      value="{{ $item->email }}"
+                      required
+                    />
                   </div>
-                  <!-- /.Nama Icon -->  
+                  <!-- /.email -->             
+                  <div class="form-group">
+                    <label>No. HP/WA*</label>
+                    <input
+                      type="number"
+                      name="phone"
+                      class="form-control"
+                      placeholder="No. HP/WA"
+                      value="{{ $item->phone }}"
+                      required
+                    />
+                  </div>
+                  <!-- /.No. HP/WA -->             
+                  <div class="form-group">
+                    <label>Address*</label>
+                    <textarea class="form-control" name="address" rows="2" placeholder="Address/Alamat" required>{{ $item->address }}</textarea>
+                  </div>
+                  <!-- /.Address -->            
+                  <div class="form-group">
+                    <label>Keterangan</label>
+                    <textarea class="form-control" name="description" rows="2" placeholder="Keterangan">{{ $item->description }}</textarea>
+                  </div>
+                  <!-- /.Description -->
                 </div>
 
                 <div class="card-footer text-right">

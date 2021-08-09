@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Edit Aset
+    Edit Product
 @endsection
 
 @push('addon-style')
@@ -21,12 +21,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Edit Aset</h1>
+            <h1 class="m-0">Edit Product</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Edit Data Aset</li>
+                <li class="breadcrumb-item active">Edit Data Product</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -40,15 +40,27 @@
           <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Edit Aset</h3>
+                <h3 class="card-title">Edit Product</h3>
               </div>
               <!-- /.card-header -->
-              <form action="{{ route('asets.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('products.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Kode Barang</label>
+                        <input
+                          type="text"
+                          name="code"
+                          class="form-control"
+                          placeholder="Kode Barang"
+                          value="{{ $item->code }}" 
+                          required
+                        />
+                      </div>
+                      <!-- /.Kode Barang -->             
                       <div class="form-group">
                         <label>Nama Barang</label>
                         <input
@@ -60,17 +72,7 @@
                           required
                         />
                       </div>
-                      <!-- /.Nama Barang --> 
-                      <div class="form-group">
-                        <label>Nama Bidang</label>
-                        <select name="users_id" class="form-control select2">
-                          <option value="{{ $item->user->id }}" selected>Tidak diganti -- ({{ $item->user->bidang }})</option>
-                          @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->bidang }}</option>
-                          @endforeach
-                        </select>                            
-                      </div>
-                      <!-- /.Nama Bidang -->             
+                      <!-- /.Nama Barang -->             
                       <div class="form-group">
                         <label>Kategori</label>
                         <select name="categories_id" class="form-control select2">
@@ -80,41 +82,47 @@
                           @endforeach
                         </select>                            
                       </div>
-                      <!-- /.Kategori -->   
+                      <!-- /.Kategori --> 
+                    </div>
+                    <div class="col-md-6">                                   
                       <div class="form-group">
-                        <label>Kondisi</label>
-                        <select name="kondisi" class="form-control select2" required>
-                          <option value="{{ $item->kondisi }}" selected>Tidak diganti -- ({{ $item->kondisi}})</option>
-                          <option value="Baik">Baik</option>
-                          <option value="Rusak Ringan">Rusak Ringan</option>
-                          <option value="Rusak Berat">Rusak Berat</option>
-                        </select>                            
-                      </div>
-                      <!-- /.kondisi -->          
-                      <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" class="form-control">
-                          <option value="{{ $item->status }}" selected>Tidak diganti -- ({{ $item->status}})</option>
-                          <option value="Pembelian">Pembelian</option>
-                          <option value="Hibah">Hibah</option>
-                          <option value="Lain-lain">Lain-lain</option>
-                        </select>                            
-                      </div>
-                      <!-- /.Status -->
-                      <div class="form-group">
-                      <label>Merek</label>
-                      <input
-                          type="text"
-                          name="brand"
+                        <label>Stok</label>
+                        <input
+                          type="number"
+                          name="stok"
+                          value="{{ $item->stok }}"
                           class="form-control"
-                          placeholder="Merek Barang"
-                          value="{{ $item->brand }}"
+                          placeholder="Jumlah Stok Barang"
                           required
                         />
                       </div>
-                      <!-- /.merek -->
+                      <!-- /.Jumlah -->   
+                      <div class="form-group">
+                        <label>Harga Modal</label>
+                        <input
+                          type="number"
+                          name="price_modal"
+                          class="form-control"
+                          value="{{ $item->price_modal }}"
+                          placeholder="Harga Modal Produk"
+                          required
+                        />
+                      </div>
+                      <!-- /.Harga Satuan --> 
+                      <div class="form-group">
+                        <label>Harga Jual</label>
+                        <input
+                          type="number"
+                          name="price_jual"
+                          class="form-control"
+                          value="{{ $item->price_jual }}"
+                          placeholder="Harga Jual Produk"
+                          required
+                        />
+                      </div>
+                      <!-- /.Harga Satuan -->    
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <div class="form-group">
                         <label>Satuan</label>
                         <select name="satuan" class="form-control select2" required>
@@ -156,71 +164,10 @@
                           <option value="Keping">Keping</option>
                         </select>                            
                       </div>
-                      <!-- /.satuan -->              
-                      <div class="form-group">
-                        <label>Jumlah</label>
-                        <input
-                          type="number"
-                          name="qty"
-                          id="qty" 
-                          onkeyup="sum()"
-                          value="{{ $item->qty }}"
-                          class="form-control"
-                          placeholder="Jumlah Barang"
-                          required
-                        />
-                      </div>
-                      <!-- /.Jumlah -->   
-                      <div class="form-group">
-                        <label>Harga Satuan</label>
-                        <input
-                          type="number"
-                          name="price"
-                          id="price" 
-                          onkeyup="sum()"
-                          class="form-control"
-                          value="{{ $item->price }}"
-                          placeholder="Harga Satuan"
-                          required
-                        />
-                      </div>
-                      <!-- /.Harga Satuan --> 
-                      <div class="form-group">
-                        <label>Total Harga</label>
-                        <input
-                          type="number"
-                          name="total_price"
-                          id="total_price"
-                          class="form-control"
-                          value="{{ $item->total_price }}"
-                          placeholder="Total Harga"
-                          readonly
-                        />
-                      </div>
-                      <!-- /.Total Harga -->        
-                      <div class="form-group">
-                        <label>Link Video</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
-                        <input
-                          type="text"
-                          name="link"
-                          class="form-control"
-                          value="{{ $item->link }}"
-                          placeholder="Link Video Barang"
-                        />
-                      </div>
-                      <!-- /.link --> 
-                      <div class="form-group">
-                        <label>Fungsi Barang</label>
-                        <textarea class="form-control" name="fungsi" rows="1" placeholder="Fungsi/kegunaan barang" required>{{ $item->fungsi }}</textarea>
-                      </div>
-                      <!-- /.Fungsi -->
-                    </div>
-                    <div class="col-md-12">
+                      <!-- /.satuan --> 
                       <div class="form-group">
                         <label>Deskripsi Barang</label>
-                        <textarea id="summernote" name="description" rows="3" required>
-                          {{ $item->description }}
-                        </textarea>
+                        <textarea class="form-control" name="description" rows="3" required>{{ $item->description }}</textarea>
                       </div>
                       <!-- /.deskripsi -->
                     </div>
@@ -232,7 +179,7 @@
                   <button type="submit" class="btn btn-block btn-primary">
                     Edit
                   </button>
-                  <a href="{{ route('asets.index') }}" class="btn btn-block btn-default">Kembali</a>
+                  <a href="{{ route('products.index') }}" class="btn btn-block btn-default">Kembali</a>
                 </div>
               </form>
               <div class=" card-body mt-2">

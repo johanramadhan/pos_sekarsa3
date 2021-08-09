@@ -40,7 +40,7 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
         $data = $request->all();
 
@@ -71,7 +71,11 @@ class SupplierController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = Supplier::findOrFail($id);
+
+        return view('pages.admin.supplier.edit', [
+          'item' => $item
+        ]);
     }
 
     /**
@@ -83,7 +87,19 @@ class SupplierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+        $data = $request->all();
+
+        $data['slug'] = Str::slug($request->name);
+
+        $item = Supplier::findOrFail($id);
+
+        $item->update($data);
+
+        return redirect()->route('supplier.index')
+            ->with('update', 'Data supplier berhasil diubah');
     }
 
     /**
@@ -94,6 +110,9 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Supplier::findOrFail($id);
+        $item->delete();
+
+        return redirect()->route('supplier.index');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\PembelianController;
+use App\Http\Controllers\Admin\PembelianDetailController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,9 +32,20 @@ Route::prefix('admin')
         
         Route::resource('category', 'CategoryController');
         Route::resource('supplier', 'SupplierController');
+        Route::resource('customer', 'CustomerController');
         Route::resource('user', 'UserController');
-        Route::resource('data-aset/asets', 'ProductController');
-        Route::resource('data-aset/product-gallery', 'ProductGalleryController');
+        Route::resource('data-product/products', 'ProductController');
+        Route::resource('data-product/product-gallery', 'ProductGalleryController');
+        Route::resource('data-transaction/pengeluaran', 'PengeluaranController');
+
+        Route::get('/pembelian/{id_pembelian}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');
+        Route::resource('data-transaction/pembelian', 'PembelianController');
+
+        Route::get('/pembelian_detail/{id_pembelian_detail}/data', 'PembelianDetailController@data')->name('data_pembelian');
+        Route::resource('data-transaction/pembelian-detail', 'PembelianDetailController');
+
+        Route::resource('data-transaction/transaction', 'TransactionController');
+
         Route::resource('data-proposal/pengajuan', 'ProposalController');
         Route::resource('data-proposal/proposal-galleries', 'ProposalGalleryController');
 

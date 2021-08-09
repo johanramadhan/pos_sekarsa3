@@ -11,6 +11,7 @@ use PDF;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 Use App\Http\Requests\ProductRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,16 +26,24 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with(['galleries','user', 'category'])->get();
-        $aset = Product::sum('total_price');
         $users = User::all();  
-        $categories = Category::all();  
-        $code = 'SISPRAS-' . mt_rand(0000,999999);
+        $categories = Category::all();
+        $tanggal = Carbon::now()->format('dmY');
+        $cek = Product::count();
+        if ($cek == 0) {
+            $urut = 100001;
+            $code = 'SKS-' . $tanggal . $urut;
+        } else {
+            $ambil = Product::all()->last();
+            $urut = (int)substr($ambil->code, -6) + 1;  
+            $code = 'SKS-' . $tanggal . $urut;      
+        }
 
         return view('pages.admin.product.index', [
             'products' => $products,
-            'aset' => $aset,
             'users' => $users,
             'categories' => $categories,
+            'tanggal' => $tanggal,
             'code' => $code
         ]);
     }
@@ -42,11 +51,9 @@ class ProductController extends Controller
     public function exportPdfTable()
     {
       $products = Product::all();
-      $total = Product::sum('total_price');
-      $customPaper = array(0,0,615,940);
+      $customPaper = array(0,0,940,615);
       $pdf = PDF::loadView('pages.admin.exports.pdf',[
         'products' => $products, 
-        'total' => $total
       
       ])->setPaper($customPaper, 'landscape')
       ->setWarnings(false);
@@ -86,8 +93,8 @@ class ProductController extends Controller
 
         ProductGallery::create($gallery);
 
-        return redirect()->route('asets.index')
-          ->with('success', 'Data aset berhasil ditambahkan');
+        return redirect()->route('products.index')
+          ->with('success', 'Data Product berhasil ditambahkan');
     
     }
 
@@ -119,13 +126,11 @@ class ProductController extends Controller
     public function edit($id)
     {
         $categories = Category::all();
-        $users = User::all();  
-        $item = Product::with(['galleries','user','category'])->findOrFail($id);
+        $item = Product::with(['galleries', 'category'])->findOrFail($id);
 
         return view('pages.admin.product.edit', [
           'item' => $item,
           'categories' => $categories,
-          'users' => $users,
         ]);
     }
 
@@ -137,7 +142,7 @@ class ProductController extends Controller
 
         ProductGallery::create($data);
 
-        return redirect()->route('asets.edit', $request->products_id)
+        return redirect()->route('products.edit', $request->products_id)
          ->with('success', 'Gambar berhasil ditambahkan');
     }
 
@@ -146,7 +151,7 @@ class ProductController extends Controller
         $item = ProductGallery::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('asets.edit', $item->products_id);
+        return redirect()->route('products.edit', $item->products_id);
     }
 
     /**
@@ -166,7 +171,7 @@ class ProductController extends Controller
 
         $item->update($data);
 
-        return redirect()->route('asets.index')
+        return redirect()->route('products.index')
             ->with('update', 'Data aset berhasil diedit');
     }
 
@@ -181,6 +186,16 @@ class ProductController extends Controller
         $item = Product::findOrFail($id);
         $item->delete();
 
-        return redirect()->route('asets.index');
+        return redirect()->route('products.index');
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        foreach ($request->id as $id) {
+            $produk = Product::find($id);
+            $produk->delete();
+        }
+
+        return response(null, 204);
     }
 }

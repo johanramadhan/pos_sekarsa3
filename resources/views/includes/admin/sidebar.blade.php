@@ -59,26 +59,26 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('category.index') }}" class="nav-link {{ (request()->is('admin/customer*')) ? 'active' : '' }}">
+          <a href="{{ route('customer.index') }}" class="nav-link {{ (request()->is('admin/customer*')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-users"></i>
             <p>
               Customers
             </p>
           </a>
         </li>
-        <li class="nav-item {{ (request()->is('admin/data-aset*')) ? 'menu-open' : '' }}">
-          <a href="#" class="nav-link {{ (request()->is('admin/data-aset*')) ? 'active' : '' }} ">
+        <li class="nav-item {{ (request()->is('admin/data-product*')) ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ (request()->is('admin/data-product*')) ? 'active' : '' }} ">
             <i class="nav-icon fas fa-briefcase"></i>
             <p>
-              Products
+              Produk
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ route('asets.index') }}" class="nav-link {{ (request()->is('admin/data-aset/aset*')) ? 'active' : '' }}">
+              <a href="{{ route('products.index') }}" class="nav-link {{ (request()->is('admin/data-product/product*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Aset</p>
+                <p>Produk</p>
               </a>
             </li>
             <li class="nav-item d-none">
@@ -90,8 +90,8 @@
           </ul>
         </li>
 
-        <li class="nav-item {{ (request()->is('admin/data-proposal*')) ? 'menu-open' : '' }}">
-          <a href="#" class="nav-link {{ (request()->is('admin/data-proposal*')) ? 'active' : '' }} ">
+        <li class="nav-item {{ (request()->is('admin/data-transaction*')) ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ (request()->is('admin/data-transaction*')) ? 'active' : '' }} ">
             <i class="nav-icon fas fa-cart-plus"></i>
             <p>
               Transactions
@@ -100,15 +100,19 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ route('pengajuan.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/pengajuan*')) ? 'active' : '' }}">
+              <a href="{{ route('pengeluaran.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/pengeluaran*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Pengajuan</p>
+                <p>Pengeluaran</p>
+              </a>
+              <a href="{{ route('pembelian.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/pembelian*')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Pembelian</p>
               </a>
             </li>
-            <li class="nav-item d-none">
-              <a href="{{ route('proposal-galleries.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/proposal-galleries*')) ? 'active' : '' }}">
+            <li class="nav-item">
+              <a href="{{ route('transaction.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/transaction*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Gallery</p>
+                <p>Transaksi</p>
               </a>
             </li>
           </ul>
