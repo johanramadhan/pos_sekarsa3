@@ -81,6 +81,12 @@
                 <p>Produk</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ route('produk.index') }}" class="nav-link {{ (request()->is('admin/data-product/produk*')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Produk2</p>
+              </a>
+            </li>
             <li class="nav-item d-none">
               <a href="{{ route('product-gallery.index') }}" class="nav-link {{ (request()->is('admin/data-aset/product-gallery*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>

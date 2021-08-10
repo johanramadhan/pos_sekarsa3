@@ -20,4 +20,9 @@ class PembelianDetail extends Model
     {
         return $this->hasOne(Product::class, 'id_produk', 'id');
     }
+    
+    public function produk()
+    {
+        return $this->hasOne(Produk::class, 'id_produk', 'id_produk');
+    }
 }

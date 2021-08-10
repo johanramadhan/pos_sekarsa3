@@ -25,8 +25,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['galleries','user', 'category'])->get();
-        $users = User::all();  
+        $products = Product::with(['galleries','user', 'category'])->get(); 
         $categories = Category::all();
         $tanggal = Carbon::now()->format('dmY');
         $cek = Product::count();
@@ -41,7 +40,6 @@ class ProductController extends Controller
 
         return view('pages.admin.product.index', [
             'products' => $products,
-            'users' => $users,
             'categories' => $categories,
             'tanggal' => $tanggal,
             'code' => $code
@@ -172,7 +170,7 @@ class ProductController extends Controller
         $item->update($data);
 
         return redirect()->route('products.index')
-            ->with('update', 'Data aset berhasil diedit');
+            ->with('update', 'Data produk berhasil diedit');
     }
 
     /**

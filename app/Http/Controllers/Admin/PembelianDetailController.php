@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Pembelian;
 use App\PembelianDetail;
 use App\Product;
+use App\Produk;
 use App\Supplier;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class PembelianDetailController extends Controller
     public function index()
     {
         $id_pembelian = session('id_pembelian');
-        $produk = Product::orderBy('name')->get();
+        $produk = Produk::orderBy('name_product')->get();
         $supplier = Supplier::find(session('id_supplier'));
         $diskon = Pembelian::find($id_pembelian)->diskon ?? 0;
 
@@ -33,6 +34,38 @@ class PembelianDetailController extends Controller
             'supplier' => $supplier,
             'diskon' => $diskon,
         ]);
+    }
+
+    public function data($id)
+    {
+        $detail = PembelianDetail::with('produk')
+            ->where('id_pembelian', $id)
+            ->get();
+       
+        return datatables()
+            ->of($detail)
+            ->addIndexColumn()
+            ->addColumn('name_product', function ($detail) {
+                return $detail->produk['name_product'];
+            })
+            ->addColumn('code', function ($detail) {
+                return $detail->produk['code'];
+            })
+            ->addColumn('harga_beli', function ($detail) {
+                return 'Rp'. $detail->produk['harga_beli'];
+            })
+            ->addColumn('subtotal', function ($detail) {
+                return 'Rp'. $detail->subtotal;
+            })
+            ->addColumn('aksi', function ($detail) {
+                return '
+                <div class="btn-group">
+                    <button onclick="deleteData(`'. route('pembelian-detail.destroy', $detail->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                </div>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
     /**
@@ -57,17 +90,17 @@ class PembelianDetailController extends Controller
 
     public function store(Request $request)
     {
-        $produk = Product::where('id', $request->id)->first();
+        $produk = Produk::where('id_produk', $request->id_produk)->first();
         if (! $produk) {
             return response()->json('Data gagal disimpan', 400);
         }
 
         $detail = new PembelianDetail();
         $detail->id_pembelian = $request->id_pembelian;
-        $detail->id_produk = $produk->id;
-        $detail->harga_beli = $produk->price_modal;
+        $detail->id_produk = $produk->id_produk;
+        $detail->harga_beli = $produk->harga_beli;
         $detail->jumlah = 1;
-        $detail->subtotal = $produk->price_modal;
+        $detail->subtotal = $produk->harga_beli;
         $detail->save();
 
         return response()->json('Data berhasil disimpan', 200);
@@ -115,6 +148,9 @@ class PembelianDetailController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $detail = PembelianDetail::find($id);
+        $detail->delete();
+
+        return response(null, 204);
     }
 }

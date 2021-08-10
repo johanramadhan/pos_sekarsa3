@@ -81,7 +81,7 @@
                     </div>
                   </form>
 
-                  <table id="example1" class="table table-bordered table-striped">
+                  <table class="table table-pembelian table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>No</th>
@@ -133,67 +133,19 @@
             processing: true,
             autoWidth: false,
             ajax: {
-                url: '#',
+                url: '{{ route('data_pembelian', $id_pembelian) }}',
             },
             columns: [
                 {data: 'DT_RowIndex', searchable: false, sortable: false},
                 {data: 'code'},
-                {data: 'name'},
-                {data: 'price_modal'},
+                {data: 'name_product'},
+                {data: 'harga_beli'},
                 {data: 'jumlah'},
                 {data: 'subtotal'},
                 {data: 'aksi', searchable: false, sortable: false},
             ],
-            dom: 'Brt',
-            bSort: false,
-        })
-        .on('draw.dt', function () {
-            loadForm($('#diskon').val());
         });
-        table2 = $('.table-produk').DataTable();
-
-        $(document).on('input', '.quantity', function () {
-            let id = $(this).data('id');
-            let jumlah = parseInt($(this).val());
-
-            if (jumlah < 1) {
-                $(this).val(1);
-                alert('Jumlah tidak boleh kurang dari 1');
-                return;
-            }
-            if (jumlah > 10000) {
-                $(this).val(10000);
-                alert('Jumlah tidak boleh lebih dari 10000');
-                return;
-            }
-
-            $.post(`{{ url('/pembelian_detail') }}/${id}`, {
-                    '_token': $('[name=csrf-token]').attr('content'),
-                    '_method': 'put',
-                    'jumlah': jumlah
-                })
-                .done(response => {
-                    $(this).on('mouseout', function () {
-                        table.ajax.reload(() => loadForm($('#diskon').val()));
-                    });
-                })
-                .fail(errors => {
-                    alert('Tidak dapat menyimpan data');
-                    return;
-                });
-        });
-
-        $(document).on('input', '#diskon', function () {
-            if ($(this).val() == "") {
-                $(this).val(0).select();
-            }
-
-            loadForm($(this).val());
-        });
-
-        $('.btn-simpan').on('click', function () {
-            $('.form-pembelian').submit();
-        });
+        
     });
 
     function tampilProduk() {
@@ -220,6 +172,22 @@
               alert('Tidak dapat menyimpan data');
               return;
           });
+    }
+
+    function deleteData(url) {
+        if (confirm('Yakin ingin menghapus data terpilih?')) {
+            $.post(url, {
+                    '_token': $('[name=csrf-token]').attr('content'),
+                    '_method': 'delete'
+                })
+                .done((response) => {
+                    table.ajax.reload();
+                })
+                .fail((errors) => {
+                    alert('Tidak dapat menghapus data');
+                    return;
+                });
+        }
     }
 
   </script>

@@ -38,10 +38,12 @@ Route::prefix('admin')
         Route::resource('data-product/product-gallery', 'ProductGalleryController');
         Route::resource('data-transaction/pengeluaran', 'PengeluaranController');
 
+        Route::resource('data-product/produk', 'ProdukController');
+
         Route::get('/pembelian/{id_pembelian}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');
         Route::resource('data-transaction/pembelian', 'PembelianController');
 
-        Route::get('/pembelian_detail/{id_pembelian_detail}/data', 'PembelianDetailController@data')->name('data_pembelian');
+        Route::get('/pembelian_detail/{id}/data', 'PembelianDetailController@data')->name('data_pembelian');
         Route::resource('data-transaction/pembelian-detail', 'PembelianDetailController');
 
         Route::resource('data-transaction/transaction', 'TransactionController');

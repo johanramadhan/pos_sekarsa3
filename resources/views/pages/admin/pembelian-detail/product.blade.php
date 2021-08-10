@@ -21,11 +21,11 @@
                     <tr>
                       <td width="5%">{{ $loop->iteration }}</td>
                       <td><span class="badge badge-success">{{ $item->code }}</span></td>
-                      <td>{{ $item->name }}</td>
-                      <td>{{ format_uang($item->price_modal) }}</td>
+                      <td>{{ $item->name_product }}</td>
+                      <td>{{ format_uang($item->harga_beli) }}</td>
                       <td>
                         <a href="#" class="btn btn-primary btn-xs btn-flat"
-                          onclick="pilihProduk('{{ $item->id }}', '{{ $item->code }}')">
+                          onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->code }}')">
                           <i class="fa fa-check-circle"></i>
                           Pilih
                         </a>

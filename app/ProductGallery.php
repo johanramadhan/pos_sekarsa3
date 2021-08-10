@@ -18,6 +18,6 @@ class ProductGallery extends Model
     public function product()
     {
         // ->withTrashed()
-        return $this->belongsTo(Product::class, 'products_id', 'id');
+        return $this->belongsTo(Product::class, 'products_id', 'id_produk');
     }
 }
