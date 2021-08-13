@@ -13,9 +13,6 @@
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css"/>
 @endpush
 
 @section('content')
@@ -364,8 +361,6 @@
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-  <!-- Summernote -->
-  <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
   <script>
     function sum() {
         var qty = document.getElementById('qty').value;
@@ -387,19 +382,6 @@
           theme: 'bootstrap4'
         })
      })
-  </script>
-
-  <script>
-    $(function () {
-      // Summernote
-      $('#summernote').summernote()
-
-      // CodeMirror
-      CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-        mode: "htmlmixed",
-        theme: "monokai"
-      });
-    })
   </script>
 
   <script>

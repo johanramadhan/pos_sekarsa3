@@ -113,7 +113,6 @@
 
 @push('addon-script')
   <!-- Sweet alert -->
-  <script src="{{ asset('plugins/jquery/jquery.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   @include('includes.admin.alerts')
   <!-- DataTables  & Plugins -->
@@ -123,74 +122,6 @@
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
   <!-- Summernote -->
   <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-
-  <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-          theme: 'bootstrap4'
-        })
-     })
-  </script>
-  
-  <script>
-      function sum() {
-          var qty = document.getElementById('qty').value;
-          var price = document.getElementById('price').value;
-          var result = parseInt(price) * parseInt(qty);
-          if (!isNaN(result)) {
-              document.getElementById('total_price').value = result;
-          }
-      }
-  </script>
-  
-  <script>
-    $('button#delete').on('click', function(e){
-      e.preventDefault();
-      var href = $(this).attr('href');
-    
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      })
-
-      swalWithBootstrapButtons.fire({
-        title: 'Are you sure?',
-        text: "Data yang dihapus tidak bisa dikembalikan lagi!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, Hapus Saja!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.isConfirmed) {
-          document.getElementById('deleteForm').action = href;
-          document.getElementById('deleteForm').submit();
-          
-          swalWithBootstrapButtons.fire(
-            'Terhapus!',
-            'Data pengeluaran berhasil dihapus.',
-            'success'
-          )
-        } else if (
-          /* Read more about handling dismissals below */
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons.fire(
-            'Cancelled',
-            'Data anda tidak jadi dihapus',
-            'error'
-          )
-        }
-      })
-    })
-  </script>
 
   <script>
     let table, table2;
@@ -232,7 +163,7 @@
                 return;
             }
 
-           $.post(`{{ url('admin/data-transaction/pembelian_detail') }}/${id}`, {
+           $.post(`{{ url('pembelian_detail') }}/${id}`, {
                     '_token': $('[name=csrf-token]').attr('content'),
                     '_method': 'put',
                     'jumlah': jumlah
@@ -296,5 +227,71 @@
   </script>
 
 
+  <script>
+     $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+          theme: 'bootstrap4'
+        })
+     })
+  </script>
+
   
+  <script>
+      function sum() {
+          var qty = document.getElementById('qty').value;
+          var price = document.getElementById('price').value;
+          var result = parseInt(price) * parseInt(qty);
+          if (!isNaN(result)) {
+              document.getElementById('total_price').value = result;
+          }
+      }
+  </script>
+  <script>
+    $('button#delete').on('click', function(e){
+      e.preventDefault();
+      var href = $(this).attr('href');
+    
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "Data yang dihapus tidak bisa dikembalikan lagi!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Hapus Saja!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('deleteForm').action = href;
+          document.getElementById('deleteForm').submit();
+          
+          swalWithBootstrapButtons.fire(
+            'Terhapus!',
+            'Data pengeluaran berhasil dihapus.',
+            'success'
+          )
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Data anda tidak jadi dihapus',
+            'error'
+          )
+        }
+      })
+    })
+  </script>
 @endpush
