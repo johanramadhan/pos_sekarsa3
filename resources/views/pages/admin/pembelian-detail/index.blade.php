@@ -113,6 +113,7 @@
 
 @push('addon-script')
   <!-- Sweet alert -->
+  <script src="{{ asset('plugins/jquery/jquery.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   @include('includes.admin.alerts')
   <!-- DataTables  & Plugins -->
@@ -122,76 +123,6 @@
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
   <!-- Summernote -->
   <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-
-  <script>
-    let table, table2;
-
-    $(function () {
-      $('body').addClass('sidebar-collapse');
-
-        table = $('.table-pembelian').DataTable({
-            processing: true,
-            autoWidth: false,
-            ajax: {
-                url: '{{ route('data_pembelian', $id_pembelian) }}',
-            },
-            columns: [
-                {data: 'DT_RowIndex', searchable: false, sortable: false},
-                {data: 'code'},
-                {data: 'name_product'},
-                {data: 'harga_beli'},
-                {data: 'jumlah'},
-                {data: 'subtotal'},
-                {data: 'aksi', searchable: false, sortable: false},
-            ],
-        });
-        
-    });
-
-    function tampilProduk() {
-        $('#modal-produk').modal('show');
-    }
-
-    function hideProduk() {
-        $('#modal-produk').modal('hide');
-    }
-
-    function pilihProduk(id, code) {
-        $('#id_produk').val(id);
-        $('#code').val(code);
-        hideProduk();
-        tambahProduk();
-    }
-
-    function tambahProduk() {
-      $.post('{{ route('pembelian-detail.store') }}', $('.form-produk').serialize())
-          .done(response => {
-              $('#code').focus();
-          })
-          .fail(errors => {
-              alert('Tidak dapat menyimpan data');
-              return;
-          });
-    }
-
-    function deleteData(url) {
-        if (confirm('Yakin ingin menghapus data terpilih?')) {
-            $.post(url, {
-                    '_token': $('[name=csrf-token]').attr('content'),
-                    '_method': 'delete'
-                })
-                .done((response) => {
-                    table.ajax.reload();
-                })
-                .fail((errors) => {
-                    alert('Tidak dapat menghapus data');
-                    return;
-                });
-        }
-    }
-
-  </script>
-
 
   <script>
      $(function () {
@@ -204,24 +135,7 @@
         })
      })
   </script>
-
-  <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
-  </script>
+  
   <script>
       function sum() {
           var qty = document.getElementById('qty').value;
@@ -232,6 +146,7 @@
           }
       }
   </script>
+  
   <script>
     $('button#delete').on('click', function(e){
       e.preventDefault();
@@ -276,4 +191,110 @@
       })
     })
   </script>
+
+  <script>
+    let table, table2;
+
+    $(function () {
+      $('body').addClass('sidebar-collapse');
+
+        table = $('.table-pembelian').DataTable({
+            processing: true,
+            autoWidth: false,
+            ajax: {
+                url: '{{ route('data_pembelian', $id_pembelian) }}',
+            },
+            columns: [
+                {data: 'DT_RowIndex', searchable: false, sortable: false},
+                {data: 'code'},
+                {data: 'name_product'},
+                {data: 'harga_beli'},
+                {data: 'jumlah'},
+                {data: 'subtotal'},
+                {data: 'aksi', searchable: false, sortable: false},
+            ],
+        });
+        
+        table2 = $('.table-produk').DataTable();
+
+        $(document).on('input', '.quantity', function () {
+          let id = $(this).data('id');
+          let jumlah = parseInt($(this).val());
+
+          if (jumlah < 1) {
+                $(this).val(1);
+                alert('Jumlah tidak boleh kurang dari 1');
+                return;
+            }
+            if (jumlah > 10000) {
+                $(this).val(10000);
+                alert('Jumlah tidak boleh lebih dari 10000');
+                return;
+            }
+
+           $.post(`{{ url('admin/data-transaction/pembelian_detail') }}/${id}`, {
+                    '_token': $('[name=csrf-token]').attr('content'),
+                    '_method': 'put',
+                    'jumlah': jumlah
+              })
+              .done(response => {
+                    $(this).on('mouseout', function () {
+                        table.ajax.reload();
+                    });
+                })
+                .fail(errors => {
+                    alert('Tidak dapat menyimpan data');
+                    return;
+                });
+        });
+        
+    });
+
+    function tampilProduk() {
+        $('#modal-produk').modal('show');
+    }
+
+    function hideProduk() {
+        $('#modal-produk').modal('hide');
+    }
+
+    function pilihProduk(id, code) {
+        $('#id_produk').val(id);
+        $('#code').val(code);
+        hideProduk();
+        tambahProduk();
+    }
+
+    function tambahProduk() {
+      $.post('{{ route('pembelian_detail.store') }}', $('.form-produk').serialize())
+          .done(response => {
+              $('#code').focus();
+              table.ajax.reload();
+          })
+          .fail(errors => {
+              alert('Tidak dapat menyimpan data');
+              return;
+          });
+    }
+
+    function deleteData(url) {
+        if (confirm('Yakin ingin menghapus data terpilih?')) {
+            $.post(url, {
+                    '_token': $('[name=csrf-token]').attr('content'),
+                    '_method': 'delete'
+                })
+                .done((response) => {
+                    table.ajax.reload(() => loadForm($('#diskon').val()));
+                })
+                .fail((errors) => {
+                    alert('Tidak dapat menghapus data');
+                    return;
+                });
+        }
+    }
+
+  </script>
+
+
+  
 @endpush

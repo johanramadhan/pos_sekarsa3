@@ -54,17 +54,20 @@ class PembelianDetailController extends Controller
             ->addColumn('harga_beli', function ($detail) {
                 return 'Rp'. $detail->produk['harga_beli'];
             })
+            ->addColumn('jumlah', function ($detail) {
+                return '<input type="number" class="form-control input-sm quantity"  data-id="'. $detail->id_pembelian_detail .'" value="'. $detail->jumlah .'">';
+            })
             ->addColumn('subtotal', function ($detail) {
                 return 'Rp'. $detail->subtotal;
             })
             ->addColumn('aksi', function ($detail) {
                 return '
                 <div class="btn-group">
-                    <button onclick="deleteData(`'. route('pembelian-detail.destroy', $detail->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    <button onclick="deleteData(`'. route('pembelian_detail.destroy', $detail->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi', 'jumlah'])
             ->make(true);
     }
 
@@ -137,7 +140,10 @@ class PembelianDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $detail = PembelianDetail::find($id);
+        $detail->jumlah = $request->jumlah;
+        $detail->subtotal = $detail->harga_beli * $request->jumlah;
+        $detail->update();
     }
 
     /**

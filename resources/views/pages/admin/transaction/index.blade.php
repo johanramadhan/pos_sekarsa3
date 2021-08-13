@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Data Transaksi
+    Transaksi Penjualan
 @endsection
 
 @push('addon-style')
@@ -25,12 +25,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Transaksi </h1>
+            <h1 class="m-0">Transaksi Penjualan</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Data Transaksi</li>
+                <li class="breadcrumb-item active">Transaksi Penjualan</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -40,96 +40,133 @@
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Data Transaksi</h3>
-              </div>
-              <!-- /.card-header -->
+            <div class="card">
               <div class="card-body">
-                <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-                      + Transaksi
-                    </button>
-                    <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3">
-                      Print PDF
-                    </a>
-                    <thead>
-                      <tr class="text-center">
-                        <th>No</th>
-                        <th>Kode Produk</th>
-                        <th>Nama Produk</th>
-                        <th>Satuan</th>
-                        <th>Kategori</th>
-                        <th>Jumlah Stok</th>
-                        <th>Harga Modal</th>
-                        <th>Harga Jual</th>
-                        <th>Keterangan</th>
-                        <th>Foto</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @forelse ($transactions as $item)
-                        <tr>
-                          <td>{{ $loop->iteration }}</td>
-                          <td>{{ $item->name }}</td>
-                          <td class="text-center">{{ $item->satuan }}</td>
-                          <td>{{ $item->category->name }}</td>
-                          <td class="text-center">{{ $item->stok }}</td>
-                          <td>{{ number_format($item->price_modal) }}</td>
-                          <td>{{ number_format($item->price_jual) }}</td>
-                          <td>{{ $item->description }}</td>
-                          <td>
-                            <img src="{{Storage::url($item->galleries->first()->photos ?? 'tidak ada foto')}}" style="max-height: 50px;">
-                          </td>
-                          <td>
-                            <div class="btn-group">
-                              <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle mr-1 mb-1"        
-                                  type="button"
-                                  data-toggle="dropdown">
-                                  Aksi
-                                </button>
-                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('products.edit', $item->id) }}">
-                                    Sunting
-                                  </a>
-                                  <a class="dropdown-item" href="{{ route('products.show', $item->id) }}">
-                                    Detail
-                                  </a>
-                                  <button type="submit" id="delete" href="{{ route('products.destroy', $item->id) }}" 
-                                    class="dropdown-item text-danger">
-                                    Hapus
-                                  </button>
-                                  <form action="" method="POST" id="deleteForm">
-                                    @csrf
-                                    @method("DELETE")
-                                    <input type="submit" value="Hapus" style="display: none">
-                                    
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                      @empty
-                          
-                      @endforelse
-                    </tbody>
-
-                  </table>
+                <hr>
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <h3>INVOICE <b>SKS1201197001</b></h3>
+                  </div>
+                  <div class="col-6">
+                    <h1>Total (Rp)</h1>
+                  </div>
+                  <div class="col-6 text-right">
+                    <h1>125.000.000</h1>
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <form class="form-horizontal">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Kasir</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" placeholder="Kasir" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Customer</label>
+                        <div class="col-sm-9">
+                          <select name="customer" class="form-control select2" required>
+                            <option>Umum</option>
+                            <option>Pegawai</option>
+                          </select> 
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Layanan</label>
+                        <div class="col-sm-9">
+                          <select name="layanan" class="form-control select2" required>
+                            <option>Produk</option>
+                            <option>Coffee</option>
+                            <option>Non Coffee</option>
+                            <option>Cemilan</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Pilih Produk</label>
+                        <div class="col-sm-9 input-group">
+                          <input type="text" class="form-control">
+                          <span class="input-group-append">
+                            <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Qty</label>
+                        <div class="col-sm-9">
+                          <input type="number" name="qty" class="form-control" placeholder="Jumlah">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Nama</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" placeholder="Nama Produk" readonly>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Harga</label>
+                        <div class="col-sm-9">
+                          <input type="number" name="price" class="form-control" placeholder="Harga" readonly>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-success float-right"><i class="fa fa-shopping-cart"></i>Tambah</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+              </form>
             </div><!-- /.card -->
           </div>
           <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
-        </div><!-- /.container-fluid -->
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Code</th>
+                        <th>Nama Item</th>
+                        <th>Harga</th>
+                        <th>Discon / Item</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
@@ -370,11 +407,11 @@
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      });
       $('#example2').DataTable({
         "paging": true,
         "lengthChange": false,
-        "searching": false,
+        "searching": true,
         "ordering": true,
         "info": true,
         "autoWidth": false,

@@ -118,7 +118,7 @@
             <li class="nav-item">
               <a href="{{ route('transaction.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/transaction*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Transaksi</p>
+                <p>Transaksi Penjualan</p>
               </a>
             </li>
           </ul>
