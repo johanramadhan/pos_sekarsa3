@@ -11,8 +11,6 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
 @endpush
 
 @section('content')
@@ -62,14 +60,17 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <form class="form-horizontal">
+              <form class="form-horizontal" method="post">
+                @csrf
+                @method('post')
+
                 <div class="row">
                   <div class="col-4">
                     <div class="card-body">
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Kasir</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" placeholder="Kasir" readonly>
+                          <input type="text" class="form-control" value="{{ Auth::user()->name }}" placeholder="Kasir" readonly>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -99,16 +100,17 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Pilih Produk</label>
                         <div class="col-sm-9 input-group">
-                          <input type="text" class="form-control">
+                          <input type="hidden" class="form-control" name="products_id" id="id_produk">
+                          <input type="text" class="form-control" id="code" name="code" readonly>
                           <span class="input-group-append">
-                            <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                            <button onclick="tampilProduk()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                           </span>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Qty</label>
                         <div class="col-sm-9">
-                          <input type="number" name="qty" class="form-control" placeholder="Jumlah">
+                          <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Jumlah" min="1">
                         </div>
                       </div>
                     </div>
@@ -118,13 +120,13 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Nama</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" placeholder="Nama Produk" readonly>
+                          <input type="text" class="form-control" name="name_product" id="name_product" placeholder="Nama Produk" readonly>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Harga</label>
                         <div class="col-sm-9">
-                          <input type="number" name="price" class="form-control" placeholder="Harga" readonly>
+                          <input type="text" class="form-control" name="harga_jual" id="harga_jual" disabled>
                         </div>
                       </div>
                       <button type="submit" class="btn btn-success float-right"><i class="fa fa-shopping-cart"></i>Tambah</button>
@@ -168,188 +170,8 @@
     <!-- /.content -->
   </div>
 
-  <div class="modal fade" id="modal-primary">
-    <div class="modal-dialog modal-xl">
-      <form action="{{ route('transaction.store') }}" method="POST" enctype="multipart/form-data">
-      @csrf
-        <div class="modal-content bg-default">
-          <div class="modal-header">
-            <h4 class="modal-title">Tambah Transaction</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-12">
-                  @if ($errors->any())
-                    <div class="alert alert-danger">
-                      <ul>
-                        @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                        @endforeach
-                      </ul>
-                    </div>
-                  @endif
-                  <div class="card card-primary">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>Kode Produk*</label>
-                            <input
-                              type="text"
-                              name="code"
-                              class="form-control"
-                              placeholder="Kode Barang"
-                              
-                              readonly
-                            />
-                          </div>
-                          <!-- /.Kode Barang --> 
-                          <div class="form-group">
-                            <label>Nama Produk*</label>
-                            <input
-                              type="text"
-                              name="name"
-                              class="form-control"
-                              placeholder="Nama Barang"
-                              required
-                            />
-                          </div>
-                          <!-- /.Nama Barang --> 
-                          <div class="form-group">
-                            <label>Kategori*</label>
-                            <select name="categories_id" class="form-control select2">
-                              <option>--Pilih Kategori--</option>
-                              
-                            </select>                            
-                          </div>
-                          <!-- /.Kategori --> 
-                          <div class="form-group">
-                            <label>Satuan*</label>
-                            <select name="satuan" class="form-control select2" required>
-                              <option>--Pilih satuan--</option>
-                              <option value="Bidang">Bidang</option>
-                              <option value="Unit">Unit</option>
-                              <option value="Buah">Buah</option>
-                              <option value="Roll">Roll</option>
-                              <option value="Stell">Stell</option>
-                              <option value="Jalan">Jalan</option>
-                              <option value="Paket">Paket</option>
-                              <option value="Besi">Besi</option>
-                              <option value="Biro">Biro</option>
-                              <option value="Fiber">Fiber</option>
-                              <option value="Gros">Gros</option>
-                              <option value="Helai">Helai</option>
-                              <option value="Kali">Kali</option>
-                              <option value="Kayu">Kayu</option>
-                              <option value="Lembar">Lembar</option>
-                              <option value="Lusin">Lusin</option>
-                              <option value="Meter">Meter</option>
-                              <option value="Pcs">Pcs</option>
-                              <option value="Peket">Peket</option>
-                              <option value="Plastik">Plastik</option>
-                              <option value="Plong">Plong</option>
-                              <option value="SET">SET</option>
-                              <option value="Shet">Shet</option>
-                              <option value="Stenlis">Stenlis</option>
-                              <option value="Beton">Beton</option>
-                              <option value="M2">M2</option>
-                              <option value="Exp">Exp</option>
-                              <option value="Kaleng">Kaleng</option>
-                              <option value="Kotak">Kotak</option>
-                              <option value="Pasang">Pasang</option>
-                              <option value="Slop">Slop</option>
-                              <option value="Sambungan">Sambungan</option>
-                              <option value="m'">m'</option>
-                              <option value="KVA">KVA</option>
-                              <option value="Keping">Keping</option>
-                            </select>                            
-                          </div>
-                          <!-- /.satuan -->       
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>Stok Barang*</label>
-                            <input
-                              type="number"
-                              name="stok"
-                              class="form-control"
-                              placeholder="Jumlah Stok Barang"
-                              required
-                            />
-                          </div>
-                          <!-- /.Stok -->            
-                          <div class="form-group">
-                            <label>Harga Modal*</label>
-                            <input
-                              type="number"
-                              name="price_modal"
-                              class="form-control"
-                              placeholder="Harga Modal"
-                              required
-                            />
-                          </div>
-                          <!-- /.Harga Modal -->  
-                          <div class="form-group">
-                            <label>Harga Jual*</label>
-                            <input
-                              type="number"
-                              name="price_jual"
-                              class="form-control"
-                              placeholder="Harga Jual"
-                              required
-                            />
-                          </div>
-                          <!-- /.Harga Jual -->                           
-                          <div class="form-group">
-                            <label>Link Video</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
-                            <input
-                              type="text"
-                              name="link"
-                              class="form-control"
-                              placeholder="Masukkan Link Video"
-                              required
-                            />
-                          </div>
-                          <!-- /.Harga Jual -->                           
-                        </div>
-                        <div class="col-md-12">
-                          
-                          <div class="form-group">
-                            <label>Deskripsi Barang</label>
-                            <textarea class="form-control" name="description" rows="3" placeholder="Tuliskan deskripsi" required></textarea>
-                          </div>
-                          <!-- /.deskripsi -->
-                          <div class="form-group">
-                            <label>Thumbnail*</label>
-                            <input type="file" name="photos" class="form-control" required/>
-                            <p class="text-muted">
-                              Masukkan gambar barang
-                            </p>
-                          </div>
-                          <!-- /.deskripsi -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </form>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
+  @includeIf('pages.admin.transaction.product')
+
 @endsection
 
 @push('addon-script')
@@ -361,16 +183,6 @@
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-  <script>
-    function sum() {
-        var qty = document.getElementById('qty').value;
-        var price = document.getElementById('price').value;
-        var result = parseInt(price) * parseInt(qty);
-        if (!isNaN(result)) {
-            document.getElementById('total_price').value = result;
-        }
-    }
-  </script>
 
   <script>
      $(function () {
@@ -401,6 +213,38 @@
       });
     });
   </script>
+  
+  <script>
+    function sum() {
+        var qty = document.getElementById('qty').value;
+        var price = document.getElementById('price').value;
+        var result = parseInt(price) * parseInt(qty);
+        if (!isNaN(result)) {
+            document.getElementById('total_price').value = result;
+        }
+    }
+
+    function tampilProduk() {
+        $('#modal-produk').modal('show');
+    }
+
+    function hideProduk() {
+        $('#modal-produk').modal('hide');
+    }
+
+    function pilihProduk(id, code, name_product, harga_jual) {
+        $('#id_produk').val(id);
+        $('#code').val(code);
+        $('#name_product').val(name_product);
+        $('#harga_jual').val(harga_jual);
+        $('#qty').val(1);
+        hideProduk();
+    }
+
+  </script>
+
+
+  
   <script>
     $('button#delete').on('click', function(e){
       e.preventDefault();

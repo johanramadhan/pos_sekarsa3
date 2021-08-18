@@ -14,16 +14,18 @@ class CreateTransactionsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id_transaction');
 
             $table->integer('users_id');
-            $table->string('code');
-            $table->Biginteger('insurance_price');
-            $table->Biginteger('shipping_price');
-            $table->Biginteger('total_price');
-            $table->string('transaction_status');
-
-            $table->softDeletes();
+            $table->string('code')->nullable();
+            $table->string('transaction_status')->nullable();
+            $table->integer('id_member')->nullable();
+            $table->integer('total_item');
+            $table->integer('total_harga');
+            $table->tinyInteger('diskon')->default(0);
+            $table->integer('bayar')->default(0);
+            $table->integer('diterima')->default(0);
+            
             $table->timestamps();
         });
     }

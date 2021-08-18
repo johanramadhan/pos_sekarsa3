@@ -347,19 +347,6 @@
 
   <script>
     $(function () {
-      // Summernote
-      $('#summernote').summernote()
-
-      // CodeMirror
-      CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-        mode: "htmlmixed",
-        theme: "monokai"
-      });
-    })
-  </script>
-
-  <script>
-    $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]

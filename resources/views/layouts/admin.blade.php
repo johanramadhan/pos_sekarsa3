@@ -15,7 +15,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   @stack('addon-style')
 </head>
-<body class="hold-transition sidebar-mini {{ (request()->is('admin/data-transaction/transaction')) ? 'sidebar-collapse' : '' }} layout-navbar-fixed layout-fixed">
+<body class="hold-transition sidebar-mini {{ (request()->is('admin/data-transaction/transaction-detail')) ? 'sidebar-collapse' : '' }} layout-navbar-fixed layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->

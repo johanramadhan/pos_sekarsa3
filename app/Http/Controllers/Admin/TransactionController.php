@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Produk;
 use App\Transaction;
+use App\User;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -16,9 +18,13 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::all();  
+        $produk = Produk::orderBy('name_product')->get();
+        $user = User::orderBy('name')->get();
 
         return view('pages.admin.transaction.index', [
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'produk' => $produk,
+            'user' => $user,
         ]);
     }
 
@@ -29,7 +35,19 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        $penjualan = new Transaction();
+        $penjualan->id_member = null;
+        $penjualan->transaction_status = "pending";
+        $penjualan->total_item = 0;
+        $penjualan->total_harga = 0;
+        $penjualan->diskon = 0;
+        $penjualan->bayar = 0;
+        $penjualan->diterima = 0;
+        $penjualan->users_id = auth()->id();
+        $penjualan->save();
+
+        session(['id_transaction' => $penjualan->id_transaction]);
+        return redirect()->route('transaction-detail.index');
     }
 
     /**

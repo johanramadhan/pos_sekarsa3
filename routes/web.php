@@ -27,6 +27,7 @@ Route::get('/register/success', 'Auth\RegisterController@success')->name('regist
 
 Route::prefix('admin')
     ->namespace('Admin')
+    ->middleware(['auth', 'admin'])
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
         
@@ -47,6 +48,13 @@ Route::prefix('admin')
         Route::resource('data-transaction/pembelian_detail', 'PembelianDetailController');
 
         Route::resource('data-transaction/transaction', 'TransactionController');
+
+        Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
+
+        Route::get('/penjualan_detail/{id}/data', 'TransactionDetailController@data')->name('data_transaksi');
+
+
+
 
         Route::resource('data-proposal/pengajuan', 'ProposalController');
         Route::resource('data-proposal/proposal-galleries', 'ProposalGalleryController');
