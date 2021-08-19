@@ -13,6 +13,6 @@ class TransactionDetail extends Model
 
     public function produk()
     {
-        return $this->hasOne(Produk::class, 'id_produk', 'id_produk');
+        return $this->hasOne(Produk::class, 'id_produk', 'products_id');
     }
 }

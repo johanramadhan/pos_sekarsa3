@@ -109,7 +109,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Qty</label>
                         <div class="col-sm-9">
-                          <input type="number" class="form-control" name="jumlah" id="qty" onkeyup="sum()" placeholder="Jumlah" min="1">
+                          <input type="number" class="form-control" name="jumlah" id="qty" onkeyup="sum()" placeholder="Jumlah">
                         </div>
                       </div>
                     </div>
@@ -127,7 +127,6 @@
                         <label class="col-sm-3 col-form-label">Harga</label>
                         <div class="col-sm-9">
                           <input type="text" class="form-control" name="harga_jual" id="harga_jual" onkeyup="sum()">
-                          <input type="text" class="form-control" id="subtotal">
                         </div>
                       </div>
                       <button type="submit" class="btn btn-success float-right"><i class="fa fa-shopping-cart"></i>Tambah</button>
@@ -147,15 +146,17 @@
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
+                  <table class="table table2 table-bordered table-striped">
                     <thead>
                       <tr>
                         <th>No</th>
                         <th>Code</th>
                         <th>Nama Item</th>
+                        <th>jumlah</th>
                         <th>Harga</th>
-                        <th>Discon / Item</th>
+                        <th>Discont / Item</th>
                         <th>Total</th>
+                        <th>Aksi</th>
                       </tr>
                     </thead>
                   </table>
@@ -172,12 +173,14 @@
   </div>
 
   @includeIf('pages.admin.transaction-detail.product')
+  @includeIf('pages.admin.transaction-detail.edit')
 
 @endsection
 
 @push('addon-script')
   <!-- Sweet alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
   @include('includes.admin.alerts')
   <!-- DataTables  & Plugins -->
   <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
@@ -216,13 +219,71 @@
   </script>
   
   <script>
+    let table, table1;
+
+    $(function () {
+      table = $('.table2').DataTable({
+        processing: true,
+        autoWidth: false,
+        ajax: {
+          url: '{{ route('transaction_detail.data', $transactions_id) }}',
+        },
+        columns: [
+          {data: 'DT_RowIndex', searchable:false, sortable:false},
+          {data: 'code'},
+          {data: 'name_product'},
+          {data: 'jumlah'},
+          {data: 'harga_jual'},
+          {data: 'diskon'},
+          {data: 'subtotal'},
+          {data: 'aksi', searchable:false, sortable:false},
+        ]
+      });
+
+      $('#modal-form').validator().on('submit', function (e) {
+          if (! e.preventDefault()) {
+              $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
+                  .done((response) => {
+                      $('#modal-form').modal('hide');
+                      table.ajax.reload();
+                  })
+                  .fail((errors) => {
+                      alert('Tidak dapat menyimpan data');
+                      return;
+                  });
+            }
+        });
+    });
+
+
     function sum() {
         var qty = document.getElementById('qty').value;
         var price = document.getElementById('harga_jual').value;
-        var result = parseInt(price) * parseInt(qty);
+        var result = parseInt(qty) * parseInt(price);
         if (!isNaN(result)) {
             document.getElementById('subtotal').value = result;
         }
+    }
+
+    function editForm(url) {
+        $('#modal-form').modal('show');
+        $('#modal-form .modal-title').text('Edit Produk');
+
+        $('#modal-form form')[0].reset();
+        $('#modal-form form').attr('action', url);
+        $('#modal-form [name=_method]').val('put');
+        $('#modal-form [name=jumlah]').focus();
+
+        $.get(url)
+            .done((response) => {
+                $('#modal-form [name=code]').val(response.code);
+                $('#modal-form [name=name_product]').val(response.products_id);
+                $('#modal-form [name=jumlah]').val(response.jumlah);
+            })
+            .fail((errors) => {
+                alert('Tidak dapat menampilkan data');
+                return;
+            });
     }
 
     function tampilProduk() {

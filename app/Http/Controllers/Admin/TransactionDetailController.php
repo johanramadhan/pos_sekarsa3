@@ -38,42 +38,28 @@ class TransactionDetailController extends Controller
             ->where('transactions_id', $id)
             ->get();
 
-        $data = array();
-        $total = 0;
-        $total_item = 0;
-
-        foreach ($detail as $item) {
-            $row = array();
-            $row['kode_produk'] = '<span class="label label-success">'. $item->produk['kode_produk'] .'</span';
-            $row['nama_produk'] = $item->produk['nama_produk'];
-            $row['harga_jual']  = 'Rp. '. format_uang($item->harga_jual);
-            $row['jumlah']      = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_penjualan_detail .'" value="'. $item->jumlah .'">';
-            $row['diskon']      = $item->diskon . '%';
-            $row['subtotal']    = 'Rp. '. format_uang($item->subtotal);
-            $row['aksi']        = '<div class="btn-group">
-                                    <button onclick="deleteData(`'. route('transaksi.destroy', $item->id_penjualan_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
-                                </div>';
-            $data[] = $row;
-
-            $total += $item->harga_jual * $item->jumlah;
-            $total_item += $item->jumlah;
-        }
-        $data[] = [
-            'kode_produk' => '
-                <div class="total hide">'. $total .'</div>
-                <div class="total_item hide">'. $total_item .'</div>',
-            'nama_produk' => '',
-            'harga_jual'  => '',
-            'jumlah'      => '',
-            'diskon'      => '',
-            'subtotal'    => '',
-            'aksi'        => '',
-        ];
 
         return datatables()
-            ->of($data)
+            ->of($detail)
             ->addIndexColumn()
-            ->rawColumns(['aksi', 'kode_produk', 'jumlah'])
+            ->addColumn('name_product', function ($detail) {
+                return $detail->produk['name_product'];
+            })
+            ->addColumn('harga_jual', function ($detail) {
+                return 'Rp'.format_uang($detail->harga_jual);
+            })
+            ->addColumn('subtotal', function ($detail) {
+                return 'Rp'.format_uang($detail->subtotal);
+            })
+            ->addColumn('aksi', function ($detail) {
+                return '
+                    <button onclick="editForm(`'. route('transaction-detail.update', $detail->id_transaction_detail) .'`)" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></button>
+
+                    <button onclick="deleteData(`'. route('transaction-detail.destroy', $detail->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                ';
+            })
+
+            ->rawColumns(['aksi'])
             ->make(true);
     }
 
@@ -95,11 +81,11 @@ class TransactionDetailController extends Controller
      */
     public function store(Request $request)
     {
-        $produk = Produk::where('id_produk', $request->id_produk)->first();
+        $produk = Produk::where('id_produk', $request->products_id)->first();
                 
         $data = $request->all();
         $data['diskon'] = 0;
-        $data['subtotal'] = $request->harga_jual;
+        $data['subtotal'] = $produk->harga_jual * $request->jumlah;
 
         TransactionDetail::create($data);
 
@@ -115,7 +101,9 @@ class TransactionDetailController extends Controller
      */
     public function show($id)
     {
-        //
+        $transaction_detail = TransactionDetail::find($id);
+
+        return response()->json($transaction_detail);
     }
 
     /**
@@ -126,7 +114,7 @@ class TransactionDetailController extends Controller
      */
     public function edit($id)
     {
-        //
+        
     }
 
     /**
@@ -149,6 +137,9 @@ class TransactionDetailController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $detail = TransactionDetail::find($id);
+        $detail->delete();
+
+        return response(null, 204);
     }
 }
