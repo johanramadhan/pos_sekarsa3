@@ -53,7 +53,7 @@ class TransactionDetailController extends Controller
             })
             ->addColumn('aksi', function ($detail) {
                 return '
-                    <button onclick="editForm(`'. route('transaction-detail.update', $detail->id_transaction_detail) .'`)" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></button>
+                    <button onclick="editForm(`'. route('transaction-detail.edit', $detail->id_transaction_detail, $detail->produk->name_product) .'`)" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></button>
 
                     <button onclick="deleteData(`'. route('transaction-detail.destroy', $detail->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                 ';
@@ -101,9 +101,7 @@ class TransactionDetailController extends Controller
      */
     public function show($id)
     {
-        $transaction_detail = TransactionDetail::find($id);
-
-        return response()->json($transaction_detail);
+        
     }
 
     /**
@@ -114,7 +112,9 @@ class TransactionDetailController extends Controller
      */
     public function edit($id)
     {
-        
+        $transaction_detail = TransactionDetail::find($id);
+
+        return response()->json($transaction_detail);
     }
 
     /**
@@ -126,7 +126,7 @@ class TransactionDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**

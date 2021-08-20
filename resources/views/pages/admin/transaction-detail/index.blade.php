@@ -126,7 +126,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Harga</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" name="harga_jual" id="harga_jual" onkeyup="sum()">
+                          <input type="text" class="form-control" name="harga_jual" id="harga_jual" readonly>
                         </div>
                       </div>
                       <button type="submit" class="btn btn-success float-right"><i class="fa fa-shopping-cart"></i>Tambah</button>
@@ -255,15 +255,15 @@
         });
     });
 
-
-    function sum() {
-        var qty = document.getElementById('qty').value;
-        var price = document.getElementById('harga_jual').value;
-        var result = parseInt(qty) * parseInt(price);
-        if (!isNaN(result)) {
-            document.getElementById('subtotal').value = result;
-        }
-    }
+    // function sum() {
+    //     var jumlah = document.getElementById('jumlah').value;
+    //     var price = document.getElementById('harga_jual').value;
+    //     var diskon = document.getElementById('diskon').value;
+    //     var result = parseInt(jumlah) * parseInt(price) * parseInt(diskon)/100;
+    //     if (!isNaN(result)) {
+    //         document.getElementById('subtotal').value = result;
+    //     }
+    // }
 
     function editForm(url) {
         $('#modal-form').modal('show');
@@ -277,8 +277,10 @@
         $.get(url)
             .done((response) => {
                 $('#modal-form [name=code]').val(response.code);
-                $('#modal-form [name=name_product]').val(response.products_id);
                 $('#modal-form [name=jumlah]').val(response.jumlah);
+                $('#modal-form [name=harga_jual]').val(response.harga_jual);
+                $('#modal-form [name=subtotal]').val(response.subtotal);
+                $('#modal-form [name=diskon]').val(response.diskon);
             })
             .fail((errors) => {
                 alert('Tidak dapat menampilkan data');
@@ -302,6 +304,24 @@
         $('#qty').val(1);
         hideProduk();
     }
+
+    function deleteData(url) {
+      if (confirm('Yakin ingin menghapus data terpilih?')) {
+        $.post(url, {
+            '_token': $('[name=csrf-token]').attr('content'),
+            '_method': 'delete'
+          })
+          .done((response) => {
+              table.ajax.reload();
+          })
+          .fail((errors) => {
+              alert('Tidak dapat menghapus data');
+              return;
+          });
+      }
+    }
+
+    
 
   </script>
 
