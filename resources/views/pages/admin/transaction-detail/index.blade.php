@@ -11,6 +11,20 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <style>
+    .tampil-bayar {
+        font-size: 4em;
+        text-align: center;
+    }
+
+    .tampil-terbilang {
+        padding: 10px;
+        background: #f0f0f0;
+    }
+    .table-penjualan tbody tr:last-child {
+        display: none;
+    }
+  </style>
 @endpush
 
 @section('content')
@@ -48,9 +62,8 @@
                   <div class="col-6">
                     <h1>Total (Rp)</h1>
                   </div>
-                  <div class="col-6 text-right">
-                    <h1>125.000.000</h1>
-                  </div>
+                  <div class="col-6 text-right tampil-bayar">Rp1.000.000</div>
+                  <div class="col-12 text-right tampil-terbilang">Satu Juta Rupiah</div>
                 </div>
               </div>
             </div>
@@ -142,21 +155,21 @@
         <!-- /.row -->
 
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-lg-8">
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table table2 table-bordered table-striped">
+                  <table class="table table-penjualan table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>No</th>
-                        <th>Code</th>
-                        <th>Nama Item</th>
-                        <th>jumlah</th>
-                        <th>Harga</th>
-                        <th>Discont / Item</th>
-                        <th>Total</th>
-                        <th>Aksi</th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Code</th>
+                        <th class="text-center">Nama Item</th>
+                        <th class="text-center">jumlah</th>
+                        <th class="text-center">Harga</th>
+                        <th class="text-center">Discont / Item</th>
+                        <th class="text-center">Total</th>
+                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                   </table>
@@ -164,6 +177,47 @@
               </div>
             </div>
           </div>
+
+          <div class="col-lg-4">
+            <form action="{{ route('transaction.store') }}" class="form-penjualan" method="post">
+              @csrf
+              <input type="text" name="transactions_id" value="{{ $transactions_id }}">
+              <input type="text" name="total" id="total">
+              <input type="text" name="total_item" id="total_item">
+              <input type="text" name="bayar" id="bayar">
+
+              <div class="card">
+                <div class="card-body">
+                  {{-- Total Penjualan --}}
+                  <div class="form-group row">
+                    <label for="totalrp" class="col-lg-2 control-label">Total</label>
+                    <div class="col-lg-10">
+                        <input type="text" id="totalrp" class="form-control" readonly>
+                    </div>
+                  </div>
+                  {{-- Diskon Penjualan --}}
+                  <div class="form-group row">
+                    <label for="diskon" class="col-lg-2 control-label">Diskon</label>
+                    <div class="col-lg-10">
+                        <input type="number" name="diskon" id="diskon" class="form-control" value="{{ $diskon }}">
+                    </div>
+                  </div>
+                  {{-- Bayar --}}
+                  <div class="form-group row">
+                    <label for="bayar" class="col-lg-2 control-label">Bayar</label>
+                    <div class="col-lg-10">
+                        <input type="text" id="pembayaran" class="form-control">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary btn-md float-right btn-simpan"><i class="fa fa-save"></i> Simpan Transaksi</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
         </div>
 
 
@@ -173,7 +227,7 @@
   </div>
 
   @includeIf('pages.admin.transaction-detail.product')
-  @includeIf('pages.admin.transaction-detail.edit')
+  {{-- @includeIf('pages.admin.transaction-detail.edit') --}}
 
 @endsection
 
@@ -222,38 +276,85 @@
     let table, table1;
 
     $(function () {
-      table = $('.table2').DataTable({
+      table = $('.table-penjualan').DataTable({
         processing: true,
         autoWidth: false,
+        dom: 'Brt',
+        bSort: false,
         ajax: {
           url: '{{ route('transaction_detail.data', $transactions_id) }}',
         },
         columns: [
           {data: 'DT_RowIndex', searchable:false, sortable:false},
-          {data: 'code'},
+          {data: 'code_product'},
           {data: 'name_product'},
           {data: 'jumlah'},
           {data: 'harga_jual'},
           {data: 'diskon'},
           {data: 'subtotal'},
           {data: 'aksi', searchable:false, sortable:false},
-        ]
+        ]        
+      })
+      .on('draw.dt', function () {
+          loadForm($('#diskon').val());
+      });
+        
+
+      table1 = $('.table-produk').DataTable();
+
+      $(document).on('input', '.quantity', function () {
+            let id = $(this).data('id');
+            let jumlah = parseInt($(this).val());
+
+            if (jumlah < 1) {
+                $(this).val(1);
+                alert('Jumlah tidak boleh kurang dari 1');
+                return;
+            }
+            if (jumlah > 10000) {
+                $(this).val(10000);
+                alert('Jumlah tidak boleh lebih dari 10000');
+                return;
+            }
+
+            $.post(`{{ url('/admin/data-transaction/transaction-detail') }}/${id}`, {
+                    '_token': $('[name=csrf-token]').attr('content'),
+                    '_method': 'put',
+                    'jumlah': jumlah
+                })
+                .done(response => {
+                    $(this).on('mouseout', function () {
+                        table.ajax.reload(() => loadForm($('#diskon').val()));
+                    });
+                })
+                .fail(errors => {
+                    alert('Tidak dapat menyimpan data');
+                    return;
+                });
+      });
+
+      $(document).on('input', '#diskon', function () {
+          if ($(this).val() == "") {
+              $(this).val(0).select();
+          }
+
+          loadForm($(this).val());
       });
 
       $('#modal-form').validator().on('submit', function (e) {
           if (! e.preventDefault()) {
               $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
-                  .done((response) => {
-                      $('#modal-form').modal('hide');
-                      table.ajax.reload();
-                  })
-                  .fail((errors) => {
-                      alert('Tidak dapat menyimpan data');
-                      return;
-                  });
+                .done((response) => {
+                    $('#modal-form').modal('hide');
+                    table.ajax.reload();
+                })
+                .fail((errors) => {
+                    alert('Tidak dapat menyimpan data');
+                    return;
+                });
             }
         });
-    });
+      });
 
     // function sum() {
     //     var jumlah = document.getElementById('jumlah').value;
@@ -265,28 +366,28 @@
     //     }
     // }
 
-    function editForm(url) {
-        $('#modal-form').modal('show');
-        $('#modal-form .modal-title').text('Edit Produk');
+    // function editForm(url) {
+    //     $('#modal-form').modal('show');
+    //     $('#modal-form .modal-title').text('Edit Produk');
 
-        $('#modal-form form')[0].reset();
-        $('#modal-form form').attr('action', url);
-        $('#modal-form [name=_method]').val('put');
-        $('#modal-form [name=jumlah]').focus();
+    //     $('#modal-form form')[0].reset();
+    //     $('#modal-form form').attr('action', url);
+    //     $('#modal-form [name=_method]').val('put');
+    //     $('#modal-form [name=jumlah]').focus();
 
-        $.get(url)
-            .done((response) => {
-                $('#modal-form [name=code]').val(response.code);
-                $('#modal-form [name=jumlah]').val(response.jumlah);
-                $('#modal-form [name=harga_jual]').val(response.harga_jual);
-                $('#modal-form [name=subtotal]').val(response.subtotal);
-                $('#modal-form [name=diskon]').val(response.diskon);
-            })
-            .fail((errors) => {
-                alert('Tidak dapat menampilkan data');
-                return;
-            });
-    }
+    //     $.get(url)
+    //         .done((response) => {
+    //             $('#modal-form [name=code]').val(response.code);
+    //             $('#modal-form [name=jumlah]').val(response.jumlah);
+    //             $('#modal-form [name=harga_jual]').val(response.harga_jual);
+    //             $('#modal-form [name=subtotal]').val(response.subtotal);
+    //             $('#modal-form [name=diskon]').val(response.diskon);
+    //         })
+    //         .fail((errors) => {
+    //             alert('Tidak dapat menampilkan data');
+    //             return;
+    //         });
+    // }
 
     function tampilProduk() {
         $('#modal-produk').modal('show');
@@ -321,7 +422,25 @@
       }
     }
 
-    
+    function loadForm(diskon = 0) {
+        $('#total').val($('.total').text());
+        $('#total_item').val($('.total_item').text());
+
+        $.get(`{{ url('/data-transaction/transaction-detail/loadform') }}/${diskon}/${$('.total').text()}`)
+            .done(response => {
+                $('#totalrp').val('Rp. '+ response.totalrp);
+                $('#pembayaran').val('Rp. '+ response.pembayaran);
+                $('#bayar').val(response.bayar);
+                $('.tampil-bayar').text('Rp. '+ response.pembayaran);
+                $('.tampil-terbilang').text(response.terbilang);
+            })
+            .fail(errors => {
+                alert('Tidak dapat menampilkan data2');
+                return;
+            })
+    }
+
+       
 
   </script>
 

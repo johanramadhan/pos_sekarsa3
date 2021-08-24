@@ -8,6 +8,7 @@ use App\Transaction;
 use App\TransactionDetail;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class TransactionDetailController extends Controller
 {
@@ -22,12 +23,14 @@ class TransactionDetailController extends Controller
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
         $transactions_id = session('id_transaction');
+        $diskon = Transaction::find($transactions_id)->diskon ?? 0;
 
         return view('pages.admin.transaction-detail.index', [
             'transactions' => $transactions,
             'produk' => $produk,
             'user' => $user,
             'transactions_id' => $transactions_id,
+            'diskon' => $diskon,
         ]);
         
     }
@@ -37,29 +40,41 @@ class TransactionDetailController extends Controller
         $detail = TransactionDetail::with('produk')
             ->where('transactions_id', $id)
             ->get();
+        $data = array();
+        $total = 0;
+        $total_item = 0;
 
+        foreach($detail as $item) {
+            $row = array();
+            $row['code_product'] = $item->produk['code'];
+            $row['name_product'] = $item ->produk['name_product'];
+            $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_transaction_detail .'" value="'. $item->jumlah .'">';
+            $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
+            $row['diskon'] = $item -> diskon;
+            $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
+            $row['aksi'] = '<button onclick="deleteData(`'. route('transaction-detail.destroy', $item->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
+
+            $data[] = $row;
+
+            $total += $item->harga_jual * $item->jumlah;
+            $total_item += $item->jumlah;
+        }
+        $data[] = [
+            'code_product' => '
+                <div class="total d-none">'. $total .'</div>
+                <div class="total_item d-none">'. $total_item .'</div>',
+            'name_product' => '',
+            'jumlah'      => '',
+            'harga_jual'  => '',
+            'diskon'  => '',
+            'subtotal'    => '',
+            'aksi'        => '',
+        ];
 
         return datatables()
-            ->of($detail)
+            ->of($data)
             ->addIndexColumn()
-            ->addColumn('name_product', function ($detail) {
-                return $detail->produk['name_product'];
-            })
-            ->addColumn('harga_jual', function ($detail) {
-                return 'Rp'.format_uang($detail->harga_jual);
-            })
-            ->addColumn('subtotal', function ($detail) {
-                return 'Rp'.format_uang($detail->subtotal);
-            })
-            ->addColumn('aksi', function ($detail) {
-                return '
-                    <button onclick="editForm(`'. route('transaction-detail.edit', $detail->id_transaction_detail, $detail->produk->name_product) .'`)" class="btn btn-xs btn-info"><i class="fa fa-edit"></i></button>
-
-                    <button onclick="deleteData(`'. route('transaction-detail.destroy', $detail->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
-                ';
-            })
-
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi', 'code_product', 'jumlah'])
             ->make(true);
     }
 
@@ -126,7 +141,10 @@ class TransactionDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $detail = TransactionDetail::find($id);
+        $detail->jumlah = $request->jumlah;
+        $detail->subtotal = $detail->harga_jual * $request->jumlah;
+        $detail->update();
     }
 
     /**
@@ -141,5 +159,18 @@ class TransactionDetailController extends Controller
         $detail->delete();
 
         return response(null, 204);
+    }
+
+    public function loadForm($diskon, $total)
+    {
+        $bayar = $total - ($diskon / 100 * $total);
+        $data  = [
+            'totalrp' => format_uang($total),
+            'bayar' => $bayar,
+            'bayarrp' => format_uang($bayar),
+            'terbilang' => ucwords(terbilang($bayar). ' Rupiah')
+        ];
+
+        return response()->json($data);
     }
 }

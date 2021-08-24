@@ -50,6 +50,7 @@ Route::prefix('admin')
         Route::resource('data-transaction/transaction', 'TransactionController');
 
         Route::get('data-transaction/transaction-detail/{id}/data', 'TransactionDetailController@data')->name('transaction_detail.data');
+        Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
         Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
 
         Route::get('/penjualan_detail/{id}/data', 'TransactionDetailController@data')->name('data_transaksi');
