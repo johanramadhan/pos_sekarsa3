@@ -63,7 +63,7 @@
                     <h1>Total (Rp)</h1>
                   </div>
                   <div class="col-6 text-right tampil-bayar">Rp1.000.000</div>
-                  <div class="col-12 text-right tampil-terbilang">Satu Juta Rupiah</div>
+                  <div class="col-12 text-right tampil-terbilang"></div>
                 </div>
               </div>
             </div>
@@ -181,10 +181,10 @@
           <div class="col-lg-4">
             <form action="{{ route('transaction.store') }}" class="form-penjualan" method="post">
               @csrf
-              <input type="text" name="transactions_id" value="{{ $transactions_id }}">
-              <input type="text" name="total" id="total">
-              <input type="text" name="total_item" id="total_item">
-              <input type="text" name="bayar" id="bayar">
+              <input type="hidden" name="transactions_id" value="{{ $transactions_id }}">
+              <input type="hidden" name="total" id="total">
+              <input type="hidden" name="total_item" id="total_item">
+              <input type="hidden" name="bayar" id="bayar">
 
               <div class="card">
                 <div class="card-body">
@@ -206,14 +206,11 @@
                   <div class="form-group row">
                     <label for="bayar" class="col-lg-2 control-label">Bayar</label>
                     <div class="col-lg-10">
-                        <input type="text" id="pembayaran" class="form-control">
+                        <input type="text" id="bayarrp" class="form-control">
                     </div>
                   </div>
                 </div>
-
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary btn-md float-right btn-simpan"><i class="fa fa-save"></i> Simpan Transaksi</button>
-                </div>
+                <button type="submit" class="btn btn-primary btn-md float-right btn-simpan"><i class="fa fa-save"></i> Simpan Transaksi</button>
               </div>
             </form>
           </div>
@@ -341,6 +338,10 @@
           loadForm($(this).val());
       });
 
+      $('.btn-simpan').on('click', function () {
+            $('.form-penjualan').submit();
+        });
+
       $('#modal-form').validator().on('submit', function (e) {
           if (! e.preventDefault()) {
               $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
@@ -356,40 +357,7 @@
         });
       });
 
-    // function sum() {
-    //     var jumlah = document.getElementById('jumlah').value;
-    //     var price = document.getElementById('harga_jual').value;
-    //     var diskon = document.getElementById('diskon').value;
-    //     var result = parseInt(jumlah) * parseInt(price) * parseInt(diskon)/100;
-    //     if (!isNaN(result)) {
-    //         document.getElementById('subtotal').value = result;
-    //     }
-    // }
-
-    // function editForm(url) {
-    //     $('#modal-form').modal('show');
-    //     $('#modal-form .modal-title').text('Edit Produk');
-
-    //     $('#modal-form form')[0].reset();
-    //     $('#modal-form form').attr('action', url);
-    //     $('#modal-form [name=_method]').val('put');
-    //     $('#modal-form [name=jumlah]').focus();
-
-    //     $.get(url)
-    //         .done((response) => {
-    //             $('#modal-form [name=code]').val(response.code);
-    //             $('#modal-form [name=jumlah]').val(response.jumlah);
-    //             $('#modal-form [name=harga_jual]').val(response.harga_jual);
-    //             $('#modal-form [name=subtotal]').val(response.subtotal);
-    //             $('#modal-form [name=diskon]').val(response.diskon);
-    //         })
-    //         .fail((errors) => {
-    //             alert('Tidak dapat menampilkan data');
-    //             return;
-    //         });
-    // }
-
-    function tampilProduk() {
+      function tampilProduk() {
         $('#modal-produk').modal('show');
     }
 
@@ -426,12 +394,12 @@
         $('#total').val($('.total').text());
         $('#total_item').val($('.total_item').text());
 
-        $.get(`{{ url('/data-transaction/transaction-detail/loadform') }}/${diskon}/${$('.total').text()}`)
+        $.get(`{{ url('admin/data-transaction/transaction-detail/loadform') }}/${diskon}/${$('.total').text()}`)
             .done(response => {
                 $('#totalrp').val('Rp. '+ response.totalrp);
-                $('#pembayaran').val('Rp. '+ response.pembayaran);
+                $('#bayarrp').val('Rp. '+ response.bayarrp);
                 $('#bayar').val(response.bayar);
-                $('.tampil-bayar').text('Rp. '+ response.pembayaran);
+                $('.tampil-bayar').text('Rp. '+ response.bayarrp);
                 $('.tampil-terbilang').text(response.terbilang);
             })
             .fail(errors => {
@@ -440,7 +408,38 @@
             })
     }
 
-       
+    // function sum() {
+    //     var jumlah = document.getElementById('jumlah').value;
+    //     var price = document.getElementById('harga_jual').value;
+    //     var diskon = document.getElementById('diskon').value;
+    //     var result = parseInt(jumlah) * parseInt(price) * parseInt(diskon)/100;
+    //     if (!isNaN(result)) {
+    //         document.getElementById('subtotal').value = result;
+    //     }
+    // }
+
+    // function editForm(url) {
+    //     $('#modal-form').modal('show');
+    //     $('#modal-form .modal-title').text('Edit Produk');
+
+    //     $('#modal-form form')[0].reset();
+    //     $('#modal-form form').attr('action', url);
+    //     $('#modal-form [name=_method]').val('put');
+    //     $('#modal-form [name=jumlah]').focus();
+
+    //     $.get(url)
+    //         .done((response) => {
+    //             $('#modal-form [name=code]').val(response.code);
+    //             $('#modal-form [name=jumlah]').val(response.jumlah);
+    //             $('#modal-form [name=harga_jual]').val(response.harga_jual);
+    //             $('#modal-form [name=subtotal]').val(response.subtotal);
+    //             $('#modal-form [name=diskon]').val(response.diskon);
+    //         })
+    //         .fail((errors) => {
+    //             alert('Tidak dapat menampilkan data');
+    //             return;
+    //         });
+    // }       
 
   </script>
 

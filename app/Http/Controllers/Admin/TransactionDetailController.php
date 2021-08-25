@@ -50,7 +50,7 @@ class TransactionDetailController extends Controller
             $row['name_product'] = $item ->produk['name_product'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_transaction_detail .'" value="'. $item->jumlah .'">';
             $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
-            $row['diskon'] = $item -> diskon;
+            $row['diskon'] = $item ->produk['diskon'].'%';
             $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
             $row['aksi'] = '<button onclick="deleteData(`'. route('transaction-detail.destroy', $item->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
 

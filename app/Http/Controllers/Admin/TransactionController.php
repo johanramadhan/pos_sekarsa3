@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Produk;
 use App\Transaction;
+use App\TransactionDetail;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -58,7 +59,22 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $transaksi = Transaction::findOrFail($request->transactions_id);
+        $transaksi->total_item = $request->total_item;
+        $transaksi->total_harga = $request->total;
+        $transaksi->diskon = $request->diskon;
+        $transaksi->bayar = $request->bayar;
+        $transaksi->update();
+
+        $detail = TransactionDetail::where('transactions_id', $transaksi->id_transaction)->get();
+        return $detail;
+        foreach ($detail as $item) {
+            $produk = Produk::find($item->id_produk);
+            $produk->stok -= $item->jumlah;
+            $produk->update();
+        }
+
+        return redirect()->route('dashboard-admin');
     }
 
     /**

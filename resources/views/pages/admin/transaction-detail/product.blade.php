@@ -13,6 +13,7 @@
                     <th width="5%">No</th>
                     <th>Kode</th>
                     <th>Nama</th>
+                    <th>Diskon</th>
                     <th>Harga Jual</th>
                     <th><i class="fa fa-cog"></i></th>
                 </thead>
@@ -23,6 +24,7 @@
                       <td><span class="badge badge-success">{{ $item->code }}</span></td>
                       <td>{{ $item->name_product }}</td>
                       <td>{{ format_uang($item->harga_jual) }}</td>
+                      <td>{{ $item->diskon }}%</td>
                       <td>
                         <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->code }}', '{{ $item->name_product }}', '{{ $item->harga_jual }}')" data-dismiss="modal">
                           <i class="fa fa-check-circle"></i>
