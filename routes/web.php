@@ -47,6 +47,7 @@ Route::prefix('admin')
         Route::get('/pembelian_detail/{id}/data', 'PembelianDetailController@data')->name('data_pembelian');
         Route::resource('data-transaction/pembelian_detail', 'PembelianDetailController');
 
+        Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transaction.data');
         Route::resource('data-transaction/transaction', 'TransactionController');
 
         Route::get('data-transaction/transaction-detail/{id}/data', 'TransactionDetailController@data')->name('transaction_detail.data');
@@ -54,8 +55,6 @@ Route::prefix('admin')
         Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
 
         Route::get('/penjualan_detail/{id}/data', 'TransactionDetailController@data')->name('data_transaksi');
-
-
 
 
         Route::resource('data-proposal/pengajuan', 'ProposalController');

@@ -57,7 +57,7 @@
                 <hr>
                 <div class="row">
                   <div class="col-12 text-right">
-                    <h3>INVOICE <b>SKS1201197001</b></h3>
+                    <h3>INVOICE <b>{{ $codeTransaction }}</b></h3>
                   </div>
                   <div class="col-6">
                     <h1>Total (Rp)</h1>
@@ -113,7 +113,8 @@
                         <label class="col-sm-3 col-form-label">Pilih Produk</label>
                         <div class="col-sm-9 input-group">
                           <input type="hidden" class="form-control" name="products_id" id="id_produk">
-                          <input type="text" class="form-control" id="code" name="code" readonly>
+                          <input type="hidden" class="form-control" name="code" value="{{ $codeTransaction }}">
+                          <input type="text" class="form-control" id="code" readonly>
                           <span class="input-group-append">
                             <button onclick="tampilProduk()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                           </span>
@@ -122,7 +123,13 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Qty</label>
                         <div class="col-sm-9">
-                          <input type="number" class="form-control" name="jumlah" id="qty" onkeyup="sum()" placeholder="Jumlah">
+                          <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Jumlah">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Diskon</label>
+                        <div class="col-sm-9">
+                          <input type="number" class="form-control" name="diskon" id="diskon_product" placeholder="diskon" readonly>
                         </div>
                       </div>
                     </div>
@@ -163,7 +170,7 @@
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Code</th>
+                        <th class="text-center">Kode Penjualan</th>
                         <th class="text-center">Nama Item</th>
                         <th class="text-center">jumlah</th>
                         <th class="text-center">Harga</th>
@@ -365,11 +372,12 @@
         $('#modal-produk').modal('hide');
     }
 
-    function pilihProduk(id, code, name_product, harga_jual) {
+    function pilihProduk(id, code, name_product, harga_jual, diskon) {
         $('#id_produk').val(id);
         $('#code').val(code);
         $('#name_product').val(name_product);
         $('#harga_jual').val(harga_jual);
+        $('#diskon_product').val(diskon);
         $('#qty').val(1);
         hideProduk();
     }
@@ -442,9 +450,7 @@
     // }       
 
   </script>
-
-
-  
+    
   <script>
     $('button#delete').on('click', function(e){
       e.preventDefault();

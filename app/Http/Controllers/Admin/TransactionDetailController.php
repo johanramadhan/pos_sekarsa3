@@ -23,10 +23,12 @@ class TransactionDetailController extends Controller
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
         $transactions_id = session('id_transaction');
+        $codeTransaction = Transaction::find($transactions_id)->code ?? 0; 
         $diskon = Transaction::find($transactions_id)->diskon ?? 0;
 
         return view('pages.admin.transaction-detail.index', [
             'transactions' => $transactions,
+            'codeTransaction' => $codeTransaction,
             'produk' => $produk,
             'user' => $user,
             'transactions_id' => $transactions_id,
@@ -46,7 +48,7 @@ class TransactionDetailController extends Controller
 
         foreach($detail as $item) {
             $row = array();
-            $row['code_product'] = $item->produk['code'];
+            $row['code_product'] = $item->code;
             $row['name_product'] = $item ->produk['name_product'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_transaction_detail .'" value="'. $item->jumlah .'">';
             $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
@@ -99,7 +101,6 @@ class TransactionDetailController extends Controller
         $produk = Produk::where('id_produk', $request->products_id)->first();
                 
         $data = $request->all();
-        $data['diskon'] = 0;
         $data['subtotal'] = $produk->harga_jual * $request->jumlah;
 
         TransactionDetail::create($data);

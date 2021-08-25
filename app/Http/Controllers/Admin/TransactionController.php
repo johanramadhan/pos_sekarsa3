@@ -7,6 +7,7 @@ use App\Produk;
 use App\Transaction;
 use App\TransactionDetail;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -34,20 +35,77 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function data()
+    {
+        $transaction = Transaction::orderBy('id_transaction', 'desc')->get();
+
+        return datatables()
+            ->of($transaction)
+            ->addIndexColumn()
+            ->addColumn('code', function ($transaction) {
+                return $transaction->code;
+            })    
+            ->addColumn('tanggal', function ($transaction) {
+                return tanggal_indonesia($transaction->created_at, false);
+            })
+            ->editColumn('kasir', function ($transaction) {
+                return $transaction->user->name ?? '';
+            })
+            ->editColumn('member', function ($transaction) {
+                return $transaction->user->name ?? '';
+            }) 
+            ->addColumn('total_harga', function ($transaction) {
+                return 'Rp'. format_uang($transaction->total_harga);
+            }) 
+            ->editColumn('diskon', function ($transaction) {
+                return $transaction->diskon . '%';
+            })  
+            ->addColumn('bayar', function ($transaction) {
+                return 'Rp'. format_uang($transaction->bayar);
+            })    
+            ->addColumn('diterima', function ($transaction) {
+                return 'Rp'. format_uang($transaction->diterima);
+            })    
+            ->addColumn('aksi', function ($transaction) {
+                return '
+                <div class="btn-group">
+                    <button onclick="showDetail(`'. route('transaction.show', $transaction->id_transaction) .'`)" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                    <button onclick="deleteData(`'. route('transaction.destroy', $transaction->id_transaction) .'`)" class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
+                </div>
+                ';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+    }
+
+
     public function create()
     {
-        $penjualan = new Transaction();
-        $penjualan->id_member = null;
-        $penjualan->transaction_status = "pending";
-        $penjualan->total_item = 0;
-        $penjualan->total_harga = 0;
-        $penjualan->diskon = 0;
-        $penjualan->bayar = 0;
-        $penjualan->diterima = 0;
-        $penjualan->users_id = auth()->id();
-        $penjualan->save();
+        $tanggal = Carbon::now()->format('dmY');
+        $cek = Transaction::count();
+        if ($cek == 0) {
+            $urut = 100001;
+            $code = 'Penj-' . $tanggal . $urut;
+        } else {
+            $ambil = Transaction::all()->last();
+            $urut = (int)substr($ambil->code, -6) + 1;  
+            $code = 'Penj-' . $tanggal . $urut;      
+        }
 
-        session(['id_transaction' => $penjualan->id_transaction]);
+        $transaction = new Transaction();
+        $transaction->id_member = null;
+        $transaction->code = $code;
+        $transaction->transaction_status = "pending";
+        $transaction->total_item = 0;
+        $transaction->total_harga = 0;
+        $transaction->diskon = 0;
+        $transaction->bayar = 0;
+        $transaction->diterima = 0;
+        $transaction->users_id = auth()->id();
+        $transaction->save();
+
+        session(['id_transaction' => $transaction->id_transaction]);
         return redirect()->route('transaction-detail.index');
     }
 
@@ -67,14 +125,14 @@ class TransactionController extends Controller
         $transaksi->update();
 
         $detail = TransactionDetail::where('transactions_id', $transaksi->id_transaction)->get();
-        return $detail;
         foreach ($detail as $item) {
-            $produk = Produk::find($item->id_produk);
+            $produk = Produk::find($item->products_id);
             $produk->stok -= $item->jumlah;
             $produk->update();
         }
 
-        return redirect()->route('dashboard-admin');
+        return redirect()->route('transaction.index')
+        ->with('success', 'Data transaksi penjualan berhasil ditambahkan');
     }
 
     /**
@@ -85,7 +143,30 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        $detail = TransactionDetail::with('produk')->where('transactions_id', $id)->get();
+
+        return datatables()
+        ->of($detail)
+        ->addIndexColumn()
+            ->addColumn('code', function ($detail) {
+                return $detail->code;
+            })    
+            ->addColumn('nama_produk', function ($detail) {
+                return $detail->produk->name_product;
+            })    
+            ->addColumn('tanggal', function ($detail) {
+                return tanggal_indonesia($detail->created_at, false);
+            }) 
+            ->addColumn('harga_jual', function ($detail) {
+                return 'Rp'. format_uang($detail->harga_jual);
+            }) 
+            ->editColumn('diskon', function ($detail) {
+                return $detail->diskon . '%';
+            })  
+            ->addColumn('subtotal', function ($detail) {
+                return 'Rp'. format_uang($detail->subtotal);
+            })  
+            ->make(true);
     }
 
     /**
@@ -119,6 +200,20 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $transaction = Transaction::find($id);
+        $detail      = TransactionDetail::where('transactions_id', $transaction->id_transaction)->get();
+        foreach ($detail as $item) {
+            $produk = Produk::find($item->products_id);
+            if ($produk) {
+                $produk->stok += $item->jumlah;
+                $produk->update();
+            }
+            $item->delete();
+        }
+
+        $transaction->delete();
+
+        return response(null, 204);
+    
     }
 }

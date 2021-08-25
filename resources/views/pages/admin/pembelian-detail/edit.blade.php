@@ -1,85 +1,51 @@
-@extends('layouts.admin')
-
-@section('title')
-    Edit Kategori Aset
-@endsection
-
-@section('content')
-  <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-            <h1 class="m-0">Edit Kategori</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Edit Data Kategori</li>
-            </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Edit Kategori</h3>
-              </div>
-              <!-- /.card-header -->
-              <form action="{{ route('category.update', $item->id) }}" method="POST" enctype="multipart/form-data">
-                @method('PUT')
-                @csrf
-                <div class="card-body">
-                  <div class="form-group">
-                    <label>Nama Kategori</label>
-                    <input
-                      type="text"
-                      name="name"
-                      class="form-control"
-                      value="{{ $item->name }}"
-                      required
-                    />
-                  </div>
-                  <!-- /.Nama Kategori -->             
-                  <div class="form-group">
-                    <label>Icon</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input
-                          type="file"
-                          class="custom-file-input"
-                          name="photo"
-                          
-                        />
-                        <label
-                          class="custom-file-label"
-                          for="exampleInputFile"
-                          >Kosongkan jika tidak ingin mengganti icon</label
-                        >
-                      </div>
-                    </div>
-                  </div>
-                  <!-- /.Nama Icon -->  
-                </div>
-
-                <div class="card-footer text-right">
-                  <a href="{{ route('category.index') }}" class="btn btn-default">Kembali</a>
-                  <button type="submit" class="btn btn-primary">
-                    Edit
-                  </button>
-                </div>
-              </form>
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="">
+        <div class="modal-body">
+          <div class="form-group row">
+            <label for="code" class="col-sm-3 col-form-label">Code</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="code" id="code"  placeholder="Kode Transaksi" readonly>
             </div>
           </div>
+          <div class="form-group row">
+            <label for="jumlah" class="col-sm-3 col-form-label">Jumlah</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" name="jumlah" id="jumlah" onkeyup="sum()" placeholder="Jumlah">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="Harga Jual" class="col-sm-3 col-form-label">Harga Jual</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" name="harga_jual" id="harga_jual" onkeyup="sum()" placeholder="Harga Jual" readonly>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="Diskon" class="col-sm-3 col-form-label">Disc/potongan</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" name="diskon" id="diskon" onkeyup="sum()" placeholder="diskon">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="Subtotal" class="col-sm-3 col-form-label">Subtotal</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" name="subtotal" id="subtotal" onkeyup="sum()" placeholder="Subtotal" readonly>
+            </div>
+          </div>
+
         </div>
+      </form>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
-    </section>
+    </div>
   </div>
-@endsection
+</div>

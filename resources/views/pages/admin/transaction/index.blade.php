@@ -40,121 +40,24 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-body">
-                <hr>
-                <div class="row">
-                  <div class="col-12 text-right">
-                    <h3>INVOICE <b>SKS1201197001</b></h3>
-                  </div>
-                  <div class="col-6">
-                    <h1>Total (Rp)</h1>
-                  </div>
-                  <div class="col-6 text-right">
-                    <h1>125.000.000</h1>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <form class="form-horizontal" method="post">
-                @csrf
-                @method('post')
-
-                <div class="row">
-                  <div class="col-4">
-                    <div class="card-body">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Kasir</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" value="{{ Auth::user()->name }}" placeholder="Kasir" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Customer</label>
-                        <div class="col-sm-9">
-                          <select name="customer" class="form-control select2" required>
-                            <option>Umum</option>
-                            <option>Pegawai</option>
-                          </select> 
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Layanan</label>
-                        <div class="col-sm-9">
-                          <select name="layanan" class="form-control select2" required>
-                            <option>Produk</option>
-                            <option>Coffee</option>
-                            <option>Non Coffee</option>
-                            <option>Cemilan</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="card-body">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Pilih Produk</label>
-                        <div class="col-sm-9 input-group">
-                          <input type="hidden" class="form-control" name="products_id" id="id_produk">
-                          <input type="text" class="form-control" id="code" name="code" readonly>
-                          <span class="input-group-append">
-                            <button onclick="tampilProduk()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
-                          </span>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Qty</label>
-                        <div class="col-sm-9">
-                          <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Jumlah" min="1">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="card-body">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Nama</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" name="name_product" id="name_product" placeholder="Nama Produk" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Harga</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" name="harga_jual" id="harga_jual" disabled>
-                        </div>
-                      </div>
-                      <button type="submit" class="btn btn-success float-right"><i class="fa fa-shopping-cart"></i>Tambah</button>
-                    </div>
-                  </div>
-                </div>
-                <!-- /.card-body -->
-              </form>
-            </div><!-- /.card -->
-          </div>
-          <!-- /.col-md-6 -->
-        </div>
-        <!-- /.row -->
-
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body">
                 <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
+                  <table class="table table-penjualan table-bordered table-striped">
+                    <a href="{{ route('transaction.create') }}" class="btn btn-primary mb-2">
+                      + Transaksi Penjualan
+                    </a>
                     <thead>
                       <tr>
                         <th>No</th>
                         <th>Code</th>
-                        <th>Nama Item</th>
-                        <th>Harga</th>
-                        <th>Discon / Item</th>
-                        <th>Total</th>
+                        <th>Tanggal</th>
+                        <th>Kasir</th>
+                        <th>Member</th>
+                        <th>Total Item</th>
+                        <th>Total Harga</th>
+                        <th>Diskon</th>
+                        <th>Bayar</th>
+                        <th>Diterima</th>
+                        <th>Aksi</th>
                       </tr>
                     </thead>
                   </table>
@@ -163,14 +66,13 @@
             </div>
           </div>
         </div>
-
-
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>
 
   @includeIf('pages.admin.transaction.product')
+  @includeIf('pages.admin.transaction.detail')
 
 @endsection
 
@@ -183,67 +85,71 @@
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-
-  <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-          theme: 'bootstrap4'
-        })
-     })
-  </script>
-
-  <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      });
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
-  </script>
   
   <script>
-    function sum() {
-        var qty = document.getElementById('qty').value;
-        var price = document.getElementById('price').value;
-        var result = parseInt(price) * parseInt(qty);
-        if (!isNaN(result)) {
-            document.getElementById('total_price').value = result;
-        }
+    let table, table1;
+
+    $(function () {
+      table = $('.table-penjualan').DataTable({
+        processing: true,
+        autoWidth: false,
+        ajax: {
+          url: '{{ route('transaction.data') }}',
+        },
+        columns: [
+          {data: 'DT_RowIndex', searchable:false, sortable:false},
+          {data: 'code'},
+          {data: 'tanggal'},
+          {data: 'kasir'},
+          {data: 'member'},
+          {data: 'total_item'},
+          {data: 'total_harga'},
+          {data: 'diskon'},
+          {data: 'bayar'},
+          {data: 'diterima'},
+          {data: 'aksi', searchable:false, sortable:false},
+        ]        
+      });
+
+      table1 = $('.table-detail-penjualan').DataTable({
+        processing: true,
+          columns: [
+            {data: 'DT_RowIndex', searchable: false, sortable: false},
+            {data: 'code'},
+            {data: 'tanggal'},
+            {data: 'nama_produk'},
+            {data: 'harga_jual'},
+            {data: 'jumlah'},
+            {data: 'diskon'},
+            {data: 'subtotal'},
+        ]
+      });
+    });
+
+    function showDetail(url) {
+        $('#modal-detail').modal('show');
+
+        table1.ajax.url(url);
+        table1.ajax.reload();
     }
 
-    function tampilProduk() {
-        $('#modal-produk').modal('show');
-    }
-
-    function hideProduk() {
-        $('#modal-produk').modal('hide');
-    }
-
-    function pilihProduk(id, code, name_product, harga_jual) {
-        $('#id_produk').val(id);
-        $('#code').val(code);
-        $('#name_product').val(name_product);
-        $('#harga_jual').val(harga_jual);
-        $('#qty').val(1);
-        hideProduk();
+    function deleteData(url) {
+      if (confirm('Yakin ingin menghapus data terpilih?')) {
+        $.post(url, {
+            '_token': $('[name=csrf-token]').attr('content'),
+            '_method': 'delete'
+        })
+        .done((response) => {
+            table.ajax.reload();
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menghapus data');
+            return;
+        });
+      }
     }
 
   </script>
-
-
   
   <script>
     $('button#delete').on('click', function(e){
