@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Transaksi Penjualan
+    Transaksi Pembelian
 @endsection
 
 @push('addon-style')
@@ -20,12 +20,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Transaksi Penjualan</h1>
+            <h1 class="m-0">Transaksi Pembelian</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Transaksi Penjualan</li>
+                <li class="breadcrumb-item active">Transaksi Pembelian</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -41,22 +41,20 @@
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive">
-                  <table class="table table-penjualan table-bordered table-striped">
-                    <a href="{{ route('transaction.create') }}" class="btn btn-primary mb-2">
-                      + Transaksi Penjualan
+                  <table class="table table-pembelian table-bordered table-striped">
+                    <a href="{{ route('pembelian.create') }}" class="btn btn-primary mb-2">
+                      + Transaksi Pembelian
                     </a>
                     <thead>
                       <tr>
                         <th>No</th>
                         <th>Code</th>
-                        <th>Tanggal</th>
-                        <th>Kasir</th>
-                        <th>Member</th>
+                        <th>Tanggal Pembelian</th>
+                        <th>Supplier</th>
                         <th>Total Item</th>
                         <th>Total Harga</th>
                         <th>Diskon</th>
                         <th>Bayar</th>
-                        <th>Diterima</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -71,8 +69,8 @@
     <!-- /.content -->
   </div>
 
-  @includeIf('pages.admin.transaction.product')
-  @includeIf('pages.admin.transaction.detail')
+  @includeIf('pages.admin.pembelian.product')
+  @includeIf('pages.admin.pembelian.detail')
 
 @endsection
 
@@ -90,28 +88,26 @@
     let table, table1;
 
     $(function () {
-      table = $('.table-penjualan').DataTable({
+      table = $('.table-pembelian').DataTable({
         processing: true,
         autoWidth: false,
         ajax: {
-          url: '{{ route('transaction.data') }}',
+          url: '{{ route('pembelian.data') }}',
         },
         columns: [
           {data: 'DT_RowIndex', searchable:false, sortable:false},
           {data: 'code'},
           {data: 'tanggal'},
-          {data: 'kasir'},
-          {data: 'member'},
+          {data: 'supplier'},
           {data: 'total_item'},
           {data: 'total_harga'},
           {data: 'diskon'},
           {data: 'bayar'},
-          {data: 'diterima'},
           {data: 'aksi', searchable:false, sortable:false},
         ]        
       });
 
-      table1 = $('.table-detail-penjualan').DataTable({
+      table1 = $('.table-detail-pembelian').DataTable({
         processing: true,
           columns: [
             {data: 'DT_RowIndex', searchable: false, sortable: false},

@@ -41,20 +41,23 @@ Route::prefix('admin')
 
         Route::resource('data-product/produk', 'ProdukController');
 
+        // Pembelian
         Route::get('/pembelian/{id_pembelian}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');
+        Route::get('data-transaction/pembelian/data', 'PembelianController@data')->name('pembelian.data');
         Route::resource('data-transaction/pembelian', 'PembelianController');
 
+        // Pembelian-detail
         Route::get('/pembelian_detail/{id}/data', 'PembelianDetailController@data')->name('data_pembelian');
         Route::resource('data-transaction/pembelian_detail', 'PembelianDetailController');
 
+        // Penjualan
         Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transaction.data');
         Route::resource('data-transaction/transaction', 'TransactionController');
 
+        // Penjualan-detail
         Route::get('data-transaction/transaction-detail/{id}/data', 'TransactionDetailController@data')->name('transaction_detail.data');
         Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
         Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
-
-        Route::get('/penjualan_detail/{id}/data', 'TransactionDetailController@data')->name('data_transaksi');
 
 
         Route::resource('data-proposal/pengajuan', 'ProposalController');

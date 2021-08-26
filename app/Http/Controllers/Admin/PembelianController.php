@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Pembelian;
+use App\Produk;
 use App\Supplier;
+use App\Pembelian;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PembelianController extends Controller
 {
@@ -17,9 +20,13 @@ class PembelianController extends Controller
     public function index()
     {
         $suppliers = Supplier::orderBy('name')->get();  
+        $produk = Produk::orderBy('name_product')->get();
+        $user = User::orderBy('name')->get();
 
         return view('pages.admin.pembelian.index', [
-            'suppliers' => $suppliers
+            'suppliers' => $suppliers,
+            'produk' => $produk,
+            'user' => $user,
         ]);
     }
 
@@ -67,8 +74,31 @@ class PembelianController extends Controller
      */
     public function create()
     {
-        //
+        $tanggal = Carbon::now()->format('dmY');
+        $cek = Pembelian::count();
+        if ($cek == 0) {
+            $urut = 100001;
+            $code = 'Pemb-' . $tanggal . $urut;
+        } else {
+            $ambil = Pembelian::all()->last();
+            $urut = (int)substr($ambil->code, -6) + 1;  
+            $code = 'Pemb-' . $tanggal . $urut;      
+        }
+
+        $pembelian = new Pembelian();
+        $pembelian->code = $code;
+        $pembelian->users_id = auth()->id();
+        $pembelian->id_supplier = null;
+        $pembelian->total_item = 0;
+        $pembelian->total_harga = 0;
+        $pembelian->diskon = 0;
+        $pembelian->bayar = 0;
+        $pembelian->save();
+
+        session(['id_pembelian' => $pembelian->id_pembelian]);
+        return redirect()->route('pembelian-detail.index');
     }
+    
     public function tambah($id)
     {
         $pembelian = new Pembelian();
