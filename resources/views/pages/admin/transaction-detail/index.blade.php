@@ -280,6 +280,8 @@
     let table, table1;
 
     $(function () {
+      $('body').addClass('sidebar-collapse');
+      
       table = $('.table-penjualan').DataTable({
         processing: true,
         autoWidth: false,

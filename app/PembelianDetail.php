@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PembelianDetail extends Model
 {
      protected $fillable = [
-    'id_pembelian', 'id_prodct', 'harga_beli', 'jumlah', 'subtotal'
+    'code', 'id_pembelian', 'id_produk', 'harga_beli', 'jumlah', 'subtotal'
     ];
 
     protected $primaryKey = 'id_pembelian_detail';
@@ -23,6 +23,6 @@ class PembelianDetail extends Model
     
     public function produk()
     {
-        return $this->hasOne(Produk::class, 'id_produk', 'id_produk');
+        return $this->hasOne(Produk::class, 'id_produk', 'products_id');
     }
 }

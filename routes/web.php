@@ -42,12 +42,12 @@ Route::prefix('admin')
         Route::resource('data-product/produk', 'ProdukController');
 
         // Pembelian
-        Route::get('/pembelian/{id_pembelian}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');
+        Route::get('/pembelian/{id}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');
         Route::get('data-transaction/pembelian/data', 'PembelianController@data')->name('pembelian.data');
         Route::resource('data-transaction/pembelian', 'PembelianController');
 
         // Pembelian-detail
-        Route::get('/pembelian_detail/{id}/data', 'PembelianDetailController@data')->name('data_pembelian');
+        Route::get('data-transaction/pembelian_detail/{id}/data', 'PembelianDetailController@data')->name('pembelian_detail.data');
         Route::resource('data-transaction/pembelian_detail', 'PembelianDetailController');
 
         // Penjualan

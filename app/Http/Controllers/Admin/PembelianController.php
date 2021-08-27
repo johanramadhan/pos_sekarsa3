@@ -74,6 +74,11 @@ class PembelianController extends Controller
      */
     public function create()
     {
+        //
+    }
+    
+    public function tambah($id)
+    {
         $tanggal = Carbon::now()->format('dmY');
         $cek = Pembelian::count();
         if ($cek == 0) {
@@ -86,23 +91,9 @@ class PembelianController extends Controller
         }
 
         $pembelian = new Pembelian();
-        $pembelian->code = $code;
-        $pembelian->users_id = auth()->id();
-        $pembelian->id_supplier = null;
-        $pembelian->total_item = 0;
-        $pembelian->total_harga = 0;
-        $pembelian->diskon = 0;
-        $pembelian->bayar = 0;
-        $pembelian->save();
-
-        session(['id_pembelian' => $pembelian->id_pembelian]);
-        return redirect()->route('pembelian-detail.index');
-    }
-    
-    public function tambah($id)
-    {
-        $pembelian = new Pembelian();
-        $pembelian->id_supplier = $id;
+        $pembelian->code         = $code;
+        $pembelian->users_id     =  auth()->id();
+        $pembelian->id_supplier  = $id;
         $pembelian->total_item  = 0;
         $pembelian->total_harga = 0;
         $pembelian->diskon      = 0;

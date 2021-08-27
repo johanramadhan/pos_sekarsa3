@@ -22,6 +22,7 @@ class PembelianDetailController extends Controller
         $id_pembelian = session('id_pembelian');
         $produk = Produk::orderBy('name_product')->get();
         $supplier = Supplier::find(session('id_supplier'));
+        $codePembelian = Pembelian::find($id_pembelian)->code ?? 0;
         $diskon = Pembelian::find($id_pembelian)->diskon ?? 0;
 
         if (! $supplier) {
@@ -32,6 +33,7 @@ class PembelianDetailController extends Controller
             'id_pembelian' => $id_pembelian,
             'produk' => $produk,
             'supplier' => $supplier,
+            'codePembelian' => $codePembelian,
             'diskon' => $diskon,
         ]);
     }
@@ -88,9 +90,6 @@ class PembelianDetailController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    
-
-
     public function store(Request $request)
     {
         $produk = Produk::where('id_produk', $request->id_produk)->first();
@@ -98,15 +97,13 @@ class PembelianDetailController extends Controller
             return response()->json('Data gagal disimpan', 400);
         }
 
-        $detail = new PembelianDetail();
-        $detail->id_pembelian = $request->id_pembelian;
-        $detail->id_produk = $produk->id_produk;
-        $detail->harga_beli = $produk->harga_beli;
-        $detail->jumlah = 1;
-        $detail->subtotal = $produk->harga_beli;
-        $detail->save();
+        $data = $request->all();
+        $data['subtotal'] = $produk->harga_beli * $request->jumlah;
 
-        return response()->json('Data berhasil disimpan', 200);
+        PembelianDetail::create($data);
+
+        return redirect()->route('pembelian_detail.index')
+         ->with('success', 'Produk berhasil ditambahkan');
     }
 
     /**
