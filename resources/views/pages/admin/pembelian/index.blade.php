@@ -89,22 +89,22 @@
 
     $(function () {
       table = $('.table-pembelian').DataTable({
-        // processing: true,
-        // autoWidth: false,
-        // ajax: {
-        //   url: '{{ route('pembelian.data') }}',
-        // },
-        // columns: [
-        //   {data: 'DT_RowIndex', searchable:false, sortable:false},
-        //   {data: 'code'},
-        //   {data: 'tanggal'},
-        //   {data: 'supplier'},
-        //   {data: 'total_item'},
-        //   {data: 'total_harga'},
-        //   {data: 'diskon'},
-        //   {data: 'bayar'},
-        //   {data: 'aksi', searchable:false, sortable:false},
-        // ]        
+        processing: true,
+        autoWidth: false,
+        ajax: {
+          url: '{{ route('pembelian.data') }}',
+        },
+        columns: [
+          {data: 'DT_RowIndex', searchable:false, sortable:false},
+          {data: 'code'},
+          {data: 'tanggal'},
+          {data: 'supplier'},
+          {data: 'total_item'},
+          {data: 'total_harga'},
+          {data: 'diskon'},
+          {data: 'bayar'},
+          {data: 'aksi', searchable:false, sortable:false},
+        ]        
       });
       $('.table-supplier').DataTable();
 

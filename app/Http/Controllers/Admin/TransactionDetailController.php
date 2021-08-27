@@ -48,7 +48,7 @@ class TransactionDetailController extends Controller
 
         foreach($detail as $item) {
             $row = array();
-            $row['code_product'] = $item->code;
+            $row['code_product'] = $item->produk['code'];
             $row['name_product'] = $item ->produk['name_product'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_transaction_detail .'" value="'. $item->jumlah .'">';
             $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
@@ -58,7 +58,8 @@ class TransactionDetailController extends Controller
 
             $data[] = $row;
 
-            $total += $item->harga_jual * $item->jumlah;
+            $total += ($item->harga_jual - ($item->harga_jual * $item->diskon / 100)) * $item->jumlah;
+
             $total_item += $item->jumlah;
         }
         $data[] = [
@@ -101,7 +102,7 @@ class TransactionDetailController extends Controller
         $produk = Produk::where('id_produk', $request->products_id)->first();
                 
         $data = $request->all();
-        $data['subtotal'] = $produk->harga_jual * $request->jumlah;
+        $data['subtotal'] = ($produk->harga_jual - ($produk->harga_jual * $produk->diskon / 100)) * $request->jumlah;
 
         TransactionDetail::create($data);
 
@@ -144,7 +145,7 @@ class TransactionDetailController extends Controller
     {
         $detail = TransactionDetail::find($id);
         $detail->jumlah = $request->jumlah;
-        $detail->subtotal = $detail->harga_jual * $request->jumlah;
+        $detail->subtotal = ($detail->harga_jual - ($detail->harga_jual * $detail->diskon / 100)) * $request->jumlah;
         $detail->update();
     }
 

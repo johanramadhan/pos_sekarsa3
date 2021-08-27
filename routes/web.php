@@ -48,6 +48,7 @@ Route::prefix('admin')
 
         // Pembelian-detail
         Route::get('data-transaction/pembelian_detail/{id}/data', 'PembelianDetailController@data')->name('pembelian_detail.data');
+        Route::get('data-transaction/pembelian_detail/loadform/{diskon}/{total}', 'PembelianDetailController@loadForm')->name('pembelian_detail.load_form');
         Route::resource('data-transaction/pembelian_detail', 'PembelianDetailController');
 
         // Penjualan

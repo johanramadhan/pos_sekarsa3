@@ -42,30 +42,31 @@ class PembelianDetailController extends Controller
     {
         $detail = PembelianDetail::with('produk')
             ->where('id_pembelian', $id)
-            ->get();
-       
+            ->get();        
+
         return datatables()
             ->of($detail)
             ->addIndexColumn()
-            ->addColumn('name_product', function ($detail) {
-                return $detail->produk['name_product'];
+            ->addColumn('codeProduk', function ($detail) {
+                return $detail->produk->code;
             })
-            ->addColumn('code', function ($detail) {
-                return $detail->produk['code'];
-            })
-            ->addColumn('harga_beli', function ($detail) {
-                return 'Rp'. $detail->produk['harga_beli'];
+            ->addColumn('namaProduk', function ($detail) {
+                return $detail->produk->name_product;
             })
             ->addColumn('jumlah', function ($detail) {
-                return '<input type="number" class="form-control input-sm quantity"  data-id="'. $detail->id_pembelian_detail .'" value="'. $detail->jumlah .'">';
+                return '<input type="number" class="form-control input-sm quantity" data-id="'. $detail->id_pembelian_detail .'" value="'. $detail->jumlah .'">';
+            })
+            ->addColumn('harga_beli', function ($detail) {
+                return 'Rp. '. format_uang($detail->harga_beli);
             })
             ->addColumn('subtotal', function ($detail) {
-                return 'Rp'. $detail->subtotal;
+                return 'Rp. '. format_uang($detail->subtotal);
             })
+            
             ->addColumn('aksi', function ($detail) {
                 return '
                 <div class="btn-group">
-                    <button onclick="deleteData(`'. route('pembelian_detail.destroy', $detail->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    <button onclick="deleteData(`'. route('pembelian_detail.destroy', $detail->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
@@ -155,5 +156,18 @@ class PembelianDetailController extends Controller
         $detail->delete();
 
         return response(null, 204);
+    }
+
+    public function loadForm($diskon, $total)
+    {
+        $bayar = $total - ($diskon / 100 * $total);
+        $data  = [
+            'totalrp' => format_uang($total),
+            'bayar' => $bayar,
+            'bayarrp' => format_uang($bayar),
+            'terbilang' => ucwords(terbilang($bayar). ' Rupiah')
+        ];
+
+        return response()->json($data);
     }
 }

@@ -170,7 +170,7 @@
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Kode Penjualan</th>
+                        <th class="text-center">Kode Produk</th>
                         <th class="text-center">Nama Item</th>
                         <th class="text-center">jumlah</th>
                         <th class="text-center">Harga</th>
@@ -188,10 +188,10 @@
           <div class="col-lg-4">
             <form action="{{ route('transaction.store') }}" class="form-penjualan" method="post">
               @csrf
-              <input type="hidden" name="transactions_id" value="{{ $transactions_id }}">
-              <input type="hidden" name="total" id="total">
-              <input type="hidden" name="total_item" id="total_item">
-              <input type="hidden" name="bayar" id="bayar">
+              <input type="hidden" name="transactions_id" value="{{ $transactions_id }}" readonly>
+              <input type="hidden" name="total" id="total" readonly>
+              <input type="hidden" name="total_item" id="total_item" readonly>
+              <input type="hidden" name="bayar" id="bayar" readonly>
 
               <div class="card">
                 <div class="card-body">
@@ -213,7 +213,7 @@
                   <div class="form-group row">
                     <label for="bayar" class="col-lg-2 control-label">Bayar</label>
                     <div class="col-lg-10">
-                        <input type="text" id="bayarrp" class="form-control">
+                        <input type="text" id="bayarrp" class="form-control" readonly>
                     </div>
                   </div>
                 </div>
@@ -406,8 +406,8 @@
 
         $.get(`{{ url('admin/data-transaction/transaction-detail/loadform') }}/${diskon}/${$('.total').text()}`)
             .done(response => {
-                $('#totalrp').val('Rp. '+ response.totalrp);
-                $('#bayarrp').val('Rp. '+ response.bayarrp);
+                $('#totalrp').val('Rp'+ response.totalrp);
+                $('#bayarrp').val('Rp'+ response.bayarrp);
                 $('#bayar').val(response.bayar);
                 $('.tampil-bayar').text('Rp. '+ response.bayarrp);
                 $('.tampil-terbilang').text(response.terbilang);

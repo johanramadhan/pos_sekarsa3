@@ -10,22 +10,22 @@
             <div class="modal-body">
               <table class="table table-striped table-bordered table-supplier table-produk">
                 <thead>
-                    <th width="5%">No</th>
-                    <th>Kode</th>
-                    <th>Nama</th>
-                    <th>Stok</th>
-                    <th>Harga Beli</th>
-                    <th><i class="fa fa-cog"></i></th>
+                    <th width="5%" class="text-center">No</th>
+                    <th class="text-center">Kode</th>
+                    <th class="text-center">Nama</th>
+                    <th class="text-center">Stok</th>
+                    <th class="text-center">Harga Beli</th>
+                    <th class="text-center"><i class="fa fa-cog"></i></th>
                 </thead>
                 <tbody>
                   @foreach ($produk as $item)
                     <tr>
-                      <td width="5%">{{ $loop->iteration }}</td>
-                      <td><span class="badge badge-success">{{ $item->code }}</span></td>
-                      <td>{{ $item->name_product }}</td>
-                      <td>{{ $item->stok }}</td>
-                      <td>{{ format_uang($item->harga_beli) }}</td>
-                      <td>
+                      <td width="5%" class="text-center">{{ $loop->iteration }}</td>
+                      <td class="text-center" width="25%"><span class="badge badge-success">{{ $item->code }}</span></td>
+                      <td class="text-center">{{ $item->name_product }}</td>
+                      <td class="text-center">{{ $item->stok }}</td>
+                      <td class="text-center">Rp{{ format_uang($item->harga_beli) }}</td>
+                      <td class="text-center">
                         <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->code }}', '{{ $item->name_product }}', '{{ $item->harga_beli }}')" data-dismiss="modal">
                           <i class="fa fa-check-circle"></i>
                           Pilih
