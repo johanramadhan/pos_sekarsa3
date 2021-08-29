@@ -57,7 +57,7 @@ Route::prefix('admin')
 
         // Penjualan-detail
         Route::get('data-transaction/transaction-detail/{id}/data', 'TransactionDetailController@data')->name('transaction_detail.data');
-        Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
+        Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}/{diterima}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
         Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
 
 

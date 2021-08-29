@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\PembelianDetail;
 
 class PembelianController extends Controller
 {
@@ -41,16 +42,16 @@ class PembelianController extends Controller
                 return format_uang($pembelian->total_item);
             })
             ->addColumn('total_harga', function ($pembelian) {
-                return 'Rp. '. format_uang($pembelian->total_harga);
+                return 'Rp'. format_uang($pembelian->total_harga);
             })
             ->addColumn('bayar', function ($pembelian) {
-                return 'Rp. '. format_uang($pembelian->bayar);
+                return 'Rp'. format_uang($pembelian->bayar);
             })
             ->addColumn('tanggal', function ($pembelian) {
                 return tanggal_indonesia($pembelian->created_at, false);
             })
             ->addColumn('supplier', function ($pembelian) {
-                return $pembelian->supplier->nama;
+                return $pembelian->supplier->name;
             })
             ->editColumn('diskon', function ($pembelian) {
                 return $pembelian->diskon . '%';
@@ -58,8 +59,8 @@ class PembelianController extends Controller
             ->addColumn('aksi', function ($pembelian) {
                 return '
                 <div class="btn-group">
-                    <button onclick="showDetail(`'. route('pembelian.show', $pembelian->id_pembelian) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-eye"></i></button>
-                    <button onclick="deleteData(`'. route('pembelian.destroy', $pembelian->id_pembelian) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
+                    <button onclick="showDetail(`'. route('pembelian.show', $pembelian->id_pembelian) .'`)" class="btn btn-xs btn-info m-1"><i class="fa fa-eye"></i></button>
+                    <button onclick="deleteData(`'. route('pembelian.destroy', $pembelian->id_pembelian) .'`)" class="btn btn-xs btn-danger m-1"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
             })
@@ -114,7 +115,22 @@ class PembelianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pembelian = Pembelian::findOrFail($request->id_pembelian);
+        $pembelian->total_item = $request->total_item;
+        $pembelian->total_harga = $request->total;
+        $pembelian->diskon = $request->diskon;
+        $pembelian->bayar = $request->bayar;
+        $pembelian->update();
+
+        $detail = PembelianDetail::where('id_pembelian', $pembelian->id_pembelian)->get();
+        foreach ($detail as $item) {
+            $produk = Produk::find($item->id_produk);
+            $produk->stok += $item->jumlah;
+            $produk->update();
+        }
+
+        return redirect()->route('pembelian.index')
+        ->with('success', 'Data pembelian penjualan berhasil ditambahkan');
     }
 
     /**
@@ -125,7 +141,31 @@ class PembelianController extends Controller
      */
     public function show($id)
     {
-        //
+        $detail = PembelianDetail::with('produk')->where('id_pembelian', $id)->get();
+
+        return datatables()
+            ->of($detail)
+            ->addIndexColumn()
+            ->addColumn('kode_produk', function ($detail) {
+                return '<span class="label label-success">'. $detail->produk->code .'</span>';
+            })
+            ->addColumn('tanggal', function ($detail) {
+                return tanggal_indonesia($detail->created_at, false);
+            })
+            ->addColumn('nama_produk', function ($detail) {
+                return $detail->produk->name_product;
+            })
+            ->addColumn('harga_beli', function ($detail) {
+                return 'Rp'. format_uang($detail->harga_beli);
+            })
+            ->addColumn('jumlah', function ($detail) {
+                return format_uang($detail->jumlah);
+            })
+            ->addColumn('subtotal', function ($detail) {
+                return 'Rp'. format_uang($detail->subtotal);
+            })
+            ->rawColumns(['kode_produk'])
+            ->make(true);
     }
 
     /**
@@ -159,6 +199,19 @@ class PembelianController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pembelian = Pembelian::find($id);
+        $detail    = PembelianDetail::where('id_pembelian', $pembelian->id_pembelian)->get();
+        foreach ($detail as $item) {
+            $produk = Produk::find($item->id_produk);
+            if ($produk) {
+                $produk->stok -= $item->jumlah;
+                $produk->update();
+            }
+            $item->delete();
+        }
+
+        $pembelian->delete();
+
+        return response(null, 204);
     }
 }

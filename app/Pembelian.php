@@ -6,17 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pembelian extends Model
 {
-    protected $fillable = [
-    'id_pembelian', 'id_supplier', 'total_item', 'total_harga', 'diskon', 'bayar'
-    ];
+    protected $table = 'pembelians';
     protected $primaryKey = 'id_pembelian';
-
-    protected $hidden = [
-        
-    ];
+    protected $guarded = [];
 
     public function supplier()
     {
-        return $this->belongsTo(Supplier::class, 'id_pembelian', 'id_supplier');
+        return $this->belongsTo(Supplier::class, 'id_supplier', 'id');
     }
 }

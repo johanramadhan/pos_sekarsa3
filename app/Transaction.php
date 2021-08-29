@@ -13,4 +13,10 @@ class Transaction extends Model
     {
         return $this->hasOne(User::class, 'id', 'users_id');
     }
+    
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'id_member', 'id_member');
+    }
+
 }

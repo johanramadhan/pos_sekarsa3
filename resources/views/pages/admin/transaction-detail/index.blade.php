@@ -86,15 +86,6 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Customer</label>
-                        <div class="col-sm-9">
-                          <select class="form-control select2">
-                            <option>Umum</option>
-                            <option>Pegawai</option>
-                          </select> 
-                        </div>
-                      </div>
-                      <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Layanan</label>
                         <div class="col-sm-9">
                           <select class="form-control select2">
@@ -172,9 +163,9 @@
                         <th class="text-center">No</th>
                         <th class="text-center">Kode Produk</th>
                         <th class="text-center">Nama Item</th>
-                        <th class="text-center">jumlah</th>
+                        <th class="text-center" width="15%">jumlah</th>
                         <th class="text-center">Harga</th>
-                        <th class="text-center">Discont / Item</th>
+                        <th class="text-center" >Discont / Item</th>
                         <th class="text-center">Total</th>
                         <th class="text-center">Aksi</th>
                       </tr>
@@ -192,28 +183,53 @@
               <input type="hidden" name="total" id="total" readonly>
               <input type="hidden" name="total_item" id="total_item" readonly>
               <input type="hidden" name="bayar" id="bayar" readonly>
+              <input type="hidden" name="id_member" id="id_member" readonly>
 
               <div class="card">
                 <div class="card-body">
                   {{-- Total Penjualan --}}
                   <div class="form-group row">
-                    <label for="totalrp" class="col-lg-2 control-label">Total</label>
-                    <div class="col-lg-10">
+                    <label for="totalrp" class="col-lg-3 control-label">Total</label>
+                    <div class="col-lg-9">
                         <input type="text" id="totalrp" class="form-control" readonly>
+                    </div>
+                  </div>
+                  {{-- Member --}}
+                  <div class="form-group row">
+                    <label class="col-lg-3 control-label">Member</label>
+                    <div class="col-lg-9 input-group">
+                      <input type="text" class="form-control" id="code_member" readonly>
+                      <span class="input-group-append">
+                        <button onclick="tampilMember()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                      </span>
                     </div>
                   </div>
                   {{-- Diskon Penjualan --}}
                   <div class="form-group row">
-                    <label for="diskon" class="col-lg-2 control-label">Diskon</label>
-                    <div class="col-lg-10">
+                    <label for="diskon" class="col-lg-3 control-label">Diskon</label>
+                    <div class="col-lg-9">
                         <input type="number" name="diskon" id="diskon" class="form-control" value="{{ $diskon }}">
                     </div>
                   </div>
                   {{-- Bayar --}}
                   <div class="form-group row">
-                    <label for="bayar" class="col-lg-2 control-label">Bayar</label>
-                    <div class="col-lg-10">
+                    <label for="bayar" class="col-lg-3 control-label">Bayar</label>
+                    <div class="col-lg-9">
                         <input type="text" id="bayarrp" class="form-control" readonly>
+                    </div>
+                  </div>
+                  {{-- Diterima --}}
+                  <div class="form-group row">
+                    <label for="diterima" class="col-lg-3 control-label">Diterima</label>
+                    <div class="col-lg-9">
+                        <input type="text" id="diterima" name="diterima" class="form-control" value="0">
+                    </div>
+                  </div>
+                  {{-- Kembali --}}
+                  <div class="form-group row">
+                    <label for="kembali" class="col-lg-3 control-label">Kembali</label>
+                    <div class="col-lg-9">
+                        <input type="text" id="kembali" name="kembali" class="form-control" value="0" readonly>
                     </div>
                   </div>
                 </div>
@@ -231,6 +247,7 @@
   </div>
 
   @includeIf('pages.admin.transaction-detail.product')
+  @includeIf('pages.admin.transaction-detail.member')
   {{-- @includeIf('pages.admin.transaction-detail.edit') --}}
 
 @endsection
@@ -291,14 +308,14 @@
           url: '{{ route('transaction_detail.data', $transactions_id) }}',
         },
         columns: [
-          {data: 'DT_RowIndex', searchable:false, sortable:false},
-          {data: 'code_product'},
-          {data: 'name_product'},
-          {data: 'jumlah'},
-          {data: 'harga_jual'},
-          {data: 'diskon'},
-          {data: 'subtotal'},
-          {data: 'aksi', searchable:false, sortable:false},
+          {class: 'text-center', data: 'DT_RowIndex', searchable:false, sortable:false},
+          {class: 'text-center', data: 'code_product'},
+          {class: 'text-center', data: 'name_product'},
+          {class: 'text-center', data: 'jumlah'},
+          {class: 'text-center', data: 'harga_jual'},
+          {class: 'text-center', data: 'diskon'},
+          {class: 'text-center', data: 'subtotal'},
+          {class: 'text-center', data: 'aksi', searchable:false, sortable:false},
         ]        
       })
       .on('draw.dt', function () {
@@ -347,6 +364,16 @@
           loadForm($(this).val());
       });
 
+      $('#diterima').on('input', function () {
+            if ($(this).val() == "") {
+                $(this).val(0).select();
+            }
+
+            loadForm($('#diskon').val(), $(this).val());
+        }).focus(function () {
+            $(this).select();
+        });
+
       $('.btn-simpan').on('click', function () {
             $('.form-penjualan').submit();
         });
@@ -366,7 +393,7 @@
         });
       });
 
-      function tampilProduk() {
+    function tampilProduk() {
         $('#modal-produk').modal('show');
     }
 
@@ -381,6 +408,16 @@
         $('#harga_jual').val(harga_jual);
         $('#diskon_product').val(diskon);
         $('#qty').val(1);
+        hideProduk();
+    }
+
+    function tampilMember() {
+        $('#modal-member').modal('show');
+    }
+
+    function pilihMember(id, code_member) {
+        $('#id_member').val(id);
+        $('#code_member').val(code_member);
         hideProduk();
     }
 
@@ -400,17 +437,23 @@
       }
     }
 
-    function loadForm(diskon = 0) {
+    function loadForm(diskon = 0, diterima = 0) {
         $('#total').val($('.total').text());
         $('#total_item').val($('.total_item').text());
 
-        $.get(`{{ url('admin/data-transaction/transaction-detail/loadform') }}/${diskon}/${$('.total').text()}`)
+        $.get(`{{ url('admin/data-transaction/transaction-detail/loadform') }}/${diskon}/${$('.total').text()}/${diterima}`)
             .done(response => {
                 $('#totalrp').val('Rp'+ response.totalrp);
                 $('#bayarrp').val('Rp'+ response.bayarrp);
                 $('#bayar').val(response.bayar);
-                $('.tampil-bayar').text('Rp. '+ response.bayarrp);
+                $('.tampil-bayar').text('Bayar: Rp. '+ response.bayarrp);
                 $('.tampil-terbilang').text(response.terbilang);
+
+                $('#kembali').val('Rp'+ response.kembalirp);
+                if ($('#diterima').val() != 0) {
+                    $('.tampil-bayar').text('Kembali: Rp'+ response.kembalirp);
+                    $('.tampil-terbilang').text(response.kembali_terbilang);
+                }
             })
             .fail(errors => {
                 alert('Tidak dapat menampilkan data2');

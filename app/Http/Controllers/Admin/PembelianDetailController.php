@@ -26,7 +26,7 @@ class PembelianDetailController extends Controller
         $diskon = Pembelian::find($id_pembelian)->diskon ?? 0;
 
         if (! $supplier) {
-            abort(404);
+            return redirect()->route('pembelian.index');
         }
 
         return view('pages.admin.pembelian-detail.index', [
@@ -42,35 +42,39 @@ class PembelianDetailController extends Controller
     {
         $detail = PembelianDetail::with('produk')
             ->where('id_pembelian', $id)
-            ->get();        
+            ->get();  
+        $data = array();
+        $total = 0;
+        $total_item = 0;
+        
+        foreach($detail as $item) {
+            $row = array();
+            $row['codeProduk'] = $item->produk['code'];
+            $row['namaProduk'] = $item ->produk['name_product'];
+            $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_pembelian_detail .'" value="'. $item->jumlah .'">';
+            $row['harga_beli'] = 'Rp'.format_uang($item->harga_beli);
+            $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
+            $row['aksi'] = '<button onclick="deleteData(`'. route('pembelian_detail.destroy', $item->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
+
+            $data[] = $row;
+            $total += $item->harga_beli * $item->jumlah;
+            $total_item += $item->jumlah;
+        }
+        $data[] = [
+            'codeProduk' => '
+                <div class="total d-none">'. $total .'</div>
+                <div class="total_item d-none">'. $total_item .'</div>',
+            'namaProduk' => '',
+            'jumlah'      => '',
+            'harga_beli'  => '',
+            'subtotal'    => '',
+            'aksi'        => '',
+        ];
 
         return datatables()
-            ->of($detail)
+            ->of($data)
             ->addIndexColumn()
-            ->addColumn('codeProduk', function ($detail) {
-                return $detail->produk->code;
-            })
-            ->addColumn('namaProduk', function ($detail) {
-                return $detail->produk->name_product;
-            })
-            ->addColumn('jumlah', function ($detail) {
-                return '<input type="number" class="form-control input-sm quantity" data-id="'. $detail->id_pembelian_detail .'" value="'. $detail->jumlah .'">';
-            })
-            ->addColumn('harga_beli', function ($detail) {
-                return 'Rp. '. format_uang($detail->harga_beli);
-            })
-            ->addColumn('subtotal', function ($detail) {
-                return 'Rp. '. format_uang($detail->subtotal);
-            })
-            
-            ->addColumn('aksi', function ($detail) {
-                return '
-                <div class="btn-group">
-                    <button onclick="deleteData(`'. route('pembelian_detail.destroy', $detail->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
-                </div>
-                ';
-            })
-            ->rawColumns(['aksi', 'jumlah'])
+            ->rawColumns(['aksi', 'codeProduk','jumlah'])
             ->make(true);
     }
 

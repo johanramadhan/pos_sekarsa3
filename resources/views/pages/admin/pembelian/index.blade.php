@@ -45,17 +45,20 @@
                     <button onclick="addForm()" class="btn btn-primary mb-2">
                       + Transaksi Pembelian
                     </button>
+                    @empty(! session('id_pembelian'))
+                    <a href="{{ route('pembelian_detail.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
+                    @endempty
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Code</th>
-                        <th>Tanggal Pembelian</th>
-                        <th>Supplier</th>
-                        <th>Total Item</th>
-                        <th>Total Harga</th>
-                        <th>Diskon</th>
-                        <th>Bayar</th>
-                        <th>Aksi</th>
+                        <th class="text-center">Code</th>
+                        <th class="text-center">Tanggal Pembelian</th>
+                        <th class="text-center">Supplier</th>
+                        <th class="text-center">Total Item</th>
+                        <th class="text-center">Total Harga</th>
+                        <th class="text-center">Diskon</th>
+                        <th class="text-center">Bayar</th>
+                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                   </table>
@@ -92,35 +95,35 @@
         processing: true,
         autoWidth: false,
         ajax: {
-          url: '{{ route('pembelian.data') }}',
+            url: '{{ route('pembelian.data') }}',
         },
         columns: [
-          {data: 'DT_RowIndex', searchable:false, sortable:false},
-          {data: 'code'},
-          {data: 'tanggal'},
-          {data: 'supplier'},
-          {data: 'total_item'},
-          {data: 'total_harga'},
-          {data: 'diskon'},
-          {data: 'bayar'},
-          {data: 'aksi', searchable:false, sortable:false},
-        ]        
-      });
-      $('.table-supplier').DataTable();
-
-      table1 = $('.table-detail-pembelian').DataTable({
-        processing: true,
-          columns: [
-            {data: 'DT_RowIndex', searchable: false, sortable: false},
-            {data: 'code'},
-            {data: 'tanggal'},
-            {data: 'nama_produk'},
-            {data: 'harga_jual'},
-            {data: 'jumlah'},
-            {data: 'diskon'},
-            {data: 'subtotal'},
+            {class: 'text-center', data: 'DT_RowIndex', searchable: false, sortable: false},
+            {class: 'text-center', data: 'code'},
+            {class: 'text-center', data: 'tanggal'},
+            {class: 'text-center', data: 'supplier'},
+            {class: 'text-center', data: 'total_item'},
+            {class: 'text-center', data: 'total_harga'},
+            {class: 'text-center', data: 'diskon'},
+            {class: 'text-center', data: 'bayar'},
+            {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
         ]
-      });
+    });
+      $('.table-supplier').DataTable();
+      table1 = $('.table-detail').DataTable({
+          processing: true,
+          bSort: false,
+          columns: [
+              {class: 'text-center', data: 'DT_RowIndex', searchable: false, sortable: false},
+              {class: 'text-center', data: 'kode_produk'},
+              {class: 'text-center', data: 'tanggal'},
+              {class: 'text-center', data: 'nama_produk'},
+              {class: 'text-center', data: 'harga_beli'},
+              {class: 'text-center', data: 'jumlah'},
+              {class: 'text-center', data: 'subtotal'},
+          ]
+      })
+
     });
 
     function addForm() {

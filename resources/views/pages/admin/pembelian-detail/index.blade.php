@@ -21,7 +21,7 @@
         padding: 10px;
         background: #f0f0f0;
     }
-    .table-penjualan tbody tr:last-child {
+    .table-pembelian tbody tr:last-child {
         display: none;
     }
   </style>
@@ -171,7 +171,7 @@
           </div>
 
           <div class="col-lg-4">
-            <form action="{{ route('transaction.store') }}" class="form-pembelian" method="post">
+            <form action="{{ route('pembelian.store') }}" class="form-pembelian" method="post">
               @csrf
               <input type="hidden" name="id_pembelian" value="{{ $id_pembelian }}">
               <input type="hidden" name="total" id="total">
@@ -180,14 +180,14 @@
 
               <div class="card">
                 <div class="card-body">
-                  {{-- Total Penjualan --}}
+                  {{-- Total Pembelian --}}
                   <div class="form-group row">
                     <label for="totalrp" class="col-lg-2 control-label">Total</label>
                     <div class="col-lg-10">
                         <input type="text" id="totalrp" class="form-control" readonly>
                     </div>
                   </div>
-                  {{-- Diskon Penjualan --}}
+                  {{-- Diskon Pembelian --}}
                   <div class="form-group row">
                     <label for="diskon" class="col-lg-2 control-label">Diskon</label>
                     <div class="col-lg-10">
@@ -198,7 +198,7 @@
                   <div class="form-group row">
                     <label for="bayar" class="col-lg-2 control-label">Bayar</label>
                     <div class="col-lg-10">
-                        <input type="text" id="bayarrp" class="form-control">
+                        <input type="text" id="bayarrp" class="form-control" readonly>
                     </div>
                   </div>
                 </div>
@@ -265,6 +265,9 @@
               {class: 'text-center', data: 'subtotal'},
               {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
           ]
+      })
+      .on('draw.dt', function () {
+          loadForm($('#diskon').val());
       });       
 
       table1 = $('.table-produk').DataTable();  
@@ -299,10 +302,20 @@
                 return;
             });
       });
+
+      $(document).on('input', '#diskon', function () {
+          if ($(this).val() == "") {
+              $(this).val(0).select();
+          }
+
+          loadForm($(this).val());
+      });
+
+    $('.btn-simpan').on('click', function () {
+            $('.form-pembelian').submit();
+        });
       
-    });  
-    
-        
+    });          
 
 
     function tampilProduk() {
@@ -336,6 +349,24 @@
               return;
           });
       }
+    }
+
+    function loadForm(diskon = 0) {
+        $('#total').val($('.total').text());
+        $('#total_item').val($('.total_item').text());
+
+        $.get(`{{ url('admin/data-transaction/pembelian_detail/loadform') }}/${diskon}/${$('.total').text()}`)
+            .done(response => {
+                $('#totalrp').val('Rp'+ response.totalrp);
+                $('#bayarrp').val('Rp'+ response.bayarrp);
+                $('#bayar').val(response.bayar);
+                $('.tampil-bayar').text('Rp. '+ response.bayarrp);
+                $('.tampil-terbilang').text(response.terbilang);
+            })
+            .fail(errors => {
+                alert('Tidak dapat menampilkan data2');
+                return;
+            })
     }
   
 

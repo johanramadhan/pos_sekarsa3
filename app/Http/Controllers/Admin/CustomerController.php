@@ -6,6 +6,7 @@ use App\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 
 class CustomerController extends Controller
@@ -17,10 +18,21 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();  
+        $customers = Customer::all(); 
+        $tanggal = Carbon::now()->format('dmY');
+        $cek = Customer::count();
+        if ($cek == 0) {
+            $urut = 100001;
+            $code = 'Memb-' . $tanggal . $urut;
+        } else {
+            $ambil = Customer::all()->last();
+            $urut = (int)substr($ambil->code, -6) + 1;  
+            $code = 'Memb-' . $tanggal . $urut;      
+        } 
 
         return view('pages.admin.customer.index', [
-            'customers' => $customers
+            'customers' => $customers,
+            'code' => $code,
         ]);
     }
 

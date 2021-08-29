@@ -12,7 +12,7 @@ class Customer extends Model
     protected $table = 'customers';
 
     protected $fillable = [
-        'name', 'slug', 'phone', 'gender', 'address', 'email', 'description'
+        'code', 'name', 'slug', 'phone', 'gender', 'address', 'email', 'description'
     ];
 
     protected $hidden = [

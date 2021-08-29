@@ -54,7 +54,8 @@
                     <thead>
                       <tr class="text-center">
                         <th>No</th>
-                        <th>Nama Customer</th>
+                        <th>Kode</th>
+                        <th>Nama Memeber</th>
                         <th>Jenis Kelamin</th>
                         <th>No. HP</th>
                         <th>Address</th>
@@ -67,6 +68,7 @@
                       @forelse ($customers as $item)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
+                          <td>{{ $item->code }}</td>
                           <td>{{ $item->name }}</td>
                           <td class="text-center">
                             @if (($item->gender) === 1)
@@ -152,6 +154,19 @@
                     <div class="card-body">
                       <div class="row">
                         <div class="col-md-12">
+                          <div class="form-group">
+                            <label>Kode Member*</label>
+                            <input
+                              type="text"
+                              name="code"
+                              class="form-control"
+                              placeholder="Kode Member"
+                              value="{{ $code }}"
+                              readonly
+                              required
+                            />
+                          </div>
+                          <!-- /.Nama Customer -->             
                           <div class="form-group">
                             <label>Nama Customer*</label>
                             <input

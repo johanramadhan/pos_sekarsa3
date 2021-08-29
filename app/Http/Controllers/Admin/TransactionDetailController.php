@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Customer;
 use App\Http\Controllers\Controller;
 use App\Produk;
 use App\Transaction;
@@ -22,18 +23,30 @@ class TransactionDetailController extends Controller
         $transactions = Transaction::all();  
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
+        $member = Customer::orderBy('name')->get();
         $transactions_id = session('id_transaction');
         $codeTransaction = Transaction::find($transactions_id)->code ?? 0; 
         $diskon = Transaction::find($transactions_id)->diskon ?? 0;
 
-        return view('pages.admin.transaction-detail.index', [
-            'transactions' => $transactions,
-            'codeTransaction' => $codeTransaction,
-            'produk' => $produk,
-            'user' => $user,
-            'transactions_id' => $transactions_id,
-            'diskon' => $diskon,
-        ]);
+        // Cek apakah ada transaksi yang sedang berjalan
+        if ($id_penjualan = session('id_transaction')) {
+            return view('pages.admin.transaction-detail.index', [
+                'transactions' => $transactions,
+                'codeTransaction' => $codeTransaction,
+                'produk' => $produk,
+                'user' => $user,
+                'member' => $member,
+                'transactions_id' => $transactions_id,
+                'diskon' => $diskon,
+                'id_penjualan' => $id_penjualan,
+            ]);
+        } else {
+            if(auth()->user()->roles == "ADMIN" ){
+                return redirect()->route('transaction.create');
+            }  else {
+                return redirect()->route('home');
+            }
+        }
         
     }
 
@@ -69,7 +82,7 @@ class TransactionDetailController extends Controller
             'name_product' => '',
             'jumlah'      => '',
             'harga_jual'  => '',
-            'diskon'  => '',
+            'diskon'      => '',
             'subtotal'    => '',
             'aksi'        => '',
         ];
@@ -163,14 +176,17 @@ class TransactionDetailController extends Controller
         return response(null, 204);
     }
 
-    public function loadForm($diskon, $total)
+    public function loadForm($diskon, $total, $diterima)
     {
         $bayar = $total - ($diskon / 100 * $total);
+        $kembali = ($diterima != 0) ? $diterima - $bayar : 0;
         $data  = [
             'totalrp' => format_uang($total),
             'bayar' => $bayar,
             'bayarrp' => format_uang($bayar),
-            'terbilang' => ucwords(terbilang($bayar). ' Rupiah')
+            'terbilang' => ucwords(terbilang($bayar). ' Rupiah'),
+            'kembalirp' => format_uang($kembali),
+            'kembali_terbilang' => ucwords(terbilang($kembali). ' Rupiah'),
         ];
 
         return response()->json($data);
