@@ -55,7 +55,7 @@
                       <tr class="text-center">
                         <th>No</th>
                         <th>Kode</th>
-                        <th>Nama Memeber</th>
+                        <th>Nama Member</th>
                         <th>Jenis Kelamin</th>
                         <th>No. HP</th>
                         <th>Address</th>
@@ -67,8 +67,8 @@
                     <tbody>
                       @forelse ($customers as $item)
                         <tr>
-                          <td>{{ $loop->iteration }}</td>
-                          <td>{{ $item->code }}</td>
+                          <td class="text-center">{{ $loop->iteration }}</td>
+                          <td class="text-center">{{ $item->code }}</td>
                           <td>{{ $item->name }}</td>
                           <td class="text-center">
                             @if (($item->gender) === 1)

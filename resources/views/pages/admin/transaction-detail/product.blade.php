@@ -13,6 +13,7 @@
                     <th width="5%">No</th>
                     <th>Kode</th>
                     <th>Nama</th>
+                    <th>Stok</th>
                     <th>Diskon</th>
                     <th>Harga Jual</th>
                     <th><i class="fa fa-cog"></i></th>
@@ -23,6 +24,7 @@
                       <td width="5%">{{ $loop->iteration }}</td>
                       <td><span class="badge badge-success">{{ $item->code }}</span></td>
                       <td>{{ $item->name_product }}</td>
+                      <td>{{ $item->stok }}</td>
                       <td>{{ $item->diskon }}%</td>
                       <td>{{ format_uang($item->harga_jual) }}</td>
                       <td>
