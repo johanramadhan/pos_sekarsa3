@@ -46,7 +46,7 @@
                       + Transaksi Penjualan
                     </a>
                     <thead>
-                      <tr>
+                      <tr class="text-center">
                         <th>No</th>
                         <th>Code</th>
                         <th>Tanggal</th>
@@ -57,9 +57,49 @@
                         <th>Diskon</th>
                         <th>Bayar</th>
                         <th>Diterima</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      @forelse ($transactions as $item)
+                          <tr>
+                            <td class="text-center">{{ $loop->iteration }}</td>
+                            <td class="text-center">{{ $item->code }}</td>
+                            <td>{{ tanggal_indonesia ($item->created_at) }}</td>
+                            <td class="text-center">{{ $item->user->name }}</td>
+                            <td>{{ $item->member->name ?? '' }}</td>
+                            <td>Rp{{ format_uang ($item->total_harga) }}</td>
+                            <td>Rp{{ format_uang ($item->total_harga) }}</td>
+                            <td class="text-center">{{ $item->diskon }}%</td>
+                            <td>Rp{{ format_uang ($item->bayar) }}</td>
+                            <td>Rp{{ format_uang ($item->diterima) }}</td>
+                            <td class="text-center">
+                              @if (($item->transaction_status ) === "success")
+                                <span class="badge badge-success">Success</span>
+                              @else
+                                <span class="badge badge-danger">Pending</span>
+                              @endif
+                                
+                            </td>
+                            <td class="text-center">
+                              <div class="btn-group">
+                                  <button onclick="showDetail( '{{ route('transaction.show', $item->id_transaction) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                                  <button type="submit" id="delete" href="{{ route('transaction.destroy', $item->id_transaction) }}" 
+                                    class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
+                                  <form action="" method="POST" id="deleteForm">
+                                    @csrf
+                                    @method("DELETE")
+                                    <input type="submit" value="Hapus" style="display: none">
+                                    
+                                  </form>
+                              </div>
+                            </td>
+                          </tr>
+                      @empty
+                          
+                      @endforelse
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -92,23 +132,7 @@
     $(function () {
       table = $('.table-penjualan').DataTable({
         processing: true,
-        autoWidth: false,
-        ajax: {
-          url: '{{ route('transaction.data') }}',
-        },
-        columns: [
-          {data: 'DT_RowIndex', searchable:false, sortable:false},
-          {data: 'code'},
-          {data: 'tanggal'},
-          {data: 'kasir'},
-          {data: 'member'},
-          {data: 'total_item'},
-          {data: 'total_harga'},
-          {data: 'diskon'},
-          {data: 'bayar'},
-          {data: 'diterima'},
-          {data: 'aksi', searchable:false, sortable:false},
-        ]        
+        autoWidth: false,  
       });
 
       table1 = $('.table-detail-penjualan').DataTable({
@@ -170,7 +194,7 @@
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Yes, Hapus Saja!',
-        cancelButtonText: 'No, cancel!',
+        cancelButtonText: 'Jangaaann!!!',
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
@@ -179,7 +203,7 @@
           
           swalWithBootstrapButtons.fire(
             'Terhapus!',
-            'Data produk berhasil dihapus.',
+            'Data penjualan berhasil dihapus.',
             'success'
           )
         } else if (

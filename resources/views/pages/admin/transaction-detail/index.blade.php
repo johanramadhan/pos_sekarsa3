@@ -62,7 +62,7 @@
                   <div class="col-6">
                     <h1>Total (Rp)</h1>
                   </div>
-                  <div class="col-6 text-right tampil-bayar">Rp1.000.000</div>
+                  <div class="col-6 text-right tampil-bayar"></div>
                   <div class="col-12 text-right tampil-terbilang"></div>
                 </div>
               </div>
@@ -105,7 +105,7 @@
                         <div class="col-sm-9 input-group">
                           <input type="hidden" class="form-control" name="products_id" id="id_produk">
                           <input type="hidden" class="form-control" name="code" value="{{ $codeTransaction }}">
-                          <input type="text" class="form-control" id="code" readonly>
+                          <input type="text" class="form-control" id="code" required readonly>
                           <span class="input-group-append">
                             <button onclick="tampilProduk()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                           </span>
@@ -114,7 +114,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Qty</label>
                         <div class="col-sm-9">
-                          <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Jumlah">
+                          <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Jumlah" required>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -191,14 +191,14 @@
                   <div class="form-group row">
                     <label for="totalrp" class="col-lg-3 control-label">Total</label>
                     <div class="col-lg-9">
-                        <input type="text" id="totalrp" class="form-control" readonly>
+                        <input type="text" id="totalrp" class="form-control" required readonly>
                     </div>
                   </div>
                   {{-- Member --}}
                   <div class="form-group row">
                     <label class="col-lg-3 control-label">Member</label>
                     <div class="col-lg-9 input-group">
-                      <input type="text" class="form-control" id="code_member" readonly>
+                      <input type="text" class="form-control" id="code_member" required readonly>
                       <span class="input-group-append">
                         <button onclick="tampilMember()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                       </span>
@@ -208,28 +208,28 @@
                   <div class="form-group row">
                     <label for="diskon" class="col-lg-3 control-label">Diskon</label>
                     <div class="col-lg-9">
-                        <input type="number" name="diskon" id="diskon" class="form-control" value="{{ $diskon }}">
+                        <input type="number" name="diskon" id="diskon" class="form-control" value="{{ $diskon }}" required>
                     </div>
                   </div>
                   {{-- Bayar --}}
                   <div class="form-group row">
                     <label for="bayar" class="col-lg-3 control-label">Bayar</label>
                     <div class="col-lg-9">
-                        <input type="text" id="bayarrp" class="form-control" readonly>
+                        <input type="text" id="bayarrp" class="form-control" required readonly>
                     </div>
                   </div>
                   {{-- Diterima --}}
                   <div class="form-group row">
                     <label for="diterima" class="col-lg-3 control-label">Diterima</label>
                     <div class="col-lg-9">
-                        <input type="text" id="diterima" name="diterima" class="form-control" value="0">
+                        <input type="text" id="diterima" name="diterima" class="form-control" required value="0">
                     </div>
                   </div>
                   {{-- Kembali --}}
                   <div class="form-group row">
                     <label for="kembali" class="col-lg-3 control-label">Kembali</label>
                     <div class="col-lg-9">
-                        <input type="text" id="kembali" name="kembali" class="form-control" value="0" readonly>
+                        <input type="text" id="kembali" name="kembali" class="form-control" required value="0" readonly>
                     </div>
                   </div>
                 </div>

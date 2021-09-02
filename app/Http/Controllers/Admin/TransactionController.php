@@ -19,7 +19,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::all();  
+        $transactions = Transaction::orderBy('id_transaction', 'desc')->get();  
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
 
@@ -53,7 +53,7 @@ class TransactionController extends Controller
                 return $transaction->user->name ?? '';
             })
             ->editColumn('member', function ($transaction) {
-                return $transaction->user->name ?? '';
+                return $transaction->member->name ?? '';
             }) 
             ->addColumn('total_harga', function ($transaction) {
                 return 'Rp'. format_uang($transaction->total_harga);
@@ -67,6 +67,9 @@ class TransactionController extends Controller
             ->addColumn('diterima', function ($transaction) {
                 return 'Rp'. format_uang($transaction->diterima);
             })    
+            ->addColumn('status', function ($transaction) {
+                return $transaction->transaction_status;
+            })    
             ->addColumn('aksi', function ($transaction) {
                 return '
                 <div class="btn-group">
@@ -75,7 +78,7 @@ class TransactionController extends Controller
                 </div>
                 ';
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi', 'status'])
             ->make(true);
     }
 
@@ -119,9 +122,12 @@ class TransactionController extends Controller
     {
         $transaksi = Transaction::findOrFail($request->transactions_id);
         $transaksi->total_item = $request->total_item;
+        $transaksi->transaction_status = 'success';
+        $transaksi->id_member = $request->id_member;
         $transaksi->total_harga = $request->total;
         $transaksi->diskon = $request->diskon;
         $transaksi->bayar = $request->bayar;
+        $transaksi->diterima = $request->diterima;
         $transaksi->update();
 
         $detail = TransactionDetail::where('transactions_id', $transaksi->id_transaction)->get();
@@ -213,7 +219,7 @@ class TransactionController extends Controller
 
         $transaction->delete();
 
-        return response(null, 204);
+        return redirect()->route('transaction.index');;
     
     }
 }
