@@ -208,7 +208,7 @@
                   <div class="form-group row">
                     <label for="diskon" class="col-lg-3 control-label">Diskon</label>
                     <div class="col-lg-9">
-                        <input type="number" name="diskon" id="diskon" class="form-control" value="{{ $diskon }}" required>
+                        <input type="number" name="diskon" id="diskon" class="form-control" value="{{ ! empty($memberSelected) ? $diskon2 : 0 }}" readonly>
                     </div>
                   </div>
                   {{-- Bayar --}}
@@ -418,7 +418,6 @@
     function pilihMember(id, code_member) {
         $('#id_member').val(id);
         $('#code_member').val(code_member);
-        hideProduk();
     }
 
     function deleteData(url) {

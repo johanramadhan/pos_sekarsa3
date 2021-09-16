@@ -35,6 +35,7 @@ Route::prefix('admin')
         Route::resource('supplier', 'SupplierController');
         Route::resource('customer', 'CustomerController');
         Route::resource('user', 'UserController');
+        Route::resource('setting', 'SettingController');
         Route::resource('data-product/products', 'ProductController');
         Route::resource('data-product/product-gallery', 'ProductGalleryController');
         Route::resource('data-transaction/pengeluaran', 'PengeluaranController');

@@ -27,7 +27,13 @@
                       <td class="text-center"><span class="badge badge-success">{{ $item->code }}</span></td>
                       <td>{{ $item->name }}</td>
                       <td>{{ $item->email }}</td>
-                      <td class="text-center">{{ $item->gender }}</td>
+                      <td class="text-center">
+                        @if (($item->gender) === 1)
+                          <span class="badge badge-danger">Laki-laki</span>
+                        @elseif (($item->gender) === 2)
+                          <span class="badge badge-primary">Perempuan</span>
+                        @endif
+                      </td>
                       <td>{{ $item->phone }}</td>
                       <td>{{ $item->address }}</td>
                       <td>{{ $item->description }}</td>

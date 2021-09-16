@@ -155,6 +155,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="{{ route('setting.index') }}" class="nav-link {{ (request()->is('admin/setting*')) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-wrench"></i>
+            <p>
+              Settings
+            </p>
+          </a>
+        </li>
         
       </ul>
 

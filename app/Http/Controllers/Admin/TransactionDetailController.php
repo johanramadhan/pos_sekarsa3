@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Customer;
-use App\Http\Controllers\Controller;
+use App\User;
 use App\Produk;
+use App\Setting;
+use App\Customer;
 use App\Transaction;
 use App\TransactionDetail;
-use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TransactionDetailController extends Controller
 {
@@ -27,9 +28,13 @@ class TransactionDetailController extends Controller
         $transactions_id = session('id_transaction');
         $codeTransaction = Transaction::find($transactions_id)->code ?? 0; 
         $diskon = Transaction::find($transactions_id)->diskon ?? 0;
+        $diskon2 = Setting::first()->diskon ?? 0;
 
         // Cek apakah ada transaksi yang sedang berjalan
         if ($id_penjualan = session('id_transaction')) {
+            $penjualan = Transaction::find($id_penjualan);
+            $memberSelected = $penjualan->member ?? new Customer();
+
             return view('pages.admin.transaction-detail.index', [
                 'transactions' => $transactions,
                 'codeTransaction' => $codeTransaction,
@@ -38,7 +43,9 @@ class TransactionDetailController extends Controller
                 'member' => $member,
                 'transactions_id' => $transactions_id,
                 'diskon' => $diskon,
+                'diskon2' => $diskon2,
                 'id_penjualan' => $id_penjualan,
+                'memberSelected' => $memberSelected,
             ]);
         } else {
             if(auth()->user()->roles == "ADMIN" ){
