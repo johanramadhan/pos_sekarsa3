@@ -45,6 +45,7 @@ class TransactionDetailController extends Controller
                 'diskon' => $diskon,
                 'diskon2' => $diskon2,
                 'id_penjualan' => $id_penjualan,
+                'penjualan' => $penjualan,
                 'memberSelected' => $memberSelected,
             ]);
         } else {

@@ -208,7 +208,7 @@
                   <div class="form-group row">
                     <label for="diskon" class="col-lg-3 control-label">Diskon</label>
                     <div class="col-lg-9">
-                        <input type="number" name="diskon" id="diskon" class="form-control" value="{{ ! empty($memberSelected) ? $diskon2 : 0 }}" readonly>
+                        <input type="number" name="diskon" id="diskon" class="form-control" value="{{ ! empty($memberSelected->id_member) ? $diskon2 : 0  }}" readonly>
                     </div>
                   </div>
                   {{-- Bayar --}}
@@ -222,7 +222,7 @@
                   <div class="form-group row">
                     <label for="diterima" class="col-lg-3 control-label">Diterima</label>
                     <div class="col-lg-9">
-                        <input type="text" id="diterima" name="diterima" class="form-control" required value="0">
+                        <input type="text" id="diterima" name="diterima" class="form-control" required value="{{  $penjualan->diterima ?? 0  }}">
                     </div>
                   </div>
                   {{-- Kembali --}}
@@ -320,6 +320,9 @@
       })
       .on('draw.dt', function () {
           loadForm($('#diskon').val());
+          setTimeout(() => {
+                $('#diterima').trigger('input');
+            }, 300);
       });
         
 
@@ -418,6 +421,9 @@
     function pilihMember(id, code_member) {
         $('#id_member').val(id);
         $('#code_member').val(code_member);
+         $('#diskon').val('{{ $diskon2 }}');
+        loadForm($('#diskon').val());
+        $('#diterima').val(0).focus().select();
     }
 
     function deleteData(url) {
