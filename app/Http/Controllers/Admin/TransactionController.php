@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\User;
 use App\Produk;
+use App\Setting;
+use Carbon\Carbon;
 use App\Transaction;
 use App\TransactionDetail;
-use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
 {
@@ -137,7 +138,7 @@ class TransactionController extends Controller
             $produk->update();
         }
 
-        return redirect()->route('transaction.index')
+        return redirect()->route('transaction.selesai')
         ->with('success', 'Data transaksi penjualan berhasil ditambahkan');
     }
 
@@ -221,5 +222,49 @@ class TransactionController extends Controller
 
         return redirect()->route('transaction.index');;
     
+    }
+
+    public function selesai()
+    {
+        $setting = Setting::first();
+
+        return view('pages.admin.transaction.selesai', [
+            'setting' => $setting
+        ]);
+
+    }
+
+    public function notaKecil()
+    {
+        $setting = Setting::first();
+        $penjualan = Transaction::find(session('id_transaction'));
+        if (! $penjualan) {
+            abort(404);
+        }
+        $detail = TransactionDetail::with('produk')
+            ->where('transactions_id', session('id_transaction'))
+            ->get();
+        
+        return view('pages.admin.transaction.nota_kecil', [
+            'setting' => $setting,
+            'penjualan' => $penjualan,
+            'detail' => $detail,
+        ]);
+    }
+
+    public function notaBesar()
+    {
+        $setting = Setting::first();
+        $penjualan = Transaction::find(session('id_transaction'));
+        if (! $penjualan) {
+            abort(404);
+        }
+        $detail = TransactionDetail::with('produk')
+            ->where('transactions_id', session('transactions_id'))
+            ->get();
+
+        $pdf = PDF::loadView('pages.admin.transaction.nota_besar', compact('setting', 'penjualan', 'detail'));
+        $pdf->setPaper(0,0,609,440, 'potrait');
+        return $pdf->stream('Transaksi-'. date('Y-m-d-his') .'.pdf');
     }
 }
