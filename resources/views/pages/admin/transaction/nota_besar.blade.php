@@ -50,7 +50,7 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Kode Produk 2</th>
+                <th>Kode Produk</th>
                 <th>Nama</th>
                 <th>Harga Satuan</th>
                 <th>Jumlah</th>
