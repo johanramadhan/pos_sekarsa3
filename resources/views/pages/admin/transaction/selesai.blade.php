@@ -79,7 +79,7 @@
     }
 
     function notaBesar(url, title) {
-        popupCenter(url, title, 900, 675);
+        popupCenter(url, title,  720 , 675);
     }
 
     function popupCenter(url, title, w, h) {

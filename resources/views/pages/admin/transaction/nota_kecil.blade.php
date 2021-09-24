@@ -68,7 +68,7 @@
     </div>
     <div class="clear-both" style="clear: both;"></div>
     <p style="margin: 0;">No: {{ $penjualan->code }}</p>
-    <p class="text-center m-0">===================================</p>
+    <p style="margin: 0;" class="text-center m-0">===================================</p>
     
     <br>
     <table width="100%" style="border: 0;">
@@ -77,7 +77,11 @@
                 <td colspan="3">{{ $item->produk->name_product }}</td>
             </tr>
             <tr>
-                <td>{{ $item->jumlah }} x {{ format_uang($item->harga_jual) }} - {{ format_uang($item->diskon) }}%</td>
+                @if (($item->diskon) === 0)
+                    <td>{{ $item->jumlah }} x {{ format_uang($item->harga_jual) }}</td>
+                @else                    
+                    <td>{{ $item->jumlah }} x ({{ format_uang($item->harga_jual) }} - {{ format_uang($item->diskon) }}%)</td>
+                @endif
                 <td></td>
                 <td class="text-right">{{ format_uang(($item->harga_jual - ($item->harga_jual * $item->diskon / 100)) * $item->jumlah) }}</td>
             </tr>
@@ -95,8 +99,11 @@
             <td class="text-right">{{ format_uang($penjualan->total_item) }}</td>
         </tr>
         <tr>
+            @if (($penjualan->diskon) === 0)
+            @else
             <td>Diskon:</td>
             <td class="text-right">{{ format_uang($penjualan->diskon) }}%</td>
+            @endif
         </tr>
         <tr>
             <td>Total Bayar:</td>

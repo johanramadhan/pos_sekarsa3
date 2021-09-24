@@ -10,6 +10,7 @@ use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use PDF;
 
 class TransactionController extends Controller
 {
@@ -94,7 +95,7 @@ class TransactionController extends Controller
         } else {
             $ambil = Transaction::all()->last();
             $urut = (int)substr($ambil->code, -6) + 1;  
-            $code = 'Penj-' . $tanggal . $urut;      
+            $code = 'SKR-' . $tanggal . $urut;      
         }
 
         $transaction = new Transaction();
@@ -256,15 +257,41 @@ class TransactionController extends Controller
     {
         $setting = Setting::first();
         $penjualan = Transaction::find(session('id_transaction'));
-        if (! $penjualan) {
-            abort(404);
-        }
+            if (! $penjualan) {
+                abort(404);
+            }
         $detail = TransactionDetail::with('produk')
-            ->where('transactions_id', session('transactions_id'))
-            ->get();
+            ->where('transactions_id', session('id_transaction'))
+            ->get(); 
+        $customPaper = array(0,0,615,936);
+        $pdf = PDF::loadView('pages.admin.transaction.nota_besar',[
+            'setting' => $setting,
+            'penjualan' => $penjualan,
+            'detail' => $detail,
+            
+        ])->setPaper($customPaper, 'potrait')->setWarnings(false);
 
-        $pdf = PDF::loadView('pages.admin.transaction.nota_besar', compact('setting', 'penjualan', 'detail'));
-        $pdf->setPaper(0,0,609,440, 'potrait');
-        return $pdf->stream('Transaksi-'. date('Y-m-d-his') .'.pdf');
+        // ->setPaper('f4', 'portrait')
+
+        return $pdf->stream('Penjualan-'. date('Y-m-d-his') .'.pdf');
+      
+    }
+
+    public function print($id)
+    {
+        $setting = Setting::first();
+        $penjualan = Transaction::find($id);
+            if (! $penjualan) {
+                abort(404);
+            }
+        $detail = TransactionDetail::with('produk')
+            ->where('transactions_id', $id)
+            ->get();
+        
+        return view('pages.admin.transaction.nota_kecil', [
+            'setting' => $setting,
+            'penjualan' => $penjualan,
+            'detail' => $detail,
+        ]);
     }
 }

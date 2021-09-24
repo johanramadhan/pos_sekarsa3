@@ -63,41 +63,45 @@
                     </thead>
                     <tbody>
                       @forelse ($transactions as $item)
-                          <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td class="text-center">{{ $item->code }}</td>
-                            <td>{{ tanggal_indonesia ($item->created_at) }}</td>
-                            <td class="text-center">{{ $item->user->name }}</td>
-                            <td>{{ $item->member->name ?? '' }}</td>
-                            <td>Rp{{ format_uang ($item->total_harga) }}</td>
-                            <td>Rp{{ format_uang ($item->total_harga) }}</td>
-                            <td class="text-center">{{ $item->diskon }}%</td>
-                            <td>Rp{{ format_uang ($item->bayar) }}</td>
-                            <td>Rp{{ format_uang ($item->diterima) }}</td>
-                            <td class="text-center">
-                              @if (($item->transaction_status ) === "success")
-                                <span class="badge badge-success">Success</span>
+                        <tr>
+                          <td class="text-center">{{ $loop->iteration }}</td>
+                          <td class="text-center">{{ $item->code }}</td>
+                          <td>{{ tanggal_indonesia ($item->created_at) }}</td>
+                          <td class="text-center">{{ $item->user->name }}</td>
+                          <td>{{ $item->member->name ?? '' }}</td>
+                          <td>Rp{{ format_uang ($item->total_harga) }}</td>
+                          <td>Rp{{ format_uang ($item->total_harga) }}</td>
+                          <td class="text-center">{{ $item->diskon }}%</td>
+                          <td>Rp{{ format_uang ($item->bayar) }}</td>
+                          <td>Rp{{ format_uang ($item->diterima) }}</td>
+                          <td class="text-center">
+                            @if (($item->transaction_status ) === "success")
+                              <span class="badge badge-success">Success</span>
+                            @else
+                              <span class="badge badge-danger">Pending</span>
+                            @endif                                
+                          </td>
+                          <td class="text-center">
+                            <div class="btn-group">
+                              @if (($item->transaction_status) === "pending")
+                                <a href="{{ route('transaction.edit', $item->id_transaction) }}" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></a>
                               @else
-                                <span class="badge badge-danger">Pending</span>
+                                <button onclick="print('{{ route('transaction.print', $item->id_transaction) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                               @endif
+                              <button onclick="showDetail( '{{ route('transaction.show', $item->id_transaction) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                              <button type="submit" id="delete" href="{{ route('transaction.destroy', $item->id_transaction) }}" 
+                                class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
+                              <form action="" method="POST" id="deleteForm">
+                                @csrf
+                                @method("DELETE")
+                                <input type="submit" value="Hapus" style="display: none">
                                 
-                            </td>
-                            <td class="text-center">
-                              <div class="btn-group">
-                                  <button onclick="showDetail( '{{ route('transaction.show', $item->id_transaction) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
-                                  <button type="submit" id="delete" href="{{ route('transaction.destroy', $item->id_transaction) }}" 
-                                    class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
-                                  <form action="" method="POST" id="deleteForm">
-                                    @csrf
-                                    @method("DELETE")
-                                    <input type="submit" value="Hapus" style="display: none">
-                                    
-                                  </form>
-                              </div>
-                            </td>
-                          </tr>
+                              </form>
+                            </div>
+                          </td>
+                        </tr>
                       @empty
-                          
+                          Tidak ada data
                       @endforelse
                     </tbody>
                   </table>
@@ -150,6 +154,34 @@
       });
     });
 
+    function print(url, title) {
+        popupCenter(url, title, 625, 500);
+    }
+
+    function popupCenter(url, title, w, h) {
+        const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+        const dualScreenTop  = window.screenTop  !==  undefined ? window.screenTop  : window.screenY;
+
+        const width  = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+        const systemZoom = width / window.screen.availWidth;
+        const left       = (width - w) / 2 / systemZoom + dualScreenLeft
+        const top        = (height - h) / 2 / systemZoom + dualScreenTop
+        const newWindow  = window.open(url, title, 
+        `
+            scrollbars=yes,
+            width  = ${w / systemZoom}, 
+            height = ${h / systemZoom}, 
+            top    = ${top}, 
+            left   = ${left}
+        `
+        );
+
+        if (window.focus) newWindow.focus();
+    }
+
+    
     function showDetail(url) {
         $('#modal-detail').modal('show');
 

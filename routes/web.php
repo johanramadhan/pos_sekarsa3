@@ -57,6 +57,7 @@ Route::prefix('admin')
         Route::get('data-transaction/transaction/selesai', 'TransactionController@selesai')->name('transaction.selesai');
         Route::get('data-transaction/transaction/nota-kecil', 'TransactionController@notaKecil')->name('transaction.nota_kecil');
         Route::get('data-transaction/transaction/nota-besar', 'TransactionController@notaBesar')->name('transaction.nota_besar');
+        Route::get('data-transaction/transaction/print/{id}', 'TransactionController@print')->name('transaction.print');
         Route::resource('data-transaction/transaction', 'TransactionController');
 
         // Penjualan-detail
