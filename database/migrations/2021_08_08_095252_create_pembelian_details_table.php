@@ -20,6 +20,7 @@ class CreatePembelianDetailsTable extends Migration
             $table->integer('id_produk');
             $table->integer('harga_beli');
             $table->integer('jumlah');
+            $table->integer('berat');
             $table->integer('subtotal');
             $table->timestamps();
         });

@@ -35,9 +35,10 @@ Route::prefix('admin')
         Route::resource('supplier', 'SupplierController');
         Route::resource('customer', 'CustomerController');
         Route::resource('user', 'UserController');
-        Route::resource('setting', 'SettingController');
-        Route::resource('data-product/products', 'ProductController');
-        Route::resource('data-product/product-gallery', 'ProductGalleryController');
+        Route::get('setting', 'SettingController@index')->name('setting.index');
+        Route::post('setting', 'SettingController@update')->name('setting.update');
+        Route::resource('data-product/persediaan', 'PersediaanController');
+        Route::resource('data-product/persediaan-gallery', 'PersediaanGalleryController');
         Route::resource('data-transaction/pengeluaran', 'PengeluaranController');
 
         Route::resource('data-product/produk', 'ProdukController');
@@ -69,9 +70,6 @@ Route::prefix('admin')
         Route::resource('data-proposal/pengajuan', 'ProposalController');
         Route::resource('data-proposal/proposal-galleries', 'ProposalGalleryController');
 
-        // dashboard product gallery
-        Route::post('data-aset/aset/gallery/upload', 'ProductController@uploadGallery')->name('product-gallery-upload');
-        Route::get('data-aset/aset/gallery/delete/{id}', 'ProductController@deleteGallery')->name('product-gallery-delete');
         // dashboard product export
         Route::get('aset/exportpdf', 'ProductController@exportPdfTable')->name('productExportPdf');
 

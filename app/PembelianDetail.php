@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PembelianDetail extends Model
 {
-     protected $fillable = [
-    'code', 'id_pembelian', 'id_produk', 'harga_beli', 'jumlah', 'subtotal'
-    ];
+    protected $guarded = [];
 
     protected $primaryKey = 'id_pembelian_detail';
 

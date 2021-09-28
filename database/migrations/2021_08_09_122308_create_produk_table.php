@@ -18,12 +18,16 @@ class CreateProdukTable extends Migration
             $table->integer('categories_id');
             $table->string('code');
             $table->string('name_product');
-            $table->integer('stok');
+            $table->integer('stok')->nullable();
             $table->string('satuan');
+            $table->integer('berat')->nullable();
+            $table->bigInteger('total_berat')->nullable();
+            $table->string('satuan_berat');
             $table->string('merk')->nullable();
             $table->integer('harga_beli');
             $table->tinyInteger('diskon')->default(0);
             $table->integer('harga_jual');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

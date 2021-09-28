@@ -119,6 +119,12 @@
                           <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Jumlah">
                         </div>
                       </div>
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Berat</label>
+                        <div class="col-sm-9">
+                          <input type="number" class="form-control" name="berat" id="berat" placeholder="Berat">
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="col-4">

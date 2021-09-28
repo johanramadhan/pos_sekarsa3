@@ -18,6 +18,7 @@ class CreatePembeliansTable extends Migration
             $table->string('code');
             $table->integer('users_id');
             $table->integer('id_supplier');
+            $table->string('status');
             $table->integer('total_item');
             $table->integer('total_harga');
             $table->tinyInteger('diskon')->default(0);

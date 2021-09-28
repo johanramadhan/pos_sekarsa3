@@ -99,6 +99,7 @@ class PembelianController extends Controller
         $pembelian->total_harga = 0;
         $pembelian->diskon      = 0;
         $pembelian->bayar       = 0;
+        $pembelian->status      = "Pending";
         $pembelian->save();
 
         session(['id_pembelian' => $pembelian->id_pembelian]);

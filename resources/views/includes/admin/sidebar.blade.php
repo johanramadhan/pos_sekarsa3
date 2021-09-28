@@ -70,27 +70,21 @@
           <a href="#" class="nav-link {{ (request()->is('admin/data-product*')) ? 'active' : '' }} ">
             <i class="nav-icon fas fa-briefcase"></i>
             <p>
-              Produk
+              Data Produk
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ route('products.index') }}" class="nav-link {{ (request()->is('admin/data-product/product*')) ? 'active' : '' }}">
+              <a href="{{ route('persediaan.index') }}" class="nav-link {{ (request()->is('admin/data-product/persediaan*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Produk</p>
+                <p>Persediaan</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ route('produk.index') }}" class="nav-link {{ (request()->is('admin/data-product/produk*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Produk2</p>
-              </a>
-            </li>
-            <li class="nav-item d-none">
-              <a href="{{ route('product-gallery.index') }}" class="nav-link {{ (request()->is('admin/data-aset/product-gallery*')) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Gallery</p>
+                <p>Produk</p>
               </a>
             </li>
           </ul>

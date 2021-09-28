@@ -65,6 +65,7 @@
                         <th>Satuan</th>
                         <th>Kategori</th>
                         <th>Jumlah Stok</th>
+                        <th>Berat</th>
                         <th>Harga Modal</th>
                         <th>Harga Jual</th>
                         <th>Aksi</th>
@@ -79,6 +80,7 @@
                           <td class="text-center">{{ $item->satuan }}</td>
                           <td>{{ $item->category->name }}</td>
                           <td class="text-center">{{ $item->stok }}</td>
+                          <td class="text-center">{{ $item->berat }} {{ $item->satuan_berat }}</td>
                           <td>{{ format_uang($item->harga_beli) }}</td>
                           <td>{{ format_uang($item->harga_jual) }}</td>
                           <td>
@@ -192,10 +194,10 @@
                           </div>
                           <!-- /.Kategori --> 
                           <div class="form-group">
-                            <label>Satuan*</label>
+                            <label>Satuan Barang*</label>
                             <select name="satuan" class="form-control select2" required>
                               <option>--Pilih satuan--</option>
-                              <option value="Bidang">Bidang</option>
+                              <option value="Gelas">Gelas</option>
                               <option value="Unit">Unit</option>
                               <option value="Buah">Buah</option>
                               <option value="Roll">Roll</option>
@@ -233,19 +235,27 @@
                             </select>                            
                           </div>
                           <!-- /.satuan -->     
-                        </div>
-                        <div class="col-md-6">
                           <div class="form-group">
-                            <label>Stok Barang*</label>
+                            <label>Satuan Berat*</label>
+                            <select name="satuan_berat" class="form-control select2" required>
+                              <option>--Pilih satuan berat--</option>
+                              <option value="Kilogram">Kilogram</option>
+                              <option value="Gram">Gram</option>
+                            </select>                            
+                          </div>
+                          <!-- /.satuan berat-->    
+                        </div>
+                        <div class="col-md-6">    
+                          <div class="form-group">
+                            <label>diskon</label>
                             <input
                               type="number"
-                              name="stok"
+                              name="diskon"
                               class="form-control"
-                              placeholder="Jumlah Stok Barang"
-                              required
+                              placeholder="Masukkan diskon"
                             />
                           </div>
-                          <!-- /.Stok -->            
+                          <!-- /.Diskon -->       
                           <div class="form-group">
                             <label>Harga Modal*</label>
                             <input
@@ -267,18 +277,7 @@
                               required
                             />
                           </div>
-                          <!-- /.Harga Jual -->                           
-                          <div class="form-group">
-                            <label>diskon</label>
-                            <input
-                              type="number"
-                              name="diskon"
-                              class="form-control"
-                              placeholder="Masukkan diskon"
-                              required
-                            />
-                          </div>
-                          <!-- /.Diskon -->                           
+                          <!-- /.Harga Jual -->                                
                           <div class="form-group">
                             <label>Merk</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
                             <input
@@ -324,11 +323,11 @@
   <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
   <script>
     function sum() {
-        var qty = document.getElementById('qty').value;
-        var price = document.getElementById('price').value;
-        var result = parseInt(price) * parseInt(qty);
+        var stok = document.getElementById('stok').value;
+        var berat = document.getElementById('berat').value;
+        var result = parseInt(stok) * parseInt(berat);
         if (!isNaN(result)) {
-            document.getElementById('total_price').value = result;
+            document.getElementById('total_berat').value = result;
         }
     }
   </script>

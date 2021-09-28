@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -14,7 +16,10 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('pages.admin.setting.index');
+        $setting = Setting::first();
+        return view('pages.admin.setting.index', [
+            'setting' => $setting
+        ]);
     }
 
     /**
@@ -67,9 +72,21 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $data = $request->all();
+
+        if ($request->hasFile('path_logo')) {
+            Storage::delete('path_logo');
+            $data['path_logo'] = $request->file('path_logo')->store('assets/setting','public');
+        }
+
+        $item = Setting::first();
+
+        $item->update($data);
+
+        return redirect()->route('setting.index')
+          ->with('success', 'Data profil berhasil di perbarui');
     }
 
     /**
