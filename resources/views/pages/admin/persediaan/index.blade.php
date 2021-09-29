@@ -50,11 +50,11 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+                  <table class="table table-bordered table-striped table-persediaan">
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-primary">
                       + Persediaan
                     </button>
-                    <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3">
+                    <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3 mb-3">
                       Print PDF
                     </a>
                     <thead>
@@ -97,38 +97,23 @@
                           <td>
                             <img src="{{Storage::url($item->galleries->first()->photos ?? 'tidak ada foto')}}" style="max-height: 50px;">
                           </td>
-                          <td>
+                          <td class="text-center">
                             <div class="btn-group">
-                              <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle mr-1 mb-1"        
-                                  type="button"
-                                  data-toggle="dropdown">
-                                  Aksi
-                                </button>
-                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="#">
-                                    Sunting
-                                  </a>
-                                  <a class="dropdown-item" href="#">
-                                    Detail
-                                  </a>
-                                  <button type="submit" id="delete" href="#" 
-                                    class="dropdown-item text-danger">
-                                    Hapus
-                                  </button>
-                                  <form action="" method="POST" id="deleteForm">
-                                    @csrf
-                                    @method("DELETE")
-                                    <input type="submit" value="Hapus" style="display: none">
-                                    
-                                  </form>
-                                </div>
-                              </div>
+                              <button onclick="editForm( '{{ route('persediaan.update', $item->id_persediaan) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
+                              <button onclick="showDetail( '{{ route('persediaan.show', $item->id_persediaan) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                              <button type="submit" id="delete" href="{{ route('persediaan.destroy', $item->id_persediaan) }}" 
+                                class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
+                                <form action="" method="POST" id="deleteForm">
+                                @csrf
+                                @method("DELETE")
+                                <input type="submit" value="Hapus" style="display: none">
+                                
+                              </form>
                             </div>
                           </td>
                         </tr>
                       @empty
-                          
+                        Tidak ada data
                       @endforelse
                     </tbody>
 
@@ -144,6 +129,9 @@
     </div>
     <!-- /.content -->
   </div>
+
+  @includeIf('pages.admin.persediaan.detail')
+  @includeIf('pages.admin.persediaan.form')
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
@@ -366,15 +354,56 @@
   </script>
 
   <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
+    let table, table1;
 
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-          theme: 'bootstrap4'
-        })
-     })
+    $(function () {
+      table = $('.table-persediaan').DataTable({
+        processing: true,
+        autoWidth: false,  
+      });
+
+      table1 = $('.table-detail-persediaan').DataTable({
+        processing: true,
+          columns: [
+            {data: 'DT_RowIndex', searchable: false, sortable: false},
+            {data: 'stok'},
+            {data: 'satuan'},
+            {data: 'berat'},
+            {data: 'total_berat'},
+            {data: 'satuan_berat'},
+            {data: 'harga_beli'},
+            {data: 'diskon'},
+        ]
+      });
+    });
+
+    function showDetail(url) {
+        $('#modal-detail').modal('show');
+
+        table1.ajax.url(url);
+        table1.ajax.reload();
+    }
+
+    function editForm(url) {
+        $('#modal-form').modal('show');
+        $('#modal-form .modal-title').text('Edit Persediaan');
+
+        $('#modal-form form')[0].reset();
+        $('#modal-form form').attr('action', url);
+        $('#modal-form [name=_method]').val('put');
+        $('#modal-form [name=name_persediaan]').focus();
+
+        $.get(url)
+            .done((response) => {
+                $('#modal-form [name=code]').val(response.code);
+                $('#modal-form [name=name_persediaan]').val(response.name_persediaan);
+                $('#modal-form [name=alamat]').val(response.alamat);
+            })
+            .fail((errors) => {
+                alert('Tidak dapat menampilkan data');
+                return;
+            });
+    }
   </script>
 
   <script>
@@ -390,23 +419,7 @@
     })
   </script>
 
-  <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-      });
-    });
-  </script>
+  
   <script>
     $('button#delete').on('click', function(e){
       e.preventDefault();

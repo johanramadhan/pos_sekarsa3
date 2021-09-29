@@ -15,4 +15,10 @@ class Produk extends Model
     {
         return $this->belongsTo(Category::class, 'categories_id', 'id');
     }
+
+    public function galleries()
+    {
+        // ->withTrashed()
+        return $this->hasMany(ProposalGallery::class, 'proposals_id', 'id');
+    }
 }

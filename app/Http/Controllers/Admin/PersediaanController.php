@@ -81,7 +81,33 @@ class PersediaanController extends Controller
      */
     public function show($id)
     {
-        //
+        $detail = Persediaan::with(['galleries', 'category'])->where('id_persediaan', $id)->get(); 
+
+        return datatables()
+        ->of($detail)
+        ->addIndexColumn()   
+            ->addColumn('stok', function ($detail) {
+                return $detail->stok;
+            })    
+            ->addColumn('satuan', function ($detail) {
+                return $detail->satuan;
+            })    
+            ->addColumn('berat', function ($detail) {
+                return $detail->berat;
+            })    
+            ->addColumn('totalBerat', function ($detail) {
+                return $detail->total_berat;
+            })    
+            ->addColumn('satuan_berat', function ($detail) {
+                return $detail->satuan_berat;
+            })    
+            ->addColumn('harga_beli', function ($detail) {
+                return 'Rp'. format_uang($detail->harga_beli);
+            })               
+            ->editColumn('diskon', function ($detail) {
+                return $detail->diskon . '%';
+            })    
+            ->make(true);
     }
 
     /**
@@ -92,7 +118,9 @@ class PersediaanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $persediaan = Persediaan::find($id);
+
+        return response()->json($persediaan);
     }
 
     /**
@@ -104,7 +132,10 @@ class PersediaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $member = Persediaan::find($id)->update($request->all());
+
+         return redirect()->route('persediaan.index')
+          ->with('success', 'Data persediaan berhasil diedit');
     }
 
     /**
@@ -115,6 +146,10 @@ class PersediaanController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $persediaan = Persediaan::find($id);
+
+        $persediaan->delete();
+
+        return redirect()->route('persediaan.index');
     }
 }

@@ -11,6 +11,7 @@ use PDF;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 Use App\Http\Requests\ProductRequest;
+use App\Produk;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -25,15 +26,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['galleries','user', 'category'])->get(); 
+        $products = Produk::with(['galleries','user', 'category'])->get(); 
         $categories = Category::all();
         $tanggal = Carbon::now()->format('dmY');
-        $cek = Product::count();
+        $cek = Produk::count();
         if ($cek == 0) {
             $urut = 100001;
             $code = 'SKS-' . $tanggal . $urut;
         } else {
-            $ambil = Product::all()->last();
+            $ambil = Produk::all()->last();
             $urut = (int)substr($ambil->code, -6) + 1;  
             $code = 'SKS-' . $tanggal . $urut;      
         }
@@ -48,7 +49,7 @@ class ProductController extends Controller
 
     public function exportPdfTable()
     {
-      $products = Product::all();
+      $products = Produk::all();
       $customPaper = array(0,0,940,615);
       $pdf = PDF::loadView('pages.admin.exports.pdf',[
         'products' => $products, 
@@ -82,7 +83,7 @@ class ProductController extends Controller
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->name);
-        $product = Product::create($data);
+        $product = Produk::create($data);
 
         $gallery = [
             'products_id' => $product->id,
@@ -106,7 +107,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $users = User::all(); 
-        $item = Product::with(['galleries','user','category'])->findOrFail($id);
+        $item = Produk::with(['galleries','user','category'])->findOrFail($id);
 
         return view('pages.admin.product.detail', [
           'item' => $item,
@@ -124,7 +125,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $categories = Category::all();
-        $item = Product::with(['galleries', 'category'])->findOrFail($id);
+        $item = Produk::with(['galleries', 'category'])->findOrFail($id);
 
         return view('pages.admin.product.edit', [
           'item' => $item,

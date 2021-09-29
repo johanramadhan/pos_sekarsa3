@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Cart;
+use App\Produk;
 use App\Category;
-use App\Product;
 use App\Proposal;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DetailController extends Controller
 {
     public function index(Request $request, $slug)
     {
         
-        $item = Product::with(['galleries','user','category'])
+        $item = Produk::with(['galleries','user','category'])
                 ->where('slug', $slug)
                 ->firstOrFail();
         

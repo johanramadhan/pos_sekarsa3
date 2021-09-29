@@ -221,7 +221,7 @@ class TransactionController extends Controller
 
         $transaction->delete();
 
-        return redirect()->route('transaction.index');;
+        return redirect()->route('transaction.index');
     
     }
 
