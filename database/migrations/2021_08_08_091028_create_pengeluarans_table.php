@@ -14,11 +14,15 @@ class CreatePengeluaransTable extends Migration
     public function up()
     {
         Schema::create('pengeluarans', function (Blueprint $table) {
-            $table->id();
-            $table->text('description');
-            $table->integer('nominal');
-
-            $table->softDeletes();
+           $table->increments('id_pengeluaran');
+            $table->string('code');
+            $table->integer('users_id');
+            $table->string('keterangan');
+            $table->string('status');
+            $table->integer('total_item');
+            $table->integer('total_harga');
+            $table->tinyInteger('diskon')->default(0);
+            $table->integer('bayar')->default(0);
             $table->timestamps();
         });
     }

@@ -100,7 +100,7 @@
                           <td class="text-center">
                             <div class="btn-group">
                               <button onclick="editForm( '{{ route('persediaan.update', $item->id_persediaan) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
-                              <button onclick="showDetail( '{{ route('persediaan.show', $item->id_persediaan) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                              <button onclick="showDetail( '{{ route('persediaan.detail', $item->id_persediaan) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
                               <button type="submit" id="delete" href="{{ route('persediaan.destroy', $item->id_persediaan) }}" 
                                 class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
                                 <form action="" method="POST" id="deleteForm">
@@ -378,48 +378,39 @@
     });
 
     function showDetail(url) {
-        $('#modal-detail').modal('show');
+      $('#modal-detail').modal('show');
 
-        table1.ajax.url(url);
-        table1.ajax.reload();
+      table1.ajax.url(url);
+      table1.ajax.reload();
     }
 
     function editForm(url) {
-        $('#modal-form').modal('show');
-        $('#modal-form .modal-title').text('Edit Persediaan');
+      $('#modal-form').modal('show');
+      $('#modal-form .modal-title').text('Edit Persediaan');
 
-        $('#modal-form form')[0].reset();
-        $('#modal-form form').attr('action', url);
-        $('#modal-form [name=_method]').val('put');
-        $('#modal-form [name=name_persediaan]').focus();
+      $('#modal-form form')[0].reset();
+      $('#modal-form form').attr('action', url);
+      $('#modal-form [name=_method]').val('put');
+      $('#modal-form [name=name_persediaan]').focus();
 
-        $.get(url)
-            .done((response) => {
-                $('#modal-form [name=code]').val(response.code);
-                $('#modal-form [name=name_persediaan]').val(response.name_persediaan);
-                $('#modal-form [name=alamat]').val(response.alamat);
-            })
-            .fail((errors) => {
-                alert('Tidak dapat menampilkan data');
-                return;
-            });
+      $.get(url)
+        .done((response) => {
+            $('#modal-form [name=code]').val(response.code);
+            $('#modal-form [name=name_persediaan]').val(response.name_persediaan);
+            $('#modal-form [name=categories_id]').val(response.categories_id);
+            $('#modal-form [name=satuan]').val(response.satuan);
+            $('#modal-form [name=satuan_berat]').val(response.satuan_berat);
+            $('#modal-form [name=harga_beli]').val(response.harga_beli);
+            $('#modal-form [name=merk]').val(response.merk);
+            $('#modal-form [name=photos]').val(response.photos);
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menampilkan data');
+            return;
+        });
     }
   </script>
-
-  <script>
-    $(function () {
-      // Summernote
-      $('#summernote').summernote()
-
-      // CodeMirror
-      CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-        mode: "htmlmixed",
-        theme: "monokai"
-      });
-    })
-  </script>
-
-  
+ 
   <script>
     $('button#delete').on('click', function(e){
       e.preventDefault();

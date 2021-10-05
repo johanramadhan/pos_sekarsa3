@@ -47,58 +47,68 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
-                      + Pengeluaran
-                    </button>
+                  <table id="example1" class="table table-pengeluaran table-bordered table-striped">
+                    <button onclick="addForm()" class="btn btn-primary mb-2">+ Transaksi Pengeluaran</i></button>
+                    @empty(! session('id_pengeluaran'))
+                    <a href="{{ route('pengeluaran_detail.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
+                    @endempty
                     <thead>
                       <tr>
                         <th>No</th>
-                        <th>Tanggal Pengeluaran</th>
-                        <th>Deskripsi</th>
-                        <th>Nominal</th>
-                        <th>Aksi</th>
+                        <th class="text-center">Code</th>
+                        <th class="text-center">Tanggal Pengeluaran</th>
+                        <th class="text-center">Keterangan</th>
+                        <th class="text-center">Kasir</th>
+                        <th class="text-center">Total Item</th>
+                        <th class="text-center">Total Harga</th>
+                        <th class="text-center">Diskon</th>
+                        <th class="text-center">Bayar</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
                       @forelse ($pengeluarans as $item)
-                        <tr>
-                          <td>{{ $loop->iteration }}</td>
-                          <td>{{ tanggal_indonesia($item->created_at) }}</td>
-                          <td>{{ $item->description }}</td>
-                          <td>Rp{{ format_uang($item->nominal) }}</td>
-                          <td>
-                            <div class="btn-group">
-                              <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle mr-1 mb-1"        
-                                  type="button"
-                                  data-toggle="dropdown">
-                                  Aksi
-                                </button>
-                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('pengeluaran.edit', $item->id) }}">
-                                    Sunting
-                                  </a>
-                                  <button type="submit" id="delete" href="{{ route('pengeluaran.destroy', $item->id) }}" 
-                                    class="dropdown-item text-danger">
-                                    Hapus
-                                  </button>
-                                  <form action="" method="POST" id="deleteForm">
-                                    @csrf
-                                    @method("DELETE")
-                                    <input type="submit" value="Hapus" style="display: none">
-                                    
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+                      <tr>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td class="text-center">{{ $item->code }}</td>
+                        <td class="text-center">{{ tanggal_indonesia($item->created_at) }}</td>
+                        <td>{{ $item->keterangan }}</td>
+                        <td class="text-center">{{ $item->user->name }}</td>
+                        <td class="text-center">{{ format_uang($item->total_item) }}</td>
+                        <td class="text-center">Rp{{ format_uang($item->total_harga) }}</td>
+                        <td class="text-center">{{ $item->diskon }}%</td>
+                        <td class="text-center">Rp{{ format_uang($item->bayar) }}</td>
+                        <td class="text-center">
+                          @if (($item->status ) === "Success")
+                            <span class="badge badge-success">Success</span>
+                          @else
+                            <span class="badge badge-danger">Pending</span>
+                          @endif                                
+                        </td>
+                        <td class="text-center">
+                          <div class="btn-group">
+                            @if (($item->status) === "Pending")
+                              <a href="{{ route('pengeluaran_detail.edit', $item->id_pengeluaran) }}" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></a>
+                            @else
+                              <button onclick="print('{{ route('pengeluaran.print', $item->id_pengeluaran) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
+                            @endif
+                            <button onclick="showDetail( '{{ route('pengeluaran.show', $item->id_pengeluaran) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                            <button type="submit" id="delete" href="{{ route('pengeluaran.destroy', $item->id_pengeluaran) }}" 
+                              class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
+                            <form action="" method="POST" id="deleteForm">
+                              @csrf
+                              @method("DELETE")
+                              <input type="submit" value="Hapus" style="display: none">
+                              
+                            </form>
+                          </div>
+                        </td>
+                      </tr>                          
                       @empty
                           
                       @endforelse
                     </tbody>
-
                   </table>
                 </div>
               </div>
@@ -112,69 +122,9 @@
     <!-- /.content -->
   </div>
 
-  <div class="modal fade" id="modal-primary">
-    <div class="modal-dialog modal-xl">
-      <form action="{{ route('pengeluaran.store') }}" method="POST" enctype="multipart/form-data">
-      @csrf
-        <div class="modal-content bg-default">
-          <div class="modal-header">
-            <h4 class="modal-title">Tambah Pengeluaran</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-12">
-                  @if ($errors->any())
-                    <div class="alert alert-danger">
-                      <ul>
-                        @foreach ($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                        @endforeach
-                      </ul>
-                    </div>
-                  @endif
-                  <div class="card card-primary">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label>Deskripsi Pengeluaran</label>
-                            <textarea class="form-control" name="description" rows="3" placeholder="Tuliskan deskripsi pengeluaran" required></textarea>
-                          </div>
-                          <!-- /.deskripsi -->               
-                          <div class="form-group">
-                            <label>Nominal</label>
-                            <input
-                              type="number"
-                              name="nominal"
-                              class="form-control"
-                              placeholder="Nominal"
-                              required
-                            />
-                          </div>
-                          <!-- /.Nominal -->               
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </form>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
+  @includeIf('pages.admin.pengeluaran.detail')
+  @includeIf('pages.admin.pengeluaran.tambah')
+
 @endsection
 
 @push('addon-script')
@@ -186,50 +136,87 @@
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-  <!-- Summernote -->
-  <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-  <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-          theme: 'bootstrap4'
-        })
-     })
-  </script>
 
   <script>
+    let table, table1;
+
     $(function () {
-      // Summernote
-      $('#summernote').summernote()
-
-      // CodeMirror
-      CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-        mode: "htmlmixed",
-        theme: "monokai"
-      });
-    })
-  </script>
-
-  <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
+      table = $('.table-pengeluaran').DataTable({
+        processing: true,
+        autoWidth: false,
+    });
+          
+      table1 = $('.table-detail-pengeluaran').DataTable({
+          processing: true,
+          bSort: false,
+          columns: [
+              {class: 'text-center', data: 'DT_RowIndex', searchable: false, sortable: false},
+              {class: 'text-center', data: 'code'},
+              {class: 'text-left', data: 'uraian'},
+              {class: 'text-center', data: 'jumlah'},
+              {class: 'text-center', data: 'satuan'},
+              {class: 'text-center', data: 'harga_beli'},
+              {class: 'text-center', data: 'subtotal'},
+          ]
       });
     });
+
+    function print(url, title) {
+        popupCenter(url, title, 625, 500);
+    }
+
+    function popupCenter(url, title, w, h) {
+        const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+        const dualScreenTop  = window.screenTop  !==  undefined ? window.screenTop  : window.screenY;
+
+        const width  = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+        const systemZoom = width / window.screen.availWidth;
+        const left       = (width - w) / 2 / systemZoom + dualScreenLeft
+        const top        = (height - h) / 2 / systemZoom + dualScreenTop
+        const newWindow  = window.open(url, title, 
+        `
+            scrollbars=yes,
+            width  = ${w / systemZoom}, 
+            height = ${h / systemZoom}, 
+            top    = ${top}, 
+            left   = ${left}
+        `
+        );
+
+        if (window.focus) newWindow.focus();
+    }
+
+    function addForm() {
+        $('#modal-pengeluaran').modal('show');
+    }
+
+    function showDetail(url) {
+        $('#modal-detail').modal('show');
+
+        table1.ajax.url(url);
+        table1.ajax.reload();
+    }
+
+    function deleteData(url) {
+      if (confirm('Yakin ingin menghapus data terpilih?')) {
+        $.post(url, {
+            '_token': $('[name=csrf-token]').attr('content'),
+            '_method': 'delete'
+        })
+        .done((response) => {
+            table.ajax.reload();
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menghapus data');
+            return;
+        });
+      }
+    }
+
   </script>
+  
   <script>
       function sum() {
           var qty = document.getElementById('qty').value;

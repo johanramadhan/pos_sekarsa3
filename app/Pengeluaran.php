@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pengeluaran extends Model
 {
-    use SoftDeletes;
+    protected $table = 'pengeluarans';
+    protected $primaryKey = 'id_pengeluaran';
+    protected $guarded = [];
 
-  protected $fillable = [
-    'description', 'nominal'
-  ];
-
-  protected $hidden = [
-    
-  ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
 }

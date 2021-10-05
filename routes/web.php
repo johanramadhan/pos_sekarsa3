@@ -38,10 +38,22 @@ Route::prefix('admin')
         Route::get('setting', 'SettingController@index')->name('setting.index');
         Route::post('setting', 'SettingController@update')->name('setting.update');
         Route::resource('data-product/persediaan', 'PersediaanController');
+        Route::get('data-product/persediaan/{id}/detail', 'PersediaanController@detail')->name('persediaan.detail');
         Route::resource('data-product/persediaan-gallery', 'PersediaanGalleryController');
-        Route::resource('data-transaction/pengeluaran', 'PengeluaranController');
+        
 
         Route::resource('data-product/produk', 'ProdukController');
+
+        // Pengeluaran
+        Route::get('/pengeluaran/{id}/tambah', 'PengeluaranController@tambah')->name('tambah-pengeluaran');
+        Route::get('data-transaction/pengeluaran/data', 'PengeluaranController@data')->name('pengeluaran.data');
+        Route::get('data-transaction/pengeluaran/print/{id}', 'PengeluaranController@print')->name('pengeluaran.print');
+        Route::resource('data-transaction/pengeluaran', 'PengeluaranController');
+
+        // Pengeluaran-Detail
+        Route::get('data-transaction/pengeluaran_detail/{id}/data', 'PengeluaranDetailController@data')->name('pengeluaran_detail.data');
+        Route::get('data-transaction/pengeluaran_detail/loadform/{diskon}/{total}', 'PengeluaranDetailController@loadForm')->name('pengeluaran_detail.load_form');
+        Route::resource('data-transaction/pengeluaran_detail', 'PengeluaranDetailController');
 
         // Pembelian
         Route::get('/pembelian/{id}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');

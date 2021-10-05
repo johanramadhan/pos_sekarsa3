@@ -69,7 +69,7 @@
                           <td>{{ tanggal_indonesia ($item->created_at) }}</td>
                           <td class="text-center">{{ $item->user->name }}</td>
                           <td>{{ $item->member->name ?? '' }}</td>
-                          <td>Rp{{ format_uang ($item->total_harga) }}</td>
+                          <td class="text-center">{{ format_uang ($item->total_item) }}</td>
                           <td>Rp{{ format_uang ($item->total_harga) }}</td>
                           <td class="text-center">{{ $item->diskon }}%</td>
                           <td>Rp{{ format_uang ($item->bayar) }}</td>
@@ -84,7 +84,7 @@
                           <td class="text-center">
                             <div class="btn-group">
                               @if (($item->transaction_status) === "pending")
-                                <a href="{{ route('transaction.edit', $item->id_transaction) }}" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></a>
+                                <a href="{{ route('transaction-detail.index', $item->id_transaction) }}" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></a>
                               @else
                                 <button onclick="print('{{ route('transaction.print', $item->id_transaction) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                               @endif

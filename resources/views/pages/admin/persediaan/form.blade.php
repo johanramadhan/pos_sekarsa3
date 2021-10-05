@@ -1,8 +1,8 @@
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" role="document">
   <div class="modal-dialog modal-xl">
     <form action="" method="POST" class="form-horizontal" enctype="multipart/form-data">
-    @csrf
-    @method('post')
+      @csrf
+      @method('POST')
 
       <div class="modal-content bg-default">
         <div class="modal-header">
@@ -172,7 +172,7 @@
                         <!-- /.Fungsi -->
                         <div class="form-group">
                           <label>Thumbnail*</label>
-                          <input type="file" name="photos" id="photos" class="form-control" required/>
+                          <input type="file" name="photos" id="photos" class="form-control"/>
                           <p class="text-muted">
                             Masukkan gambar barang
                           </p>

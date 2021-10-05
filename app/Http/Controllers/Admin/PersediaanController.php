@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Persediaan;
 use App\PersediaanGallery;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PersediaanController extends Controller
@@ -79,7 +80,7 @@ class PersediaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function detail($id)
     {
         $detail = Persediaan::with(['galleries', 'category'])->where('id_persediaan', $id)->get(); 
 
@@ -116,7 +117,7 @@ class PersediaanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function show($id)
     {
         $persediaan = Persediaan::find($id);
 
@@ -132,7 +133,18 @@ class PersediaanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $member = Persediaan::find($id)->update($request->all());
+        
+        $data = $request->all();
+        $item = Persediaan::findOrFail($id);
+
+        $item2 = PersediaanGallery::findOrFail($id);
+        if ($request->hasFile('photos')) {
+            Storage::delete('photos');
+            $data['photos'] = $request->file('photos')->store('assets/persediaan','public');
+        }
+
+        $item->update($data);
+        $item2->update($data);
 
          return redirect()->route('persediaan.index')
           ->with('success', 'Data persediaan berhasil diedit');
@@ -147,6 +159,12 @@ class PersediaanController extends Controller
     public function destroy($id)
     {
         $persediaan = Persediaan::find($id);
+        $persediaanGallery      = PersediaanGallery::where('persediaans_id', $persediaan->id_persediaan)->get();
+
+        foreach ($persediaanGallery as $item) {
+            
+            $item->delete();
+        }
 
         $persediaan->delete();
 

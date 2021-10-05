@@ -16,10 +16,10 @@
         p {
             display: block;
             margin: 3px;
-            font-size: 10pt;
+            font-size: 12pt;
         }
         table td {
-            font-size: 9pt;
+            font-size: 11pt;
         }
         .text-center {
             text-align: center;

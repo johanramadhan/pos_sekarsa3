@@ -373,13 +373,13 @@
             }
 
             loadForm($('#diskon').val(), $(this).val());
-        }).focus(function () {
-            $(this).select();
-        });
+      }).focus(function () {
+          $(this).select();
+      });
 
       $('.btn-simpan').on('click', function () {
             $('.form-penjualan').submit();
-        });
+      });
 
       $('#modal-form').validator().on('submit', function (e) {
           if (! e.preventDefault()) {
