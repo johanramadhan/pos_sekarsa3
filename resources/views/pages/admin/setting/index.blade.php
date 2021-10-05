@@ -110,80 +110,59 @@
                 <div class="tab-content">
 
                   <div class="active tab-pane" id="settings">
-                    <form action="{{ route('setting.update') }}" method="post"  class="form-horizontal">
-                      @csrf
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" name="name" value="{{ $setting->name }}" id="inputName" placeholder="Name">
-                        </div>
+                    
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">Name</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" value="{{ $setting->name }}" id="inputName" placeholder="Name" readonly>
                       </div>
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">Email</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Email" readonly>
                       </div>
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">No. Telepon</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" name="telepon" value="{{ $setting->telepon }}" placeholder="Name">
-                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">No. Telepon</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" name="telepon" value="{{ $setting->telepon }}" placeholder="Name" readonly>
                       </div>
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Diskon</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" name="diskon" value="{{ $setting->diskon }}" placeholder="Skills">
-                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">Diskon</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" name="diskon" value="{{ $setting->diskon }}" placeholder="Skills" readonly>
                       </div>
-                      <div class="form-group row">
-                        <label for="tipe_nota" class="col-lg-2 control-label">Tipe Nota</label>
-                        <div class="col-sm-10">
-                          <select name="tipe_nota" class="form-control" id="tipe_nota" required>
-                              @if (($setting->tipe_nota) === 1)
-                                <option value="{{ $setting->tipe_nota }}"> -- Tidak diganti (Nota Kecil) --</option> 
-                              @else
-                                <option value="{{ $setting->tipe_nota }}">-- Tidak diganti (Nota Besar) --</option>
-                              @endif
-                              <option value="1">Nota Kecil</option>
-                              <option value="2">Nota Besar</option>
-                          </select>
-                          <span class="help-block with-errors"></span>
-                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="tipe_nota" class="col-lg-2 control-label">Tipe Nota</label>
+                      <div class="col-sm-10">
+                        <select name="tipe_nota" class="form-control" id="tipe_nota" readonly>
+                            @if (($setting->tipe_nota) === 1)
+                              <option value="{{ $setting->tipe_nota }}"> -- Tidak diganti (Nota Kecil) --</option> 
+                            @else
+                              <option value="{{ $setting->tipe_nota }}">-- Tidak diganti (Nota Besar) --</option>
+                            @endif
+                            <option value="1">Nota Kecil</option>
+                            <option value="2">Nota Besar</option>
+                        </select>
+                        <span class="help-block with-errors"></span>
                       </div>
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Logo</label>
-                        <div class="col-sm-10">
-                          <input type="file" class="form-control" name="path_logo" value="{{ $setting->path_logo }}" placeholder="Skills">
-                          <p class="text-muted">
-                            Masukkan Logo Perusahaan
-                          </p>
-                        </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-2 col-form-label">Alamat</label>
+                      <div class="col-sm-10">
+                        <textarea class="form-control" name="address" placeholder="Alamat" readonly>{{ $setting->address }}</textarea>
                       </div>
-                      <!-- /.Logo -->
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Kartu Member</label>
-                        <div class="col-sm-10">
-                          <input type="file" class="form-control" name="path_kartu_member" value="{{ $setting->path_kartu_member }}" placeholder="Skills">
-                          <p class="text-muted">
-                            Masukkan Gambar Kartu Member
-                          </p>
-                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                      <div class="offset-sm-2 col-sm-10">
+                        <a type="submit" class="btn btn-danger" href="{{ route('setting.edit', $setting->id) }}">Edit</a>
                       </div>
-                      <!-- /.Logo -->
-                      <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Alamat</label>
-                        <div class="col-sm-10">
-                          <textarea class="form-control" name="address" placeholder="Alamat">{{ $setting->address }}</textarea>
-                        </div>
-                      </div>
-                      
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
-                        </div>
-                      </div>
-                    </form>
+                    </div>
+                    
                   </div>
                   <!-- /.tab-pane -->
                 </div>
@@ -199,3 +178,66 @@
     </section>
   </div>
 @endsection
+
+@push('addon-script')
+    <!-- Sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  @include('includes.admin.alerts')
+  <!-- Select2 -->
+  <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+  <script>
+     $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+          theme: 'bootstrap4'
+        })
+     })
+  </script>
+  <script>
+    $('button#delete').on('click', function(e){
+      e.preventDefault();
+      var href = $(this).attr('href');
+    
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure?',
+        text: "Data yang dihapus tidak bisa dikembalikan lagi!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Hapus Saja!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('deleteForm').action = href;
+          document.getElementById('deleteForm').submit();
+          
+          swalWithBootstrapButtons.fire(
+            'Terhapus!',
+            'Data kategori berhasil dihapus.',
+            'success'
+          )
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Data anda tidak jadi dihapus',
+            'error'
+          )
+        }
+      })
+    })
+  </script>
+@endpush

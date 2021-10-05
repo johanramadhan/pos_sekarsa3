@@ -35,8 +35,7 @@ Route::prefix('admin')
         Route::resource('supplier', 'SupplierController');
         Route::resource('customer', 'CustomerController');
         Route::resource('user', 'UserController');
-        Route::get('setting', 'SettingController@index')->name('setting.index');
-        Route::post('setting', 'SettingController@update')->name('setting.update');
+        Route::resource('setting', 'SettingController');
         Route::resource('data-product/persediaan', 'PersediaanController');
         Route::get('data-product/persediaan/{id}/detail', 'PersediaanController@detail')->name('persediaan.detail');
         Route::resource('data-product/persediaan-gallery', 'PersediaanGalleryController');

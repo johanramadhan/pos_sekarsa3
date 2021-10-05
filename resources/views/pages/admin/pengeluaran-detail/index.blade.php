@@ -90,72 +90,72 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Uraian</label>
                         <div class="col-sm-9">
-                          <textarea name="uraian" id="uraian" rows="3" class="form-control" placeholder="Tulis uraian pengeluaran"></textarea>
+                          <textarea name="uraian" id="uraian" rows="3" class="form-control" placeholder="Tulis uraian pengeluaran" required></textarea>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="col-4">
                     <div class="card-body">
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Satuan</label>
-                        <select name="satuan" class="form-control col-sm-9 select2" required>
-                          <option>--Pilih satuan--</option>
-                          <option value="Bidang">Bidang</option>
-                          <option value="ob">ob</option>
-                          <option value="oh">oh</option>
-                          <option value="Unit">Unit</option>
-                          <option value="Buah">Buah</option>
-                          <option value="Roll">Roll</option>
-                          <option value="Stell">Stell</option>
-                          <option value="Jalan">Jalan</option>
-                          <option value="Paket">Paket</option>
-                          <option value="Besi">Besi</option>
-                          <option value="Biro">Biro</option>
-                          <option value="Fiber">Fiber</option>
-                          <option value="Gros">Gros</option>
-                          <option value="Helai">Helai</option>
-                          <option value="Kali">Kali</option>
-                          <option value="Kayu">Kayu</option>
-                          <option value="Lembar">Lembar</option>
-                          <option value="Lusin">Lusin</option>
-                          <option value="Meter">Meter</option>
-                          <option value="Pcs">Pcs</option>
-                          <option value="Peket">Peket</option>
-                          <option value="Plastik">Plastik</option>
-                          <option value="Plong">Plong</option>
-                          <option value="SET">SET</option>
-                          <option value="Shet">Shet</option>
-                          <option value="Stenlis">Stenlis</option>
-                          <option value="Beton">Beton</option>
-                          <option value="M2">M2</option>
-                          <option value="Exp">Exp</option>
-                          <option value="Kaleng">Kaleng</option>
-                          <option value="Kotak">Kotak</option>
-                          <option value="Pasang">Pasang</option>
-                          <option value="Slop">Slop</option>
-                          <option value="Sambungan">Sambungan</option>
-                          <option value="m'">m'</option>
-                          <option value="KVA">KVA</option>
-                          <option value="Keping">Keping</option>
-                        </select>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Qty</label>
-                        <div class="col-sm-9">
-                          <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Jumlah" onkeyup="sum()">
+                      <label class="col-sm-6">Koefisien Perkalian</label>
+                      {{-- koefisien 1 --}}
+                      <div class="form-group row">                        
+                        <div class="col-sm-6">
+                          <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Volume 1" onkeyup="sum()" required>
+                        </div>
+                        <div class="col-sm-6">
+                          <select class="form-control select2bs4" name="satuan" style="width: 100%;">
+                            <option>--Pilih Satuan 1--</option>
+                            <option value="Bidang">Bidang</option>
+                            <option value="ob">ob</option>
+                            <option value="oh">oh</option>
+                            <option value="Unit">Unit</option>
+                            <option value="Buah">Buah</option>
+                            <option value="Roll">Roll</option>
+                            <option value="Stell">Stell</option>
+                            <option value="Jalan">Jalan</option>
+                            <option value="Paket">Paket</option>
+                            <option value="Besi">Besi</option>
+                            <option value="Biro">Biro</option>
+                            <option value="Fiber">Fiber</option>
+                            <option value="Gros">Gros</option>
+                            <option value="Helai">Helai</option>
+                            <option value="Kali">Kali</option>
+                            <option value="Kayu">Kayu</option>
+                            <option value="Lembar">Lembar</option>
+                            <option value="Lusin">Lusin</option>
+                            <option value="Meter">Meter</option>
+                            <option value="Pcs">Pcs</option>
+                            <option value="Peket">Peket</option>
+                            <option value="Plastik">Plastik</option>
+                            <option value="Plong">Plong</option>
+                            <option value="SET">SET</option>
+                            <option value="Shet">Shet</option>
+                            <option value="Stenlis">Stenlis</option>
+                            <option value="Beton">Beton</option>
+                            <option value="M2">M2</option>
+                            <option value="Exp">Exp</option>
+                            <option value="Kaleng">Kaleng</option>
+                            <option value="Kotak">Kotak</option>
+                            <option value="Pasang">Pasang</option>
+                            <option value="Slop">Slop</option>
+                            <option value="Sambungan">Sambungan</option>
+                            <option value="m'">m'</option>
+                            <option value="KVA">KVA</option>
+                            <option value="Keping">Keping</option>
+                          </select>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="card-body">
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Harga Satuan</label>
                         <div class="col-sm-9">
-                          <input type="number" class="form-control" name="harga_beli" id="harga_beli" placeholder="Harga Beli" onkeyup="sum()">
+                          <input type="number" class="form-control" name="harga_beli" id="harga_beli" placeholder="Harga Beli" onkeyup="sum()" required>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="card-body">
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Subtotal</label>
                         <div class="col-sm-9">
@@ -165,6 +165,7 @@
                       <button type="submit" class="btn btn-success float-right"><i class="fa fa-shopping-cart"></i>Tambah</button>
                     </div>
                   </div>
+                  
                 </div>
                 <!-- /.card-body -->
               </form>
@@ -249,13 +250,13 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
   @include('includes.admin.alerts')
+  <!-- Select2 -->
+  <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
   <!-- DataTables  & Plugins -->
   <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-  <!-- Select2 -->
-  <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 
-  {{-- <script>
+  <script>
      $(function () {
         //Initialize Select2 Elements
         $('.select2').select2()
@@ -265,13 +266,21 @@
           theme: 'bootstrap4'
         })
      })
-  </script> --}}
+  </script>
 
   <script>
+    function duplicate() {
+      var duplicateQty = document.getElementById('duplicateQty').value;
+      var result = duplicateQty;
+      if (!isNaN(result)) {
+            document.getElementById('qty2').value = result;
+        }
+    }
     function sum() {
         var qty = document.getElementById('qty').value;
         var price = document.getElementById('harga_beli').value;
-        var result = parseInt(price) * parseInt(qty);
+        var koefisien = qty * price;
+        var result = koefisien;
         if (!isNaN(result)) {
             document.getElementById('subtotal').value = result;
         }

@@ -62,7 +62,11 @@ class SettingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $setting = Setting::findOrFail($id);
+
+        return view('pages.admin.setting.edit', [
+          'setting' => $setting
+        ]);
     }
 
     /**
@@ -72,7 +76,7 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $data = $request->all();
 
@@ -81,7 +85,12 @@ class SettingController extends Controller
             $data['path_logo'] = $request->file('path_logo')->store('assets/setting','public');
         }
 
-        $item = Setting::first();
+        if ($request->hasFile('path_kartu_member')) {
+            Storage::delete('path_kartu_member');
+            $data['path_kartu_member'] = $request->file('path_kartu_member')->store('assets/setting','public');
+        }
+
+        $item = Setting::findOrFail($id);
 
         $item->update($data);
 
