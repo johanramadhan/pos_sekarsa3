@@ -211,11 +211,11 @@ class PengeluaranController extends Controller
     public function print($id)
     {
         $setting = Setting::first();
-        $pengeluaran = Pengeluaran::find(session('id_pengeluaran'));
+        $pengeluaran = Pengeluaran::find($id);
             if (! $pengeluaran) {
                 abort(404);
             }
-        $detail = PengeluaranDetail::where('id_pengeluaran', session('id_pengeluaran'))
+        $detail = PengeluaranDetail::where('id_pengeluaran', $id)
             ->get(); 
         $customPaper = array(0,0,615,936);
         $pdf = PDF::loadView('pages.admin.pengeluaran.nota_besar',[

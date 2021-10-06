@@ -45,6 +45,9 @@
                     <a href="{{ route('transaction.create') }}" class="btn btn-primary mb-2">
                       + Transaksi Penjualan
                     </a>
+                    @empty(! session('id_transaction'))
+                    <a href="{{ route('transaction-detail.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
+                    @endempty
                     <thead>
                       <tr class="text-center">
                         <th>No</th>
@@ -84,7 +87,6 @@
                           <td class="text-center">
                             <div class="btn-group">
                               @if (($item->transaction_status) === "pending")
-                                <a href="{{ route('transaction-detail.index', $item->id_transaction) }}" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></a>
                               @else
                                 <button onclick="print('{{ route('transaction.print', $item->id_transaction) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                               @endif

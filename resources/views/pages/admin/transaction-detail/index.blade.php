@@ -88,7 +88,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Layanan</label>
                         <div class="col-sm-9">
-                          <select class="form-control select2">
+                          <select class="form-control select2bs4">
                             <option>Produk</option>
                             <option>Coffee</option>
                             <option>Non Coffee</option>

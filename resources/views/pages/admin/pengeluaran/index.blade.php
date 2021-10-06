@@ -89,7 +89,6 @@
                         <td class="text-center">
                           <div class="btn-group">
                             @if (($item->status) === "Pending")
-                              <a href="{{ route('pengeluaran_detail.edit', $item->id_pengeluaran) }}" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></a>
                             @else
                               <button onclick="print('{{ route('pengeluaran.print', $item->id_pengeluaran) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                             @endif

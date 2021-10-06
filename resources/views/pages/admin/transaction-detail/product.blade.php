@@ -28,10 +28,14 @@
                       <td>{{ $item->diskon }}%</td>
                       <td>{{ format_uang($item->harga_jual) }}</td>
                       <td>
-                        <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->code }}', '{{ $item->name_product }}', '{{ $item->harga_jual }}', '{{ $item->diskon }}')" data-dismiss="modal">
-                          <i class="fa fa-check-circle"></i>
-                          Pilih
-                        </a>
+                        @if (($item->stok) <= 0)
+                          <span class="badge badge-danger">Habis</span>
+                        @else
+                          <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->code }}', '{{ $item->name_product }}', '{{ $item->harga_jual }}', '{{ $item->diskon }}')" data-dismiss="modal">
+                            <i class="fa fa-check-circle"></i>
+                            Pilih
+                          </a>
+                        @endif
                       </td>
                     </tr>
                   @endforeach                  
