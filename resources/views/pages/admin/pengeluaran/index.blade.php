@@ -37,7 +37,7 @@
 
     <!-- Main content -->
     <div class="content">
-        <div class="container-fluid">
+      <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
             <div class="card card-primary">
@@ -116,7 +116,7 @@
           <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
-        </div><!-- /.container-fluid -->
+      </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
   </div>

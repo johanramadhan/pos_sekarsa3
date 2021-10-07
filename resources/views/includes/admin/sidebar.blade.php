@@ -127,9 +127,9 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ route('pengajuan.index') }}" class="nav-link {{ (request()->is('admin/data-proposal/pengajuan*')) ? 'active' : '' }}">
+              <a href="{{ route('laporan.index') }}" class="nav-link {{ (request()->is('admin/laporan*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Pengajuan</p>
+                <p>Laporan Penjualan</p>
               </a>
             </li>
             <li class="nav-item d-none">

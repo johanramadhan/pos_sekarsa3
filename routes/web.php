@@ -77,6 +77,16 @@ Route::prefix('admin')
         Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}/{diterima}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
         Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
 
+        // Laporan Penjualan
+        Route::get('/laporan', 'LaporanController@index')->name('laporan.index');
+        Route::post('/laporan', 'LaporanController@refresh')->name('laporan.refresh');
+        Route::get('/laporan/data/{awal}/{akhir}', 'LaporanController@data')->name('laporan.data');
+        Route::get('/laporan/pdf/{awal}/{akhir}', 'LaporanController@exportPdf')->name('laporan.exportPdf');
+
+
+
+
+
 
         Route::resource('data-proposal/pengajuan', 'ProposalController');
         Route::resource('data-proposal/proposal-galleries', 'ProposalGalleryController');
