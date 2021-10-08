@@ -79,9 +79,8 @@ Route::prefix('admin')
 
         // Laporan Penjualan
         Route::get('/laporan', 'LaporanController@index')->name('laporan.index');
-        Route::post('/laporan', 'LaporanController@refresh')->name('laporan.refresh');
         Route::get('/laporan/data/{awal}/{akhir}', 'LaporanController@data')->name('laporan.data');
-        Route::get('/laporan/pdf/{awal}/{akhir}', 'LaporanController@exportPdf')->name('laporan.exportPdf');
+        Route::get('/laporan/pdf/{awal}/{akhir}', 'LaporanController@exportPDF')->name('laporan.export_pdf');
 
 
 

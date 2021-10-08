@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-   Data Pengeluaran
+   Data Laporan
 @endsection
 
 @push('addon-style')
@@ -15,6 +15,8 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -24,12 +26,12 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Pengeluaran</h1>
+            <h1 class="m-0">Laporan {{ tanggal_indonesia($tanggalAwal, false) }} s/d {{ tanggal_indonesia($tanggalAkhir, false) }}</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Data Pengeluaran</li>
+                <li class="breadcrumb-item active">Data Laporan</li>
             </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -44,13 +46,14 @@
           <div class="col-lg-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Data Pengeluaran</h3>
+                <h3 class="card-title">Data Laporan</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="example1" class="table table-pengeluaran table-bordered table-striped">
-                    <button onclick="addForm()" class="btn btn-primary mb-2">+ Transaksi Pengeluaran</i></button>
+                  <table class="table table-laporan table-bordered table-striped">
+                    <button onclick="addForm()" class="btn btn-primary mb-2">Update Tanggal</i></button>
+                    <a href="{{ route('laporan.export_pdf', [$tanggalAwal, $tanggalAkhir]) }}" target="_blank" class="btn btn-danger mb-2 ml-2"><i class="fa fa-file-pdf"></i> Export PDF</a>
                     <thead>
                       <tr>
                         <th width="5%">No</th>
@@ -74,47 +77,7 @@
     <!-- /.content -->
   </div>
 
-  <div class="modal fade" id="modal-laporan" tabindex="-1" role="dialog" aria-labelledby="modal-laporan">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <form action="{{ route('pengeluaran.create') }}">
-        <div class="modal-header">
-          <h4 class="modal-title">Update Tanggal</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="card card-primary">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <!-- Date -->
-                    <div class="form-group">
-                      <label>Date:</label>
-                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.form group -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </div> 
-      </form>           
-    </div>
-  </div>
-</div>
+@includeIf('pages.admin.laporan.form')  
 
 @endsection
 
@@ -127,25 +90,23 @@
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-  <!-- Bootstrap4 Duallistbox -->
-  <script src="{{ asset('plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js') }}"></script>
+  <!-- InputMask -->
+  <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+  <script src="{{ asset('plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
   <!-- date-range-picker -->
   <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
   <!-- Tempusdominus Bootstrap 4 -->
   <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-  <!-- Bootstrap Switch -->
-  <script src="{{ asset('plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
 
   <script>
     let table, table1;
 
     $(function () {
-      table = $('.table-pengeluaran').DataTable({
+      table = $('.table-laporan').DataTable({
         processing: true,
         autoWidth: false,
-        dom: 'Brt',
-        bSort: false,
-        bPaginate: false,
+        bSort: true,
+        bPaginate: true,
         ajax: {
             url: '{{ route('laporan.data', [$tanggalAwal, $tanggalAkhir]) }}',
         },
@@ -161,11 +122,14 @@
 
       //Date range picker
       $('#reservationdate').datetimepicker({
-          format: 'L'
+          format: 'YYYY-MM-DD',
+          autoclose: true
       });
-
-      //Bootstrap Duallistbox
-      $('.duallistbox').bootstrapDualListbox()
+      //Date range picker
+      $('#reservationdate2').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
+      });
           
     });
 
