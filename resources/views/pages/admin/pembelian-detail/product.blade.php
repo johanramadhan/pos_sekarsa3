@@ -18,15 +18,15 @@
                     <th class="text-center"><i class="fa fa-cog"></i></th>
                 </thead>
                 <tbody>
-                  @foreach ($produk as $item)
+                  @foreach ($persediaan as $item)
                     <tr>
                       <td width="5%" class="text-center">{{ $loop->iteration }}</td>
                       <td class="text-center" width="25%"><span class="badge badge-success">{{ $item->code }}</span></td>
-                      <td class="text-center">{{ $item->name_product }}</td>
-                      <td class="text-center">{{ $item->stok }}</td>
+                      <td class="text-center">{{ $item->name_persediaan }}</td>
+                      <td class="text-center">{{ $item->stok ?? 0 }}</td>
                       <td class="text-center">Rp{{ format_uang($item->harga_beli) }}</td>
                       <td class="text-center">
-                        <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->code }}', '{{ $item->name_product }}', '{{ $item->harga_beli }}')" data-dismiss="modal">
+                        <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_persediaan }}', '{{ $item->code }}', '{{ $item->name_persediaan }}', '{{ $item->harga_beli }}')" data-dismiss="modal">
                           <i class="fa fa-check-circle"></i>
                           Pilih
                         </a>

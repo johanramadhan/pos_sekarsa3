@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Pembelian;
 use App\PembelianDetail;
+use App\Persediaan;
 use App\Product;
 use App\Produk;
 use App\Supplier;
@@ -21,6 +22,7 @@ class PembelianDetailController extends Controller
     {
         $id_pembelian = session('id_pembelian');
         $produk = Produk::orderBy('name_product')->get();
+        $persediaan = Persediaan::orderBy('name_persediaan')->get();
         $supplier = Supplier::find(session('id_supplier'));
         $codePembelian = Pembelian::find($id_pembelian)->code ?? 0;
         $diskon = Pembelian::find($id_pembelian)->diskon ?? 0;
@@ -32,6 +34,7 @@ class PembelianDetailController extends Controller
         return view('pages.admin.pembelian-detail.index', [
             'id_pembelian' => $id_pembelian,
             'produk' => $produk,
+            'persediaan' => $persediaan,
             'supplier' => $supplier,
             'codePembelian' => $codePembelian,
             'diskon' => $diskon,
@@ -40,32 +43,41 @@ class PembelianDetailController extends Controller
 
     public function data($id)
     {
-        $detail = PembelianDetail::with('produk')
+        $detail = PembelianDetail::with('persediaan')
             ->where('id_pembelian', $id)
             ->get();  
         $data = array();
         $total = 0;
+        $totalBerat = 0;
         $total_item = 0;
         
         foreach($detail as $item) {
             $row = array();
-            $row['codeProduk'] = $item->produk['code'];
-            $row['namaProduk'] = $item ->produk['name_product'];
+            $row['codePersediaan'] = $item->persediaan['code'];
+            $row['namaPersediaan'] = $item->persediaan['name_persediaan'];
+            $row['satuanBerat'] = $item->persediaan['satuan_berat'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_pembelian_detail .'" value="'. $item->jumlah .'">';
+            $row['berat'] = '<input type="number" class="form-control input-sm beratSatuan" data-id="'. $item->id_pembelian_detail .'" value="'. $item->berat .'">';
+            $row['beratTotal'] = format_uang($item->berat_total);
             $row['harga_beli'] = 'Rp'.format_uang($item->harga_beli);
             $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
             $row['aksi'] = '<button onclick="deleteData(`'. route('pembelian_detail.destroy', $item->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
 
             $data[] = $row;
             $total += $item->harga_beli * $item->jumlah;
+            $totalBerat += $item->berat * $item->jumlah;
             $total_item += $item->jumlah;
         }
         $data[] = [
-            'codeProduk' => '
-                <div class="total d-none">'. $total .'</div>
-                <div class="total_item d-none">'. $total_item .'</div>',
-            'namaProduk' => '',
-            'jumlah'      => '',
+            'codePersediaan' => '
+                <div class="total">'. $total .'</div>
+                <div class="totalBerat">'. $totalBerat .'</div>
+                <div class="total_item">'. $total_item .'</div>',
+            'namaPersediaan' => '',
+            'satuanBerat' => '',
+            'jumlah'         => '',
+            'berat'    => '',
+            'beratTotal'    => '',
             'harga_beli'  => '',
             'subtotal'    => '',
             'aksi'        => '',
@@ -74,7 +86,7 @@ class PembelianDetailController extends Controller
         return datatables()
             ->of($data)
             ->addIndexColumn()
-            ->rawColumns(['aksi', 'codeProduk','jumlah'])
+            ->rawColumns(['aksi', 'codePersediaan','jumlah','berat'])
             ->make(true);
     }
 
@@ -97,18 +109,19 @@ class PembelianDetailController extends Controller
 
     public function store(Request $request)
     {
-        $produk = Produk::where('id_produk', $request->id_produk)->first();
+        $produk = Persediaan::where('id_persediaan', $request->id_produk)->first();
         if (! $produk) {
             return response()->json('Data gagal disimpan', 400);
         }
 
         $data = $request->all();
+        $data['berat_total'] = $request->berat * $request->jumlah;
         $data['subtotal'] = $produk->harga_beli * $request->jumlah;
 
         PembelianDetail::create($data);
 
         return redirect()->route('pembelian_detail.index')
-         ->with('success', 'Produk berhasil ditambahkan');
+         ->with('success', 'Persediaan berhasil ditambahkan');
     }
 
     /**

@@ -18,4 +18,8 @@ class PembelianDetail extends Model
     {
         return $this->hasOne(Produk::class, 'id_produk', 'id_produk');
     }
+    public function persediaan()
+    {
+        return $this->hasOne(Persediaan::class, 'id_persediaan', 'id_produk');
+    }
 }

@@ -21,7 +21,7 @@
         padding: 10px;
         background: #f0f0f0;
     }
-    .table-pembelian tbody tr:last-child {
+    .table-pembelian2 tbody tr:last-child {
         display: none;
     }
   </style>
@@ -102,9 +102,9 @@
                   <div class="col-4">
                     <div class="card-body">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Pilih Produk</label>
+                        <label class="col-sm-3 col-form-label">Pilih Persediaan</label>
                         <div class="col-sm-9 input-group">
-                          <input type="hidden" class="form-control" name="id_produk" id="id_produk">
+                          <input type="hidden" class="form-control" name="id_produk" id="id_persediaan">
                           <input type="hidden" class="form-control" name="id_pembelian" value="{{ $id_pembelian }}" readonly>
                           <input type="hidden" class="form-control" name="code" value="{{ $codePembelian }}">
                           <input type="text" class="form-control" id="code" readonly>
@@ -120,7 +120,7 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Berat</label>
+                        <label class="col-sm-3 col-form-label">Berat Satuan</label>
                         <div class="col-sm-9">
                           <input type="number" class="form-control" name="berat" id="berat" placeholder="Berat">
                         </div>
@@ -132,7 +132,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Nama</label>
                         <div class="col-sm-9">                          
-                          <input type="text" class="form-control" id="name_product" placeholder="Nama Produk" readonly>
+                          <input type="text" class="form-control" id="name_persediaan" placeholder="Nama Persediaan" readonly>
                         </div>
                       </div>
                       <div class="form-group row">
@@ -162,9 +162,12 @@
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center">Kode Produk</th>
+                        <th class="text-center" width="15%">Kode Produk</th>
                         <th class="text-center">Nama Item</th>
-                        <th class="text-center" width="15%">Jumlah</th>
+                        <th class="text-center">Satuan Berat</th>
+                        <th class="text-center" width="8%">Jumlah</th>
+                        <th class="text-center" width="10%">Berat Satuan</th>
+                        <th class="text-center" width="10%">Total Berat</th>
                         <th class="text-center">Harga Beli</th>
                         <th class="text-center">Total</th>
                         <th class="text-center">Aksi</th>
@@ -182,6 +185,7 @@
               <input type="hidden" name="id_pembelian" value="{{ $id_pembelian }}">
               <input type="hidden" name="total" id="total">
               <input type="hidden" name="total_item" id="total_item">
+              <input type="text" name="totalBerat" id="totalBerat">
               <input type="hidden" name="bayar" id="bayar">
 
               <div class="card">
@@ -264,11 +268,14 @@
           },
           columns: [
               {class: 'text-center', data: 'DT_RowIndex', searchable: false, sortable: false},
-              {class: 'text-center', data: 'codeProduk'},
-              {class: 'text-center', data: 'namaProduk'},
+              {class: 'text-center', data: 'codePersediaan'},
+              {class: 'text-center', data: 'namaPersediaan'},
+              {class: 'text-center', data: 'satuanBerat'},
               {class: 'text-center', data: 'jumlah'},
-              {class: 'text-center', data: 'harga_beli'},
-              {class: 'text-center', data: 'subtotal'},
+              {class: 'text-center', data: 'berat'},
+              {class: 'text-right', data: 'beratTotal'},
+              {class: 'text-right', data: 'harga_beli'},
+              {class: 'text-right', data: 'subtotal'},
               {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
           ]
       })
@@ -304,7 +311,7 @@
                 });
             })
             .fail(errors => {
-                alert('Tidak dapat menyimpan data');
+                alert('Tidak dapat menyimpan data jumlah');
                 return;
             });
       });
@@ -317,7 +324,7 @@
           loadForm($(this).val());
       });
 
-    $('.btn-simpan').on('click', function () {
+      $('.btn-simpan').on('click', function () {
             $('.form-pembelian').submit();
         });
       
@@ -332,10 +339,10 @@
       $('#modal-produk').modal('hide');
     }
 
-    function pilihProduk(id, code, name_product, harga_beli) {
-        $('#id_produk').val(id);
+    function pilihProduk(id, code, name_persediaan, harga_beli) {
+        $('#id_persediaan').val(id);
         $('#code').val(code);
-        $('#name_product').val(name_product);
+        $('#name_persediaan').val(name_persediaan);
         $('#harga_beli').val(harga_beli);
         $('#qty').val(1);
         hideProduk();
@@ -359,6 +366,7 @@
 
     function loadForm(diskon = 0) {
         $('#total').val($('.total').text());
+        $('#totalBerat').val($('.totalBerat').text());
         $('#total_item').val($('.total_item').text());
 
         $.get(`{{ url('admin/data-transaction/pembelian_detail/loadform') }}/${diskon}/${$('.total').text()}`)

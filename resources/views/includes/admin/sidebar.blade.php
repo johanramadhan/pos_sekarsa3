@@ -104,6 +104,10 @@
                 <i class="far fa-circle nav-icon"></i>
                 <p>Pengeluaran</p>
               </a>
+              <a href="{{ route('pembelian.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/persediaan*')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Persediaan</p>
+              </a>
               <a href="{{ route('pembelian.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/pembelian*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Pembelian</p>
