@@ -21,7 +21,7 @@
         padding: 10px;
         background: #f0f0f0;
     }
-    .table-pembelian2 tbody tr:last-child {
+    .table-pembelian tbody tr:last-child {
         display: none;
     }
   </style>
@@ -34,7 +34,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Transaksi Pembelian</h1>
+            <h1 class="m-0">Transaksi Pembelian Persediaan</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -185,7 +185,7 @@
               <input type="hidden" name="id_pembelian" value="{{ $id_pembelian }}">
               <input type="hidden" name="total" id="total">
               <input type="hidden" name="total_item" id="total_item">
-              <input type="text" name="totalBerat" id="totalBerat">
+              <input type="hidden" name="totalBerat" id="totalBerat">
               <input type="hidden" name="bayar" id="bayar">
 
               <div class="card">
@@ -273,7 +273,7 @@
               {class: 'text-center', data: 'satuanBerat'},
               {class: 'text-center', data: 'jumlah'},
               {class: 'text-center', data: 'berat'},
-              {class: 'text-right', data: 'beratTotal'},
+              {class: 'text-center', data: 'beratTotal'},
               {class: 'text-right', data: 'harga_beli'},
               {class: 'text-right', data: 'subtotal'},
               {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
@@ -288,7 +288,7 @@
       $(document).on('input', '.quantity', function () {
             let id = $(this).data('id');
             let jumlah = parseInt($(this).val());
-
+            
             if (jumlah < 1) {
                 $(this).val(1);
                 alert('Jumlah tidak boleh kurang dari 1');

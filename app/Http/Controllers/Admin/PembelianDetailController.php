@@ -57,7 +57,7 @@ class PembelianDetailController extends Controller
             $row['namaPersediaan'] = $item->persediaan['name_persediaan'];
             $row['satuanBerat'] = $item->persediaan['satuan_berat'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_pembelian_detail .'" value="'. $item->jumlah .'">';
-            $row['berat'] = '<input type="number" class="form-control input-sm beratSatuan" data-id="'. $item->id_pembelian_detail .'" value="'. $item->berat .'">';
+            $row['berat'] = format_uang($item->berat);
             $row['beratTotal'] = format_uang($item->berat_total);
             $row['harga_beli'] = 'Rp'.format_uang($item->harga_beli);
             $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
@@ -70,9 +70,9 @@ class PembelianDetailController extends Controller
         }
         $data[] = [
             'codePersediaan' => '
-                <div class="total">'. $total .'</div>
-                <div class="totalBerat">'. $totalBerat .'</div>
-                <div class="total_item">'. $total_item .'</div>',
+                <div class="total d-none">'. $total .'</div>
+                <div class="totalBerat d-none">'. $totalBerat .'</div>
+                <div class="total_item d-none">'. $total_item .'</div>',
             'namaPersediaan' => '',
             'satuanBerat' => '',
             'jumlah'         => '',
@@ -158,6 +158,7 @@ class PembelianDetailController extends Controller
         $detail = PembelianDetail::find($id);
         $detail->jumlah = $request->jumlah;
         $detail->subtotal = $detail->harga_beli * $request->jumlah;
+        $detail->berat_total = $detail->berat * $request->jumlah;
         $detail->update();
     }
 

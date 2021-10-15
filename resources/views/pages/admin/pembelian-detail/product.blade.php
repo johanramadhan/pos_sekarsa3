@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Pilih Produk</h4>
+              <h4 class="modal-title">Pilih Persediaan</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -14,6 +14,7 @@
                     <th class="text-center">Kode</th>
                     <th class="text-center">Nama</th>
                     <th class="text-center">Stok</th>
+                    <th class="text-center">Total Berat</th>
                     <th class="text-center">Harga Beli</th>
                     <th class="text-center"><i class="fa fa-cog"></i></th>
                 </thead>
@@ -24,6 +25,7 @@
                       <td class="text-center" width="25%"><span class="badge badge-success">{{ $item->code }}</span></td>
                       <td class="text-center">{{ $item->name_persediaan }}</td>
                       <td class="text-center">{{ $item->stok ?? 0 }}</td>
+                      <td class="text-center">{{ format_uang($item->total_berat ?? 0) }} {{ $item->satuan_berat }}</td>
                       <td class="text-center">Rp{{ format_uang($item->harga_beli) }}</td>
                       <td class="text-center">
                         <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_persediaan }}', '{{ $item->code }}', '{{ $item->name_persediaan }}', '{{ $item->harga_beli }}')" data-dismiss="modal">

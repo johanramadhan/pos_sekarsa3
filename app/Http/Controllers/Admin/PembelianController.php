@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PembelianDetail;
+use App\Persediaan;
 
 class PembelianController extends Controller
 {
@@ -125,9 +126,10 @@ class PembelianController extends Controller
 
         $detail = PembelianDetail::where('id_pembelian', $pembelian->id_pembelian)->get();
         foreach ($detail as $item) {
-            $produk = Produk::find($item->id_produk);
-            $produk->stok += $item->jumlah;
-            $produk->update();
+            $persediaan = Persediaan::find($item->id_produk);
+            $persediaan->stok += $item->jumlah;
+            $persediaan->total_berat += $item->berat_total;
+            $persediaan->update();
         }
 
         return redirect()->route('pembelian.index')
