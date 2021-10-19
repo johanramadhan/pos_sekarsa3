@@ -11,11 +11,13 @@
               <table class="table table-striped table-bordered table-detail">
                 <thead>
                     <th width="5%" class="text-center">No</th>
-                    <th class="text-center">Kode Produk</th>
+                    <th class="text-center">Kode Persediaan</th>
                     <th class="text-center">Tanggal Transaksi</th>
-                    <th class="text-center">Nama Produk</th>
+                    <th class="text-center">Nama Persediaan</th>
                     <th class="text-center">Harga Beli</th>
                     <th class="text-center">Jumlah</th>
+                    <th class="text-center">Berat</th>
+                    <th class="text-center">Total Berat</th>
                     <th class="text-center">Subtotal</th>
                 </thead>
               </table>

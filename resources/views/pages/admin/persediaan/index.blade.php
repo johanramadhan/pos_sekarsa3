@@ -67,7 +67,6 @@
                         <th>Jumlah Stok</th>
                         <th>Total Berat</th>
                         <th>Harga Beli</th>
-                        <th>Diskon</th>
                         <th>Status</th>
                         <th>Foto</th>
                         <th>Aksi</th>
@@ -84,7 +83,6 @@
                           <td class="text-center">{{ $item->stok ?? 0 }} {{ $item->satuan }}</td>
                           <td class="text-center">{{ $item->total_berat ?? 0 }} {{ $item->satuan_berat }}</td>
                           <td>Rp{{ format_uang($item->harga_beli) }}</td>
-                          <td class="text-center">{{ $item->diskon }}%</td>
                           <td class="text-center">
                             @if (($item->total_berat) == 0)
                               <span class="badge badge-danger">Habis</span> 
@@ -206,7 +204,7 @@
                               <option value="Bungkus">Bungkus</option>
                               <option value="Unit">Unit</option>
                               <option value="Buah">Buah</option>
-                              <option value="Roll">Roll</option>
+                              <option value="Botol">Botol</option>
                               <option value="Stell">Stell</option>
                               <option value="Jalan">Jalan</option>
                               <option value="Paket">Paket</option>

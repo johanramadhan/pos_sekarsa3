@@ -57,6 +57,7 @@ Route::prefix('admin')
         // Pembelian
         Route::get('/pembelian/{id}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');
         Route::get('data-transaction/pembelian/data', 'PembelianController@data')->name('pembelian.data');
+        Route::get('data-transaction/pembelian/print/{id}', 'PembelianController@print')->name('pembelian.print');
         Route::resource('data-transaction/pembelian', 'PembelianController');
 
         // Pembelian-detail

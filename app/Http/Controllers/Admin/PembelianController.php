@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\PembelianDetail;
 use App\Persediaan;
+use App\Setting;
+use PDF;
 
 class PembelianController extends Controller
 {
@@ -24,11 +26,13 @@ class PembelianController extends Controller
         $suppliers = Supplier::orderBy('name')->get();  
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
+        $pembelians = Pembelian::orderBy('id_pembelian', 'desc')->get();
 
         return view('pages.admin.pembelian.index', [
             'suppliers' => $suppliers,
             'produk' => $produk,
             'user' => $user,
+            'pembelians' => $pembelians,
         ]);
     }
 
@@ -60,6 +64,7 @@ class PembelianController extends Controller
             ->addColumn('aksi', function ($pembelian) {
                 return '
                 <div class="btn-group">
+                    <button onclick="print(`'. route('pembelian.print', $pembelian->id_pembelian) .'`)" class="btn btn-xs btn-default m-1"><i class="fa fa-print"></i></button>
                     <button onclick="showDetail(`'. route('pembelian.show', $pembelian->id_pembelian) .'`)" class="btn btn-xs btn-info m-1"><i class="fa fa-eye"></i></button>
                     <button onclick="deleteData(`'. route('pembelian.destroy', $pembelian->id_pembelian) .'`)" class="btn btn-xs btn-danger m-1"><i class="fa fa-trash"></i></button>
                 </div>
@@ -122,6 +127,7 @@ class PembelianController extends Controller
         $pembelian->total_harga = $request->total;
         $pembelian->diskon = $request->diskon;
         $pembelian->bayar = $request->bayar;
+        $pembelian->status ='Success';
         $pembelian->update();
 
         $detail = PembelianDetail::where('id_pembelian', $pembelian->id_pembelian)->get();
@@ -144,19 +150,19 @@ class PembelianController extends Controller
      */
     public function show($id)
     {
-        $detail = PembelianDetail::with('produk')->where('id_pembelian', $id)->get();
+        $detail = PembelianDetail::with('persediaan')->where('id_pembelian', $id)->get();
 
         return datatables()
             ->of($detail)
             ->addIndexColumn()
-            ->addColumn('kode_produk', function ($detail) {
-                return '<span class="label label-success">'. $detail->produk->code .'</span>';
+            ->addColumn('code', function ($detail) {
+                return '<span class="label label-success">'. $detail->persediaan->code .'</span>';
             })
             ->addColumn('tanggal', function ($detail) {
                 return tanggal_indonesia($detail->created_at, false);
             })
-            ->addColumn('nama_produk', function ($detail) {
-                return $detail->produk->name_product;
+            ->addColumn('name', function ($detail) {
+                return $detail->persediaan->name_persediaan;
             })
             ->addColumn('harga_beli', function ($detail) {
                 return 'Rp'. format_uang($detail->harga_beli);
@@ -164,10 +170,16 @@ class PembelianController extends Controller
             ->addColumn('jumlah', function ($detail) {
                 return format_uang($detail->jumlah);
             })
+            ->addColumn('berat', function ($detail) {
+                return format_uang($detail->berat);
+            })
+            ->addColumn('berat_total', function ($detail) {
+                return format_uang($detail->berat_total);
+            })
             ->addColumn('subtotal', function ($detail) {
                 return 'Rp'. format_uang($detail->subtotal);
             })
-            ->rawColumns(['kode_produk'])
+            ->rawColumns(['code'])
             ->make(true);
     }
 
@@ -205,16 +217,39 @@ class PembelianController extends Controller
         $pembelian = Pembelian::find($id);
         $detail    = PembelianDetail::where('id_pembelian', $pembelian->id_pembelian)->get();
         foreach ($detail as $item) {
-            $produk = Produk::find($item->id_produk);
-            if ($produk) {
-                $produk->stok -= $item->jumlah;
-                $produk->update();
+            $persediaan = Persediaan::find($item->id_produk);
+            if ($persediaan) {
+                $persediaan->stok -= $item->jumlah;
+                $persediaan->total_berat -= $item->berat_total;
+                $persediaan->update();
             }
             $item->delete();
         }
 
         $pembelian->delete();
 
-        return response(null, 204);
+        return redirect()->route('pembelian.index');
+    }
+
+    public function print($id)
+    {
+        $setting = Setting::first();
+        $pembelian = Pembelian::find($id);
+            if (! $pembelian) {
+                abort(404);
+            }
+        $detail = PembelianDetail::where('id_pembelian', $id)
+            ->get(); 
+        $customPaper = array(0,0,615,936);
+        $pdf = PDF::loadView('pages.admin.pembelian.nota_besar',[
+            'setting' => $setting,
+            'pembelian' => $pembelian,
+            'detail' => $detail,
+            
+        ])->setPaper($customPaper, 'potrait')->setWarnings(false);
+
+        // ->setPaper('f4', 'portrait')
+
+        return $pdf->stream('Pembelian-'. date('Y-m-d-his') .'.pdf');
     }
 }

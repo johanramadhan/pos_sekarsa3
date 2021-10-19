@@ -58,9 +58,50 @@
                         <th class="text-center">Total Harga</th>
                         <th class="text-center">Diskon</th>
                         <th class="text-center">Bayar</th>
+                        <th class="text-center">Status</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      @forelse ($pembelians as $item)
+                      <tr>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td class="text-center">{{ $item->code }}</td>
+                        <td class="text-center">{{ tanggal_indonesia($item->created_at) }}</td>
+                        <td>{{ $item->supplier->name }}</td>
+                        <td class="text-center">{{ format_uang($item->total_item) }}</td>
+                        <td class="text-center">Rp{{ format_uang($item->total_harga) }}</td>
+                        <td class="text-center">{{ $item->diskon }}%</td>
+                        <td class="text-center">Rp{{ format_uang($item->bayar) }}</td>
+                        <td class="text-center">
+                          @if (($item->status ) === "Success")
+                            <span class="badge badge-success">Success</span>
+                          @else
+                            <span class="badge badge-danger">Pending</span>
+                          @endif                                
+                        </td>
+                        <td class="text-center">
+                          <div class="btn-group">
+                            @if (($item->status) === "Pending")
+                            @else
+                              <button onclick="print('{{ route('pembelian.print', $item->id_pembelian) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
+                            @endif
+                            <button onclick="showDetail( '{{ route('pembelian.show', $item->id_pembelian) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                            <button type="submit" id="delete" href="{{ route('pembelian.destroy', $item->id_pembelian) }}" 
+                              class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
+                            <form action="" method="POST" id="deleteForm">
+                              @csrf
+                              @method("DELETE")
+                              <input type="submit" value="Hapus" style="display: none">
+                              
+                            </form>
+                          </div>
+                        </td>
+                      </tr>                          
+                      @empty
+                          
+                      @endforelse
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -94,20 +135,6 @@
       table = $('.table-pembelian').DataTable({
         processing: true,
         autoWidth: false,
-        ajax: {
-            url: '{{ route('pembelian.data') }}',
-        },
-        columns: [
-            {class: 'text-center', data: 'DT_RowIndex', searchable: false, sortable: false},
-            {class: 'text-center', data: 'code'},
-            {class: 'text-center', data: 'tanggal'},
-            {class: 'text-center', data: 'supplier'},
-            {class: 'text-center', data: 'total_item'},
-            {class: 'text-center', data: 'total_harga'},
-            {class: 'text-center', data: 'diskon'},
-            {class: 'text-center', data: 'bayar'},
-            {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
-        ]
     });
       $('.table-supplier').DataTable();
       table1 = $('.table-detail').DataTable({
@@ -115,11 +142,13 @@
           bSort: false,
           columns: [
               {class: 'text-center', data: 'DT_RowIndex', searchable: false, sortable: false},
-              {class: 'text-center', data: 'kode_produk'},
+              {class: 'text-center', data: 'code'},
               {class: 'text-center', data: 'tanggal'},
-              {class: 'text-center', data: 'nama_produk'},
+              {class: 'text-center', data: 'name'},
               {class: 'text-center', data: 'harga_beli'},
               {class: 'text-center', data: 'jumlah'},
+              {class: 'text-center', data: 'berat'},
+              {class: 'text-center', data: 'berat_total'},
               {class: 'text-center', data: 'subtotal'},
           ]
       })
@@ -135,6 +164,33 @@
 
         table1.ajax.url(url);
         table1.ajax.reload();
+    }
+
+    function print(url, title) {
+        popupCenter(url, title, 625, 500);
+    }
+
+    function popupCenter(url, title, w, h) {
+        const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+        const dualScreenTop  = window.screenTop  !==  undefined ? window.screenTop  : window.screenY;
+
+        const width  = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+        const systemZoom = width / window.screen.availWidth;
+        const left       = (width - w) / 2 / systemZoom + dualScreenLeft
+        const top        = (height - h) / 2 / systemZoom + dualScreenTop
+        const newWindow  = window.open(url, title, 
+        `
+            scrollbars=yes,
+            width  = ${w / systemZoom}, 
+            height = ${h / systemZoom}, 
+            top    = ${top}, 
+            left   = ${left}
+        `
+        );
+
+        if (window.focus) newWindow.focus();
     }
 
     function deleteData(url) {
