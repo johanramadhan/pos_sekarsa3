@@ -53,7 +53,7 @@ class PembelianDetailController extends Controller
         
         foreach($detail as $item) {
             $row = array();
-            $row['codePersediaan'] = $item->persediaan['code'];
+            $row['codePersediaan'] = $item->code;
             $row['namaPersediaan'] = $item->persediaan['name_persediaan'];
             $row['satuanBerat'] = $item->persediaan['satuan_berat'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_pembelian_detail .'" value="'. $item->jumlah .'">';

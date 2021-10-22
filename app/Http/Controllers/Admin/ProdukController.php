@@ -70,9 +70,43 @@ class ProdukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function detail($id)
+    {
+        $detail = Produk::with(['galleries', 'category'])->where('id_produk', $id)->get(); 
+
+        return datatables()
+        ->of($detail)
+        ->addIndexColumn()   
+            ->addColumn('stok', function ($detail) {
+                return $detail->stok;
+            })    
+            ->addColumn('satuan', function ($detail) {
+                return $detail->satuan;
+            })    
+            ->addColumn('berat', function ($detail) {
+                return format_uang($detail->berat);
+            })    
+            ->addColumn('totalBerat', function ($detail) {
+                return format_uang($detail->total_berat);
+            })    
+            ->addColumn('satuan_berat', function ($detail) {
+                return $detail->satuan_berat;
+            })    
+            ->addColumn('harga_beli', function ($detail) {
+                return 'Rp'. format_uang($detail->harga_beli);
+            })               
+            ->editColumn('diskon', function ($detail) {
+                return $detail->diskon . '%';
+            })    
+            ->make(true);
+    }
+
     public function show($id)
     {
-        //
+        $produk = Produk::find($id);
+
+        return response()->json($produk);
     }
 
     /**
@@ -102,7 +136,6 @@ class ProdukController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
         $item = Produk::findOrFail($id);
 
         $data['slug'] = Str::slug($request->name);

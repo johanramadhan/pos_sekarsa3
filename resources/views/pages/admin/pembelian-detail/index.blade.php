@@ -106,8 +106,7 @@
                         <div class="col-sm-9 input-group">
                           <input type="hidden" class="form-control" name="id_produk" id="id_persediaan">
                           <input type="hidden" class="form-control" name="id_pembelian" value="{{ $id_pembelian }}" readonly>
-                          <input type="hidden" class="form-control" name="code" value="{{ $codePembelian }}">
-                          <input type="text" class="form-control" id="code" readonly>
+                          <input type="text" class="form-control" name="code" id="code" readonly>
                           <span class="input-group-append">
                             <button onclick="tampilProduk()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                           </span>

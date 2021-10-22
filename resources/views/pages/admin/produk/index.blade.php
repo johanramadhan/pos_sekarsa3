@@ -50,11 +50,11 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+                  <table class="table table-produk table-bordered table-striped">
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-primary">
                       + Produk
                     </button>
-                    <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3">
+                    <a href="{{ route('productExportPdf') }}" class="btn btn-danger ml-3 mb-3">
                       Print PDF
                     </a>
                     <thead>
@@ -83,33 +83,18 @@
                           <td class="text-center">{{ $item->berat }} {{ $item->satuan_berat }}</td>
                           <td>{{ format_uang($item->harga_beli) }}</td>
                           <td>{{ format_uang($item->harga_jual) }}</td>
-                          <td>
+                          <td class="text-center">
                             <div class="btn-group">
-                              <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle mr-1 mb-1"        
-                                  type="button"
-                                  data-toggle="dropdown">
-                                  Aksi
-                                </button>
-                                <div class="dropdown-menu">
-                                  <a class="dropdown-item" href="{{ route('produk.edit', $item->id_produk) }}">
-                                    Sunting
-                                  </a>
-                                  <a class="dropdown-item" href="{{ route('produk.show', $item->id_produk) }}">
-                                    Detail
-                                  </a>
-                                  <button type="submit" id="delete" href="{{ route('produk.destroy', $item->id_produk) }}" 
-                                    class="dropdown-item text-danger">
-                                    Hapus
-                                  </button>
-                                  <form action="" method="POST" id="deleteForm">
-                                    @csrf
-                                    @method("DELETE")
-                                    <input type="submit" value="Hapus" style="display: none">
-                                    
-                                  </form>
-                                </div>
-                              </div>
+                              <button onclick="editForm( '{{ route('produk.update', $item->id_produk) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
+                              <button onclick="showDetail( '{{ route('produk.detail', $item->id_produk) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                              <button type="submit" id="delete" href="{{ route('produk.destroy', $item->id_produk) }}" 
+                                class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
+                                <form action="" method="POST" id="deleteForm">
+                                @csrf
+                                @method("DELETE")
+                                <input type="submit" value="Hapus" style="display: none">
+                                
+                              </form>
                             </div>
                           </td>
                         </tr>
@@ -130,6 +115,8 @@
     </div>
     <!-- /.content -->
   </div>
+
+  @includeIf('pages.admin.produk.detail')
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
@@ -333,34 +320,37 @@
   </script>
 
   <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
+    let table, table1;
 
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-          theme: 'bootstrap4'
-        })
-     })
-  </script>
-
-  <script>
     $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
+      table = $('.table-produk').DataTable({
+        processing: true,
+        autoWidth: false,  
+      });
+
+      table1 = $('.table-detail-produk').DataTable({
+        processing: true,
+          columns: [
+            {data: 'DT_RowIndex', searchable: false, sortable: false},
+            {data: 'stok'},
+            {data: 'satuan'},
+            {data: 'berat'},
+            {data: 'total_berat'},
+            {data: 'satuan_berat'},
+            {data: 'harga_beli'},
+            {data: 'diskon'},
+        ]
       });
     });
+
+    function showDetail(url) {
+      $('#modal-detail').modal('show');
+
+      table1.ajax.url(url);
+      table1.ajax.reload();
+    }
   </script>
+
   <script>
     $('button#delete').on('click', function(e){
       e.preventDefault();

@@ -30,7 +30,7 @@ class PersediaanController extends Controller
         } else {
             $ambil = Persediaan::all()->last();
             $urut = (int)substr($ambil->code, -6) + 1;  
-            $code = 'SKS-' . $tanggal . $urut;      
+            $code = 'PSD-' . $tanggal . $urut;      
         }
 
         return view('pages.admin.persediaan.index',[

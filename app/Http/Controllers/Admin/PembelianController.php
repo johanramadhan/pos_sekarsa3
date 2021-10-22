@@ -134,6 +134,7 @@ class PembelianController extends Controller
         foreach ($detail as $item) {
             $persediaan = Persediaan::find($item->id_produk);
             $persediaan->stok += $item->jumlah;
+            $persediaan->berat = $item->berat;
             $persediaan->total_berat += $item->berat_total;
             $persediaan->update();
         }
@@ -156,7 +157,7 @@ class PembelianController extends Controller
             ->of($detail)
             ->addIndexColumn()
             ->addColumn('code', function ($detail) {
-                return '<span class="label label-success">'. $detail->persediaan->code .'</span>';
+                return '<span class="label label-success">'. $detail->code .'</span>';
             })
             ->addColumn('tanggal', function ($detail) {
                 return tanggal_indonesia($detail->created_at, false);

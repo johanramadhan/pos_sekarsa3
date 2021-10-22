@@ -65,6 +65,7 @@
                         <th>Merek</th>
                         <th>Kategori</th>
                         <th>Jumlah Stok</th>
+                        <th>Berat Per Stok</th>
                         <th>Total Berat</th>
                         <th>Harga Beli</th>
                         <th>Status</th>
@@ -80,8 +81,9 @@
                           <td>{{ $item->name_persediaan }}</td>
                           <td>{{ $item->merk }}</td>
                           <td>{{ $item->category->name }}</td>
-                          <td class="text-center">{{ $item->stok ?? 0 }} {{ $item->satuan }}</td>
-                          <td class="text-center">{{ $item->total_berat ?? 0 }} {{ $item->satuan_berat }}</td>
+                          <td class="text-center">{{ format_uang($item->stok) ?? 0 }} {{ $item->satuan }}</td>
+                          <td class="text-center">{{ format_uang($item->berat) ?? 0 }} {{ $item->satuan_berat }}</td>
+                          <td class="text-center">{{ format_uang($item->total_berat) ?? 0 }} {{ $item->satuan_berat }}</td>
                           <td>Rp{{ format_uang($item->harga_beli) }}</td>
                           <td class="text-center">
                             @if (($item->total_berat) == 0)
@@ -111,7 +113,6 @@
                           </td>
                         </tr>
                       @empty
-                        Tidak ada data
                       @endforelse
                     </tbody>
 
@@ -288,7 +289,7 @@
                               type="number"
                               name="harga_beli"
                               class="form-control"
-                              placeholder="Harga Modal"
+                              placeholder="Harga Beli"
                               required
                             />
                           </div>

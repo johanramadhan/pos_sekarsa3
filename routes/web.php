@@ -36,12 +36,15 @@ Route::prefix('admin')
         Route::resource('customer', 'CustomerController');
         Route::resource('user', 'UserController');
         Route::resource('setting', 'SettingController');
+
+        // Persediaan
         Route::resource('data-product/persediaan', 'PersediaanController');
         Route::get('data-product/persediaan/{id}/detail', 'PersediaanController@detail')->name('persediaan.detail');
         Route::resource('data-product/persediaan-gallery', 'PersediaanGalleryController');
         
-
+        // Produk
         Route::resource('data-product/produk', 'ProdukController');
+        Route::get('data-product/produk/{id}/detail', 'ProdukController@detail')->name('produk.detail');
 
         // Pengeluaran
         Route::get('/pengeluaran/{id}/tambah', 'PengeluaranController@tambah')->name('tambah-pengeluaran');
