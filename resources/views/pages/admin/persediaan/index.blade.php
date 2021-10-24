@@ -84,7 +84,7 @@
                           <td class="text-center">{{ format_uang($item->stok) ?? 0 }} {{ $item->satuan }}</td>
                           <td class="text-center">{{ format_uang($item->berat) ?? 0 }} {{ $item->satuan_berat }}</td>
                           <td class="text-center">{{ format_uang($item->total_berat) ?? 0 }} {{ $item->satuan_berat }}</td>
-                          <td>Rp{{ format_uang($item->harga_beli) }}</td>
+                          <td>Rp{{ format_uang($item->harga_beli) }}/{{ $item->satuan }}</td>
                           <td class="text-center">
                             @if (($item->total_berat) == 0)
                               <span class="badge badge-danger">Habis</span> 

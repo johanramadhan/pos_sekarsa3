@@ -68,6 +68,17 @@ Route::prefix('admin')
         Route::get('data-transaction/pembelian_detail/loadform/{diskon}/{total}', 'PembelianDetailController@loadForm')->name('pembelian_detail.load_form');
         Route::resource('data-transaction/pembelian_detail', 'PembelianDetailController');
 
+        // Tambah Stok Produk
+        Route::get('/tambahStok/{id}/tambah', 'TambahStokController@tambah')->name('tambah-stokProduk');
+        Route::get('data-transaction/tambahStok/data', 'TambahStokController@data')->name('tambahStok.data');
+        Route::get('data-transaction/tambahStok/print/{id}', 'TambahStokController@print')->name('tambahStok.print');
+        Route::resource('data-transaction/tambahStok', 'TambahStokController');
+
+        // Tambah Stok-detail
+        Route::get('data-transaction/tambahStok_detail/{id}/data', 'TambahStokDetailController@data')->name('stok_detail.data');
+        Route::get('data-transaction/tambahStok_detail/loadform/{diskon}/{total}', 'TambahStokDetailController@loadForm')->name('stok_detail.load_form');
+        Route::resource('data-transaction/tambahStok_detail', 'TambahStokDetailController');
+
         // Penjualan
         Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transaction.data');
         Route::get('data-transaction/transaction/selesai', 'TransactionController@selesai')->name('transaction.selesai');

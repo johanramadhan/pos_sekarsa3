@@ -108,9 +108,9 @@
                 <i class="far fa-circle nav-icon"></i>
                 <p>+ Persediaan</p>
               </a>
-              <a href="{{ route('pembelian.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/persediaan*')) ? 'active' : '' }}">
+              <a href="{{ route('tambahStok.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/tambahStok*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Pembelian</p>
+                <p>+ Stok Produk</p>
               </a>
             </li>
             <li class="nav-item">
