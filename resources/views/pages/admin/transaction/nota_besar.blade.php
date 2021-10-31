@@ -31,7 +31,7 @@
     <table width="100%">
         <tr>
             <td rowspan="4" width="60%">
-                <img src="{{ public_path('images/logo-sidebar.png') }}" alt="{{ $setting->path_logo }}" width="120">
+                <img src="{{ public_path("storage/".$setting->first()->path_logo) }}" alt="{{ $setting->path_logo }}" width="120">
                 <br>
                 {{ $setting->address }}
                 <br>
@@ -97,13 +97,18 @@
 
     <table width="100%">
         <tr>
-            <td><b>Terimakasih telah berbelanja dan sampai jumpa</b></td>
+            <tr>
+            <td style="padding-top: 20px;"><b>Terimakasih telah berbelanja dan sampai jumpa</b></td>
+            
+        </tr>
+        <tr>
+            <td style="padding-top: 100px;"></td>
             <td class="text-center">
                 Kasir
                 <br>
                 <br>
                 <br>
-                {{ auth()->user()->name }}
+                <b>{{ auth()->user()->name }}</b>
             </td>
         </tr>
     </table>

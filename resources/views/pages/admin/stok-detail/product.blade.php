@@ -17,6 +17,7 @@
                     <th class="text-center">Berat Per Item</th>
                     <th class="text-center">Sisa Berat Persediaan</th>
                     <th class="text-center">Harga Beli</th>
+                    <th class="text-center">Harga Per Gram</th>
                     <th class="text-center">Merek</th>
                     <th class="text-center"><i class="fa fa-cog"></i></th>
                 </thead>
@@ -30,9 +31,10 @@
                       <td class="text-center">{{ format_uang($item->berat ?? 0) }} {{ $item->satuan_berat }}</td>
                       <td class="text-center">{{ format_uang($item->total_berat ?? 0) }} {{ $item->satuan_berat }}</td>
                       <td class="text-center">Rp{{ format_uang($item->harga_beli) }}</td>
+                      <td class="text-center">Rp{{ format_uang($item->harga_persatuan) }}</td>
                       <td class="text-center">{{ $item->merk }}</td>
                       <td class="text-center">
-                        <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_persediaan }}', '{{ $item->code }}', '{{ $item->name_persediaan }}', '{{ $item->harga_beli }}')" data-dismiss="modal">
+                        <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_persediaan }}', '{{ $item->code }}', '{{ $item->name_persediaan }}', '{{ $item->harga_persatuan }}')" data-dismiss="modal">
                           <i class="fa fa-check-circle"></i>
                           Pilih
                         </a>

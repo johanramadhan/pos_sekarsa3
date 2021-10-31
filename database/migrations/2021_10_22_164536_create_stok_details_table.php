@@ -17,10 +17,11 @@ class CreateStokDetailsTable extends Migration
             $table->increments('id_stok_detail');
             $table->string('code');
             $table->integer('id_stok');
-            $table->integer('id_produk');
+            $table->integer('id_persediaan');
             $table->integer('harga_beli');
             $table->integer('jumlah');
             $table->integer('berat');
+            $table->integer('berat_total');
             $table->integer('subtotal');
             $table->timestamps();
         });

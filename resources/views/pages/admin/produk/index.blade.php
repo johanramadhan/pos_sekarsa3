@@ -62,9 +62,9 @@
                         <th>No</th>
                         <th>Kode Produk</th>
                         <th>Nama Produk</th>
-                        <th>Satuan</th>
                         <th>Kategori</th>
                         <th>Jumlah Stok</th>
+                        <th>Satuan</th>
                         <th>Berat</th>
                         <th>Harga Modal</th>
                         <th>Harga Jual</th>
@@ -77,9 +77,9 @@
                           <td>{{ $loop->iteration }}</td>
                           <td>{{ $item->code }}</td>
                           <td>{{ $item->name_product }}</td>
-                          <td class="text-center">{{ $item->satuan }}</td>
                           <td>{{ $item->category->name }}</td>
                           <td class="text-center">{{ $item->stok }}</td>
+                          <td class="text-center">{{ $item->satuan }}</td>
                           <td class="text-center">{{ $item->berat }} {{ $item->satuan_berat }}</td>
                           <td>{{ format_uang($item->harga_beli) }}</td>
                           <td>{{ format_uang($item->harga_jual) }}</td>

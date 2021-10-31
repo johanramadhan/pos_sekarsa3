@@ -34,7 +34,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Tambah Stok Produk</h1>
+            <h1 class="m-0">Tambah Stok - {{ $produk->name_product }}</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -73,7 +73,7 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <form action="{{ route('pembelian_detail.store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('tambahStok_detail.store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -92,9 +92,9 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Tambah Stok</label>
+                        <label class="col-sm-3 col-form-label">Satuan</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control">
+                          <input type="text" class="form-control" value="{{ $produk->satuan }}" readonly>
                         </div>
                       </div>
                     </div>
@@ -102,10 +102,10 @@
                   <div class="col-4">
                     <div class="card-body">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Pilih Persediaan</label>
+                        <label class="col-sm-3 col-form-label">Pilih BB</label>
                         <div class="col-sm-9 input-group">
-                          <input type="hidden" class="form-control" name="id_produk" id="id_persediaan">
-                          <input type="hidden" class="form-control" name="id_pembelian" value="{{ $id_stok }}" readonly>
+                          <input type="hidden" class="form-control" name="id_persediaan" id="id_persediaan">
+                          <input type="hidden" class="form-control" name="id_stok" value="{{ $id_stok }}" readonly>
                           <input type="text" class="form-control" name="code" id="code" readonly>
                           <span class="input-group-append">
                             <button onclick="tampilProduk()" type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
@@ -121,7 +121,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Berat Satuan</label>
                         <div class="col-sm-9">
-                          <input type="number" class="form-control" name="berat" id="berat" placeholder="Berat">
+                          <input type="number" class="form-control" name="berat" id="berat" placeholder="Berat" onkeyup="sum()">
                         </div>
                       </div>
                     </div>
@@ -129,15 +129,18 @@
                   <div class="col-4">
                     <div class="card-body">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Nama</label>
-                        <div class="col-sm-9">                          
+                        <label class="col-sm-4 col-form-label">Nama</label>
+                        <div class="col-sm-8">                          
                           <input type="text" class="form-control" id="name_persediaan" placeholder="Nama Persediaan" readonly>
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Harga</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" name="harga_beli" id="harga_beli" readonly>
+                        <label class="col-sm-4 col-form-label">Harga Per Gram</label>
+                        <div class="col-sm-4">
+                          <input type="text" class="form-control" id="harga_persatuan" onkeyup="sum()" readonly>
+                        </div>
+                        <div class="col-sm-4">
+                          <input type="text" class="form-control" name="harga_beli" id="harga_persatuan_total" readonly>
                         </div>
                       </div>
                       <button type="submit" class="btn btn-success float-right"><i class="fa fa-shopping-cart"></i>Tambah</button>
@@ -161,14 +164,14 @@
                     <thead>
                       <tr>
                         <th class="text-center">No</th>
-                        <th class="text-center" width="15%">Kode Produk</th>
-                        <th class="text-center">Nama Item</th>
+                        <th class="text-center" width="15%">Kode Persediaan</th>
+                        <th class="text-center">Nama</th>
                         <th class="text-center">Satuan Berat</th>
-                        <th class="text-center" width="8%">Jumlah</th>
+                        <th class="text-center" width="10%">Jumlah</th>
                         <th class="text-center" width="10%">Berat Satuan</th>
                         <th class="text-center" width="10%">Total Berat</th>
-                        <th class="text-center">Harga Beli</th>
-                        <th class="text-center">Total</th>
+                        <th class="text-center">Harga Modal</th>
+                        <th class="text-center">Total Modal</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -179,34 +182,48 @@
           </div>
 
           <div class="col-lg-4">
-            <form action="{{ route('pembelian.store') }}" class="form-pembelian" method="post">
+            <form action="{{ route('tambahStok.store') }}" class="form-pembelian" method="post">
               @csrf
-              <input type="hidden" name="id_pembelian" value="{{ $id_stok }}">
+              <input type="hidden" name="id_stok" value="{{ $id_stok }}">
               <input type="hidden" name="total" id="total">
-              <input type="hidden" name="total_item" id="total_item">
               <input type="hidden" name="totalBerat" id="totalBerat">
               <input type="hidden" name="bayar" id="bayar">
+              <input type="hidden" name="total_modal" id="total_modal">
 
               <div class="card">
                 <div class="card-body">
-                  {{-- Total Pembelian --}}
+                  {{-- Modal Per Item--}}
                   <div class="form-group row">
-                    <label for="totalrp" class="col-lg-2 control-label">Total</label>
-                    <div class="col-lg-10">
-                        <input type="text" id="totalrp" class="form-control" readonly>
+                    <label for="modalrp" class="col-lg-4 control-label">Modal Per Item</label>
+                    <div class="col-lg-8">
+                        <input type="text" id="modalrp" class="form-control" readonly>
                     </div>
                   </div>
-                  {{-- Diskon Pembelian --}}
+                  {{-- Total Modal --}}
                   <div class="form-group row">
-                    <label for="diskon" class="col-lg-2 control-label">Diskon</label>
-                    <div class="col-lg-10">
+                    <label for="totalrp" class="col-lg-4 control-label">Total Modal</label>
+                    <div class="col-lg-8">
+                      <input type="text" id="totalrp" class="form-control" readonly>
+                    </div>
+                  </div>
+                  {{-- Jumlah Penambahan --}}
+                  <div class="form-group row">
+                    <label for="modalrp" class="col-lg-4 control-label">Jumlah Penambahan</label>
+                    <div class="col-lg-8">
+                        <input type="text" name="total_item" class="form-control">
+                    </div>
+                  </div>
+                  {{-- Tambahan Item --}}
+                  <div class="form-group row d-none">
+                    <label for="diskon" class="col-lg-4 control-label">Tambahan Item</label>
+                    <div class="col-lg-8">
                         <input type="number" name="diskon" id="diskon" class="form-control" value="{{ $diskon }}">
                     </div>
                   </div>
                   {{-- Bayar --}}
-                  <div class="form-group row">
-                    <label for="bayar" class="col-lg-2 control-label">Bayar</label>
-                    <div class="col-lg-10">
+                  <div class="form-group row d-none">
+                    <label for="bayar" class="col-lg-4 control-label">Bayar</label>
+                    <div class="col-lg-8">
                         <input type="text" id="bayarrp" class="form-control" readonly>
                     </div>
                   </div>
@@ -224,7 +241,7 @@
     <!-- /.content -->
   </div>
 
-  @includeIf('pages.admin.pembelian-detail.product')
+  @includeIf('pages.admin.stok-detail.product')
 
 @endsection
 
@@ -239,17 +256,16 @@
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 
-  {{-- <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-          theme: 'bootstrap4'
-        })
-     })
-  </script> --}}
+  <script>
+    function sum() {
+        var qty = document.getElementById('berat').value;
+        var price = document.getElementById('harga_persatuan').value;
+        var result = parseInt(price) * parseInt(qty);
+        if (!isNaN(result)) {
+            document.getElementById('harga_persatuan_total').value = result;
+        }
+    }
+  </script>
   
   <script>
     let table, table1;
@@ -273,16 +289,16 @@
               {class: 'text-center', data: 'jumlah'},
               {class: 'text-center', data: 'berat'},
               {class: 'text-center', data: 'beratTotal'},
-              {class: 'text-right', data: 'harga_beli'},
+              {class: 'text-right', data: 'harga_persatuan'},
               {class: 'text-right', data: 'subtotal'},
               {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
           ]
       })
       .on('draw.dt', function () {
           loadForm($('#diskon').val());
-      });       
+      });        
 
-      table1 = $('.table-produk').DataTable();  
+      table1 = $('.table-produk').DataTable();   
 
       $(document).on('input', '.quantity', function () {
             let id = $(this).data('id');
@@ -299,7 +315,7 @@
                 return;
             }
 
-            $.post(`{{ url('/admin/data-transaction/pembelian_detail') }}/${id}`, {
+            $.post(`{{ url('/admin/data-transaction/tambahStok_detail') }}/${id}`, {
                 '_token': $('[name=csrf-token]').attr('content'),
                 '_method': 'put',
                 'jumlah': jumlah
@@ -310,7 +326,7 @@
                 });
             })
             .fail(errors => {
-                alert('Tidak dapat menyimpan data jumlah');
+                alert('Tidak dapat menyimpan data jumlah persediaan');
                 return;
             });
       });
@@ -324,11 +340,10 @@
       });
 
       $('.btn-simpan').on('click', function () {
-            $('.form-pembelian').submit();
-        });
+          $('.form-pembelian').submit();
+      });
       
-    });          
-
+    });       
 
     function tampilProduk() {
       $('#modal-produk').modal('show');
@@ -338,11 +353,11 @@
       $('#modal-produk').modal('hide');
     }
 
-    function pilihProduk(id, code, name_persediaan, harga_beli) {
+    function pilihProduk(id, code, name_persediaan, harga_persatuan) {
         $('#id_persediaan').val(id);
         $('#code').val(code);
         $('#name_persediaan').val(name_persediaan);
-        $('#harga_beli').val(harga_beli);
+        $('#harga_persatuan').val(harga_persatuan);
         $('#qty').val(1);
         hideProduk();
     }
@@ -367,11 +382,13 @@
         $('#total').val($('.total').text());
         $('#totalBerat').val($('.totalBerat').text());
         $('#total_item').val($('.total_item').text());
+        $('#total_modal').val($('.total_modal').text());
 
-        $.get(`{{ url('admin/data-transaction/pembelian_detail/loadform') }}/${diskon}/${$('.total').text()}`)
+        $.get(`{{ url('admin/data-transaction/tambahStok_detail/loadform') }}/${$('.total').text()}/${diskon}/${$('.total_modal').text()}`) 
             .done(response => {
                 $('#totalrp').val('Rp'+ response.totalrp);
                 $('#bayarrp').val('Rp'+ response.bayarrp);
+                $('#modalrp').val('Rp'+ response.modalrp);
                 $('#bayar').val(response.bayar);
                 $('.tampil-bayar').text('Rp. '+ response.bayarrp);
                 $('.tampil-terbilang').text(response.terbilang);

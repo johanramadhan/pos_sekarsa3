@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required|string|max:100', 
             'email' => 'required|email|unique:users', 
-            'roles' => 'nullable|string|in:ADMIN,USER,PPBJ'
+            'roles' => 'nullable|string|in:ADMIN,USER,KASIR'
         ];
     }
 }

@@ -57,8 +57,8 @@ use Illuminate\Support\Str;
             </a>
             <div class="dropdown-menu">
               <a href="{{ route('home') }}" class="dropdown-item">Home</a>
-              @if ((Auth::user()->roles) === "PPBJ")
-                <a href="{{ route('dashboard-ppbj') }}" class="dropdown-item">Dashboard - PPBJ</a>
+              @if ((Auth::user()->roles) === "KASIR")
+                <a href="{{ route('dashboard-kasir') }}" class="dropdown-item">Dashboard - Kasir</a>
               @elseif((Auth::user()->roles) === "ADMIN")
                 <a href="{{ route('dashboard-admin') }}" class="dropdown-item">Dashboard - ADMIN</a>
               @else 

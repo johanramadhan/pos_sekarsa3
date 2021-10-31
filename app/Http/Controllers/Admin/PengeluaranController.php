@@ -32,7 +32,7 @@ class PengeluaranController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function data()
+    public function data()
     {
         $pengeluaran = Pengeluaran::orderBy('id_pengeluaran', 'desc')->get();
 
@@ -68,7 +68,6 @@ class PengeluaranController extends Controller
             ->rawColumns(['aksi'])
             ->make(true);
     }
-
 
     public function create(Request $request)
     {

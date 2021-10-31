@@ -7,6 +7,7 @@ use App\Pembelian;
 use App\Persediaan;
 use App\Produk;
 use App\Stok;
+use App\StokDetail;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -87,7 +88,28 @@ class TambahStokController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $stok = Stok::findOrFail($request->id_stok);
+        $stok->total_item = $request->total_item;
+        $stok->total_harga = $request->total;
+        $stok->diskon = $request->diskon;
+        $stok->bayar = $request->bayar;
+        $stok->status ='Success';
+        $stok->update();
+
+        $produk = Produk::find($stok->id_produk);
+        $produk->stok += $request->total_item;
+        $produk->harga_beli = $request->total_modal;
+        $produk->update();
+
+        // $detail = StokDetail::where('id_stok', $stok->id_stok)->get();
+        // foreach ($detail as $item) {
+        //     $persediaan = Persediaan::find($item->id_persediaan);
+        //     $persediaan->total_berat -= $item->berat_total;
+        //     $persediaan->update();
+        // }
+
+        return redirect()->route('tambahStok.index')
+        ->with('success', 'Data stok produk berhasil ditambahkan');
     }
 
     /**

@@ -31,7 +31,7 @@
     <table width="100%">
         <tr>
             <td rowspan="4" width="60%">
-                <img src="{{ public_path('images/sekarsa.jpg') }}" alt="{{ $setting->path_logo }}" width="120">
+                <img src="{{ public_path("storage/".$setting->first()->path_logo) }}" alt="{{ $setting->path_logo }}" width="120">
                 <br>
                 {{ $setting->address }}
                 <br>

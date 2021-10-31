@@ -102,7 +102,7 @@
                   <div class="col-4">
                     <div class="card-body">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Pilih Persediaan</label>
+                        <label class="col-sm-3 col-form-label">Pilih BB</label>
                         <div class="col-sm-9 input-group">
                           <input type="hidden" class="form-control" name="id_produk" id="id_persediaan">
                           <input type="hidden" class="form-control" name="id_pembelian" value="{{ $id_pembelian }}" readonly>
@@ -153,7 +153,7 @@
         <!-- /.row -->
 
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-lg-9">
             <div class="card">
               <div class="card-body">
                 <div class="table-responsive">
@@ -168,6 +168,7 @@
                         <th class="text-center" width="10%">Berat Satuan</th>
                         <th class="text-center" width="10%">Total Berat</th>
                         <th class="text-center">Harga Beli</th>
+                        <th class="text-center">Harga Persatuan</th>
                         <th class="text-center">Total</th>
                         <th class="text-center">Aksi</th>
                       </tr>
@@ -178,7 +179,7 @@
             </div>
           </div>
 
-          <div class="col-lg-4">
+          <div class="col-lg-3">
             <form action="{{ route('pembelian.store') }}" class="form-pembelian" method="post">
               @csrf
               <input type="hidden" name="id_pembelian" value="{{ $id_pembelian }}">
@@ -191,22 +192,22 @@
                 <div class="card-body">
                   {{-- Total Pembelian --}}
                   <div class="form-group row">
-                    <label for="totalrp" class="col-lg-2 control-label">Total</label>
-                    <div class="col-lg-10">
+                    <label for="totalrp" class="col-lg-3 control-label">Total</label>
+                    <div class="col-lg-9">
                         <input type="text" id="totalrp" class="form-control" readonly>
                     </div>
                   </div>
                   {{-- Diskon Pembelian --}}
                   <div class="form-group row">
-                    <label for="diskon" class="col-lg-2 control-label">Diskon</label>
-                    <div class="col-lg-10">
+                    <label for="diskon" class="col-lg-3 control-label">Diskon</label>
+                    <div class="col-lg-9">
                         <input type="number" name="diskon" id="diskon" class="form-control" value="{{ $diskon }}">
                     </div>
                   </div>
                   {{-- Bayar --}}
                   <div class="form-group row">
-                    <label for="bayar" class="col-lg-2 control-label">Bayar</label>
-                    <div class="col-lg-10">
+                    <label for="bayar" class="col-lg-3 control-label">Bayar</label>
+                    <div class="col-lg-9">
                         <input type="text" id="bayarrp" class="form-control" readonly>
                     </div>
                   </div>
@@ -274,6 +275,7 @@
               {class: 'text-center', data: 'berat'},
               {class: 'text-center', data: 'beratTotal'},
               {class: 'text-right', data: 'harga_beli'},
+              {class: 'text-right', data: 'harga_persatuan'},
               {class: 'text-right', data: 'subtotal'},
               {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
           ]

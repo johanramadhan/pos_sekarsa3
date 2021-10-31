@@ -45,7 +45,7 @@
                           <option value="{{ $item->roles }}" selected>Tidak diganti -- ({{ $item->roles }})</option>
                           <option value="USER">User</option>
                           <option value="ADMIN">Admin</option>
-                          <option value="PPBJ">PPBJ</option>
+                          <option value="KASIR">Kasir</option>
                         </select>                            
                       </div>
                       <!-- /.Nama Kabid/Kasubbag/Kasi -->             

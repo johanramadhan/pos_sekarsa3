@@ -136,6 +136,7 @@ class PembelianController extends Controller
             $persediaan->stok += $item->jumlah;
             $persediaan->berat = $item->berat;
             $persediaan->total_berat += $item->berat_total;
+            $persediaan->harga_persatuan = $item->harga_persatuan;
             $persediaan->update();
         }
 

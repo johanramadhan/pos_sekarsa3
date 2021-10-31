@@ -46,6 +46,18 @@ Route::prefix('admin')
         Route::resource('data-product/produk', 'ProdukController');
         Route::get('data-product/produk/{id}/detail', 'ProdukController@detail')->name('produk.detail');
 
+        //Kas Kecil
+        Route::get('kaskecil/{id}/tambah', 'KaskecilController@tambah')->name('tambah-kaskecil');
+        Route::get('kaskecil/data', 'KaskecilController@data')->name('kaskecil.data');
+        Route::get('kaskecil/{id}/detail', 'KaskecilController@detail')->name('kaskecil.detail');
+        Route::get('kaskecil/print/{id}', 'KaskecilController@print')->name('kaskecil.print');
+        Route::resource('kasKecil', 'KaskecilController');
+
+        // Kas Kecil Detail
+        Route::get('kaskecil/kaskecil_detail/{id}/data', 'KaskecilDetailController@data')->name('kaskecil_detail.data');
+        Route::get('kaskecil/kaskecil_detail/loadform/{diskon}/{total}', 'KaskecilDetailController@loadForm')->name('kaskecil_detail.load_form');
+        Route::resource('kaskecil/kaskecil_detail', 'KaskecilDetailController');
+
         // Pengeluaran
         Route::get('/pengeluaran/{id}/tambah', 'PengeluaranController@tambah')->name('tambah-pengeluaran');
         Route::get('data-transaction/pengeluaran/data', 'PengeluaranController@data')->name('pengeluaran.data');
@@ -76,7 +88,7 @@ Route::prefix('admin')
 
         // Tambah Stok-detail
         Route::get('data-transaction/tambahStok_detail/{id}/data', 'TambahStokDetailController@data')->name('stok_detail.data');
-        Route::get('data-transaction/tambahStok_detail/loadform/{diskon}/{total}', 'TambahStokDetailController@loadForm')->name('stok_detail.load_form');
+        Route::get('data-transaction/tambahStok_detail/loadform/{total}/{diskon}/{total_modal}', 'TambahStokDetailController@loadForm')->name('stok_detail.load_form');
         Route::resource('data-transaction/tambahStok_detail', 'TambahStokDetailController');
 
         // Penjualan
@@ -100,8 +112,6 @@ Route::prefix('admin')
 
 
 
-
-
         Route::resource('data-proposal/pengajuan', 'ProposalController');
         Route::resource('data-proposal/proposal-galleries', 'ProposalGalleryController');
 
@@ -116,20 +126,30 @@ Route::prefix('admin')
         Route::get('proposal/exportpdf', 'ProposalController@exportPdf')->name('proposalExport');
     });
 
-Route::prefix('ppbj')
-    ->namespace('Ppbj')
-    ->middleware(['auth', 'ppbj'])
+Route::prefix('kasir')
+    ->namespace('Kasir')
+    ->middleware(['auth', 'kasir'])
     ->group(function() {
-        Route::get('/', 'DashboardController@index')->name('dashboard-ppbj');
+        Route::get('/', 'DashboardController@index')->name('dashboard-kasir');
 
-        Route::resource('data-asett/asett', 'ProductController');
-        // dashboard product export
-        Route::get('aset/exportpdfppbj', 'ProductController@exportPdfTables')->name('productExportPPBJ');
+        // Kas Kecil
+        Route::get('kaskecil/data', 'KaskecilController@data')->name('kaskecil.data');
+        Route::get('kaskecil/{id}/detail', 'KaskecilController@detail')->name('kaskecil.detail');
+        Route::get('kaskecil/print/{id}', 'KaskecilController@print')->name('kaskecil.print');
+        Route::resource('kasKecil', 'KaskecilController');
 
-        Route::resource('data-proposaal/proposal', 'ProposalController');
-        // dashboard proposal export
-        Route::get('proposal/exportpdftables', 'ProposalController@exportPdfTables')->name('proposalExportPPBJ');
-        Route::get('proposal/exportpdf', 'ProposalController@exportPdfs')->name('proposalExports');
+        // Penjualan
+        Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transaction.data');
+        Route::get('data-transaction/transaction/selesai', 'TransactionController@selesai')->name('transaction.selesai');
+        Route::get('data-transaction/transaction/nota-kecil', 'TransactionController@notaKecil')->name('transaction.nota_kecil');
+        Route::get('data-transaction/transaction/nota-besar', 'TransactionController@notaBesar')->name('transaction.nota_besar');
+        Route::get('data-transaction/transaction/print/{id}', 'TransactionController@print')->name('transaction.print');
+        Route::resource('data-transaction/transaction', 'TransactionController');
+
+        // Penjualan-detail
+        Route::get('data-transaction/transaction-detail/{id}/data', 'TransactionDetailController@data')->name('transaction_detail.data');
+        Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}/{diterima}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
+        Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
 
     });
 

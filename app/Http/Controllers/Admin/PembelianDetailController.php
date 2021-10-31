@@ -60,6 +60,7 @@ class PembelianDetailController extends Controller
             $row['berat'] = format_uang($item->berat);
             $row['beratTotal'] = format_uang($item->berat_total);
             $row['harga_beli'] = 'Rp'.format_uang($item->harga_beli);
+            $row['harga_persatuan'] = 'Rp'.format_uang($item->harga_persatuan);
             $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
             $row['aksi'] = '<button onclick="deleteData(`'. route('pembelian_detail.destroy', $item->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
 
@@ -79,6 +80,7 @@ class PembelianDetailController extends Controller
             'berat'    => '',
             'beratTotal'    => '',
             'harga_beli'  => '',
+            'harga_persatuan'  => '',
             'subtotal'    => '',
             'aksi'        => '',
         ];
@@ -115,6 +117,7 @@ class PembelianDetailController extends Controller
         }
 
         $data = $request->all();
+        $data['harga_persatuan'] = $request->harga_beli / $request->berat;
         $data['berat_total'] = $request->berat * $request->jumlah;
         $data['subtotal'] = $produk->harga_beli * $request->jumlah;
 

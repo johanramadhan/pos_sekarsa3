@@ -14,7 +14,8 @@ class AddBeratTotalToPembelianDetails extends Migration
     public function up()
     {
         Schema::table('pembelian_details', function (Blueprint $table) {
-            $table->string('berat_total')->nullable()->after('berat');
+            $table->integer('harga_persatuan')->nullable()->after('harga_beli');
+            $table->integer('berat_total')->nullable()->after('berat');
         });
     }
 
@@ -26,6 +27,7 @@ class AddBeratTotalToPembelianDetails extends Migration
     public function down()
     {
         Schema::table('pembelian_details', function (Blueprint $table) {
+            $table->dropColumn('harga_persatuan');
             $table->dropColumn('berat_total');
         });
     }

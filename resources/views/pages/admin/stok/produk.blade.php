@@ -26,7 +26,7 @@
                       <td>{{ $item->code }}</td>
                       <td>{{ $item->name_product }}</td>
                       <td class="text-center">{{ $item->satuan }}</td>
-                      <td>{{ $item->status }}</td>
+                      <td>{{ $item->stok }}</td>
                       <td>
                         @if (($item->stok) === 0)
                           <span class="badge badge-danger">Habis</span>

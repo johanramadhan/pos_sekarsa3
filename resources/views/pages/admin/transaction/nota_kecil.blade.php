@@ -16,10 +16,10 @@
         p {
             display: block;
             margin: 3px;
-            font-size: 12pt;
+            font-size: 13pt;
         }
         table td {
-            font-size: 11pt;
+            font-size: 12pt;
         }
         .text-center {
             text-align: center;
@@ -31,7 +31,6 @@
         @media print {
             @page {
                 margin: 0;
-                size: 75mm 
     ';
     ?>
     <?php 
@@ -43,7 +42,7 @@
     <?php
     $style .= '
             html, body {
-                width: 70mm;
+                width: 65mm;
             }
             .btn-print {
                 display: none;
@@ -58,13 +57,14 @@
 <body onload="window.print()">
     <button class="btn-print" style="position: absolute; right: 1rem; top: 1rem;" onclick="window.print()">Print</button>
     <div class="text-center">
+        <img src="{{ Storage::url($setting->first()->path_logo ?? 'tidak ada foto') }} " alt="{{ $setting->path_logo }}" width="150">
         <h3 style="margin-bottom: 5px;">{{ strtoupper($setting->name) }}</h3>
         <p>{{ strtoupper($setting->address) }}</p>
     </div>
     <br>
     <div>
         <p style="float: left;">{{ date('d-m-Y') }}</p>
-        <p style="float: right">{{ strtoupper(auth()->user()->name) }}</p>
+        <p style="float: right; margin-right: 20px;">{{ strtoupper(auth()->user()->name) }}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
     <p style="margin: 0;">No: {{ $penjualan->code }}</p>
@@ -87,7 +87,7 @@
             </tr>
         @endforeach
     </table>
-    <p class="text-center">-----------------------------------</p>
+    <p class="text-center">-------------------------</p>
 
     <table width="100%" style="border: 0;">
         <tr>
@@ -119,8 +119,9 @@
         </tr>
     </table>
 
-    <p class="text-center">===================================</p>
-    <p class="text-center">-- TERIMA KASIH --</p>
+    <p class="text-center">===================================</p><br><br><br>
+    <p class="text-center">-- TERIMA KASIH --</p> <br><br>
+    <p class="text-center" style="color: white">----</p> <br><br><br>
 
     <script>
         let body = document.body;

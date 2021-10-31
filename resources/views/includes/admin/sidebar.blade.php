@@ -66,6 +66,14 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="{{ route('kasKecil.index') }}" class="nav-link {{ (request()->is('admin/kasKecil*')) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+              Kas Kecil
+            </p>
+          </a>
+        </li>
         <li class="nav-item {{ (request()->is('admin/data-product*')) ? 'menu-open' : '' }}">
           <a href="#" class="nav-link {{ (request()->is('admin/data-product*')) ? 'active' : '' }} ">
             <i class="nav-icon fas fa-briefcase"></i>
