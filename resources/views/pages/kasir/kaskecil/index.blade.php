@@ -66,7 +66,7 @@
                         <td class="text-center">{{ $item->keterangan }}</td>
                         <td class="text-center">
                           <div class="btn-group">
-                            <button onclick="editForm( '{{ route('kasKecil.update', $item->id_kaskecil) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
+                            <button onclick="editForm( '{{ route('kaskecilkasir.update', $item->id_kaskecil) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
                             <button onclick="print('{{ route('kaskecil.print', $item->id_kaskecil) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                             <button onclick="showDetail( '{{ route('kaskecil.detail', $item->id_kaskecil) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
                           </div>
@@ -86,9 +86,9 @@
     <!-- /.content -->
   </div>
 
-  @includeIf('pages.admin.kaskecil.tambah')
-  @includeIf('pages.admin.kaskecil.detail')
-  @includeIf('pages.admin.kaskecil.form')
+  @includeIf('pages.kasir.kaskecil.tambah')
+  @includeIf('pages.kasir.kaskecil.detail')
+  @includeIf('pages.kasir.kaskecil.form')
 
 @endsection
 
@@ -116,7 +116,6 @@
           bSort: false,
           columns: [
               {class: 'text-center', data: 'DT_RowIndex', searchable: false, sortable: false},
-              {class: 'text-center', data: 'code'},
               {class: 'text-center', data: 'tanggal'},
               {class: 'text-center', data: 'uraian'},
               {class: 'text-center', data: 'jenis_uang'},

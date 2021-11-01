@@ -43,7 +43,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('kasKecil.index') }}" class="nav-link {{ (request()->is('kasir/kasKecil')) ? 'active' : '' }}">
+          <a href="{{ route('kaskecilkasir.index') }}" class="nav-link {{ (request()->is('kasir/kasKecil')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Kas Kecil

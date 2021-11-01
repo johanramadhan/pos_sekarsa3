@@ -21,7 +21,7 @@ class KaskecilController extends Controller
     {
         $user = User::orderBy('name')->get();
         $tanggalAkhir = date('Y-m-d');
-        $kaskecils = Kaskecil::whereDate('created_at', $tanggalAkhir);
+        $kaskecils = Kaskecil::whereDate('created_at', $tanggalAkhir)->get();
 
         return view('pages.kasir.kaskecil.index', [
             'user' => $user,

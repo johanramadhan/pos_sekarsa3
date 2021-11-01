@@ -42,7 +42,7 @@
                         <!-- /.Kode Kas Kecil --> 
                         <div class="form-group">
                           <label>Uraian</label>
-                          <textarea class="form-control" name="uraian" id="uraian" rows="3" placeholder="Uraian"></textarea>
+                          <textarea class="form-control" name="uraian" id="uraian" rows="3" placeholder="Uraian" readonly></textarea>
                         </div>
                         <!-- /.Uraian --> 
                       </div>

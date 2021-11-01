@@ -45,9 +45,9 @@
                     <a href="{{ route('transaction.create') }}" class="btn btn-primary mb-2">
                       + Transaksi Penjualan
                     </a>
-                    @empty(! session('id_transaction'))
-                    <a href="{{ route('transaction-detail.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
-                    @endempty
+                      @empty(! session('id_transaction'))
+                          <a href="{{ route('transaction-detail.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
+                      @endempty
                     <thead>
                       <tr class="text-center">
                         <th>No</th>

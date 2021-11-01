@@ -22,11 +22,13 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::orderBy('id_transaction', 'desc')->get();  
+        $transaction = Transaction::orderBy('id_transaction', 'desc')->limit(1)->get();  
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
 
         return view('pages.kasir.transaction.index', [
             'transactions' => $transactions,
+            'transaction' => $transaction,
             'produk' => $produk,
             'user' => $user,
         ]);

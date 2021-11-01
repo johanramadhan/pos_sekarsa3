@@ -136,7 +136,7 @@ Route::prefix('kasir')
         Route::get('kaskecil/data', 'KaskecilController@data')->name('kaskecil.data');
         Route::get('kaskecil/{id}/detail', 'KaskecilController@detail')->name('kaskecil.detail');
         Route::get('kaskecil/print/{id}', 'KaskecilController@print')->name('kaskecil.print');
-        Route::resource('kasKecil', 'KaskecilController');
+        Route::resource('kaskecilkasir', 'KaskecilController');
 
         // Penjualan
         Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transaction.data');

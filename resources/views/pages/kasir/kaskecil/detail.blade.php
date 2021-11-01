@@ -11,7 +11,6 @@
               <table class="table table-striped table-bordered table-detail">
                 <thead>
                     <th width="5%" class="text-center">No</th>
-                    <th class="text-center">Kode</th>
                     <th class="text-center">Tanggal Transaksi</th>
                     <th class="text-center">Uraian</th>
                     <th class="text-center">Jenis Uang</th>
