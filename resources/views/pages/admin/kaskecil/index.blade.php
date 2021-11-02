@@ -73,8 +73,8 @@
                         <td class="text-center">
                           <div class="btn-group">
                             <button onclick="editForm( '{{ route('kasKecil.update', $item->id_kaskecil) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
-                            <button onclick="print('{{ route('kaskecil.print', $item->id_kaskecil) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
-                            <button onclick="showDetail( '{{ route('kaskecil.detail', $item->id_kaskecil) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                            <button onclick="print('{{ route('kasKecil.print', $item->id_kaskecil) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
+                            <button onclick="showDetail( '{{ route('kasKecil.detail', $item->id_kaskecil) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
                             <button type="submit" id="delete" href="{{ route('kasKecil.destroy', $item->id_kaskecil) }}" 
                               class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
                             <form action="" method="POST" id="deleteForm">

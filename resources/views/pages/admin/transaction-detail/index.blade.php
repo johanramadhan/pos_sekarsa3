@@ -73,7 +73,7 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
-              <form action="{{ route('transaction-detail.store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
+              <form action="{{ route('transaction-details.store') }}" class="form-horizontal" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -177,7 +177,7 @@
           </div>
 
           <div class="col-lg-4">
-            <form action="{{ route('transaction.store') }}" class="form-penjualan" method="post">
+            <form action="{{ route('transactions.store') }}" class="form-penjualan" method="post">
               @csrf
               <input type="hidden" name="transactions_id" value="{{ $transactions_id }}" readonly>
               <input type="hidden" name="total" id="total" readonly>
@@ -305,7 +305,7 @@
         dom: 'Brt',
         bSort: false,
         ajax: {
-          url: '{{ route('transaction_detail.data', $transactions_id) }}',
+          url: '{{ route('transaction_details.data', $transactions_id) }}',
         },
         columns: [
           {class: 'text-center', data: 'DT_RowIndex', searchable:false, sortable:false},
@@ -343,7 +343,7 @@
                 return;
             }
 
-            $.post(`{{ url('/admin/data-transaction/transaction-detail') }}/${id}`, {
+            $.post(`{{ url('/admin/data-transaction/transaction-details') }}/${id}`, {
                     '_token': $('[name=csrf-token]').attr('content'),
                     '_method': 'put',
                     'jumlah': jumlah

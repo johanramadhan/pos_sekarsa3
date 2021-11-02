@@ -122,7 +122,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ route('transaction.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/transaction*')) ? 'active' : '' }}">
+              <a href="{{ route('transactions.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/transactions*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Transaksi Penjualan</p>
               </a>

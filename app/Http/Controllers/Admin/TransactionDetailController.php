@@ -127,7 +127,7 @@ class TransactionDetailController extends Controller
 
         TransactionDetail::create($data);
 
-        return redirect()->route('transaction-detail.index')
+        return redirect()->route('transaction-details.index')
          ->with('success', 'Produk berhasil ditambahkan');
     }
 

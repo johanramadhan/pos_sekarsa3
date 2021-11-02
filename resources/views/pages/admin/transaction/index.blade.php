@@ -42,11 +42,11 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-penjualan table-bordered table-striped">
-                    <a href="{{ route('transaction.create') }}" class="btn btn-primary mb-2">
+                    <a href="{{ route('transactions.create') }}" class="btn btn-primary mb-2">
                       + Transaksi Penjualan
                     </a>
                     @empty(! session('id_transaction'))
-                    <a href="{{ route('transaction-detail.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
+                    <a href="{{ route('transaction-details.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
                     @endempty
                     <thead>
                       <tr class="text-center">
@@ -88,10 +88,10 @@
                             <div class="btn-group">
                               @if (($item->transaction_status) === "pending")
                               @else
-                                <button onclick="print('{{ route('transaction.print', $item->id_transaction) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
+                                <button onclick="print('{{ route('transactions.print', $item->id_transaction) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                               @endif
-                              <button onclick="showDetail( '{{ route('transaction.show', $item->id_transaction) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
-                              <button type="submit" id="delete" href="{{ route('transaction.destroy', $item->id_transaction) }}" 
+                              <button onclick="showDetail( '{{ route('transactions.show', $item->id_transaction) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                              <button type="submit" id="delete" href="{{ route('transactions.destroy', $item->id_transaction) }}" 
                                 class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
                               <form action="" method="POST" id="deleteForm">
                                 @csrf

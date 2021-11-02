@@ -48,9 +48,9 @@
                 </div>
               </div>
               <div class="card-footer">
-                <button class="btn btn-warning" onclick="notaKecil('{{ route('transaction.nota_kecil') }}', 'Nota Kecil')">Cetak Nota Kecil</button>
-                <button class="btn btn-warning" onclick="notaBesar('{{ route('transaction.nota_besar') }}', 'Nota PDF')">Cetak Nota Besar</button>
-                <a href="{{ route('transaction.create') }}" class="btn btn-primary">Transaksi Baru</a>
+                <button class="btn btn-warning" onclick="notaKecil('{{ route('transactions.nota_kecil') }}', 'Nota Kecil')">Cetak Nota Kecil</button>
+                <button class="btn btn-warning" onclick="notaBesar('{{ route('transactions.nota_besar') }}', 'Nota PDF')">Cetak Nota Besar</button>
+                <a href="{{ route('transactions.create') }}" class="btn btn-primary">Transaksi Baru</a>
               </div>
             </div>
           </div>

@@ -115,7 +115,13 @@ class KaskecilController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $item = Kaskecil::findOrFail($id);
+
+        $item->update($data);
+
+         return redirect()->route('kaskecilkasir.index')
+          ->with('success', 'Data kas kecil berhasil diedit');
     }
 
     /**

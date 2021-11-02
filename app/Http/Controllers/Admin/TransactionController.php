@@ -111,7 +111,7 @@ class TransactionController extends Controller
         $transaction->save();
 
         session(['id_transaction' => $transaction->id_transaction]);
-        return redirect()->route('transaction-detail.index');
+        return redirect()->route('transaction-details.index');
     }
 
     /**
@@ -139,7 +139,7 @@ class TransactionController extends Controller
             $produk->update();
         }
 
-        return redirect()->route('transaction.selesai')
+        return redirect()->route('transactions.selesai')
         ->with('success', 'Data transaksi penjualan berhasil ditambahkan');
     }
 
@@ -221,7 +221,7 @@ class TransactionController extends Controller
 
         $transaction->delete();
 
-        return redirect()->route('transaction.index');
+        return redirect()->route('transactions.index');
     
     }
 
