@@ -117,6 +117,7 @@
   </div>
 
   @includeIf('pages.admin.produk.detail')
+   @includeIf('pages.admin.produk.form')
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
@@ -348,6 +349,39 @@
 
       table1.ajax.url(url);
       table1.ajax.reload();
+    }
+
+    function editForm(url) {
+      $('#modal-form').modal('show');
+      $('#modal-form .modal-title').text('Edit Produk');
+
+      $('#modal-form form')[0].reset();
+      $('#modal-form form').attr('action', url);
+      $('#modal-form [name=_method]').val('put');
+      $('#modal-form [name=name_persediaan]').focus();
+
+      $.get(url)
+        .done((response) => {
+            $('#modal-form [name=code]').val(response.code);
+            $('#modal-form [name=name_product]').val(response.name_product);
+            $('#modal-form [name=categories_id]').val(response.categories_id);
+            $('#modal-form [name=stok]').val(response.stok);
+            $('#modal-form [name=satuan]').val(response.satuan);
+            $('#modal-form [name=berat]').val(response.berat);
+            $('#modal-form [name=total_berat]').val(response.total_berat);
+            $('#modal-form [name=satuan_berat]').val(response.satuan_berat);
+            $('#modal-form [name=merk]').val(response.merk);
+            $('#modal-form [name=stok]').val(response.stok);
+            $('#modal-form [name=diskon]').val(response.diskon);
+            $('#modal-form [name=harga_beli]').val(response.harga_beli);
+            $('#modal-form [name=harga_diskon]').val(response.harga_diskon);
+            $('#modal-form [name=harga_jual]').val(response.harga_jual);
+            $('#modal-form [name=status]').val(response.status);
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menampilkan persediaan');
+            return;
+        });
     }
   </script>
 

@@ -390,7 +390,7 @@
       $('#modal-form form')[0].reset();
       $('#modal-form form').attr('action', url);
       $('#modal-form [name=_method]').val('put');
-      $('#modal-form [name=name_persediaan]').focus();
+      $('#modal-form [name=name_product]').focus();
 
       $.get(url)
         .done((response) => {
@@ -404,7 +404,7 @@
             $('#modal-form [name=photos]').val(response.photos);
         })
         .fail((errors) => {
-            alert('Tidak dapat menampilkan data');
+            alert('Tidak dapat menampilkan data persediaan');
             return;
         });
     }
