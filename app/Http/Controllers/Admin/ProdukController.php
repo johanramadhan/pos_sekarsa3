@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Produk;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
@@ -110,23 +111,6 @@ class ProdukController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $categories = Category::all();
-        $item = Produk::with(['category'])->findOrFail($id);
-
-        return view('pages.admin.produk.edit', [
-          'item' => $item,
-          'categories' => $categories,
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -137,8 +121,6 @@ class ProdukController extends Controller
     {
         $data = $request->all();
         $item = Produk::findOrFail($id);
-
-        $data['slug'] = Str::slug($request->name);
 
         $item->update($data);
 
