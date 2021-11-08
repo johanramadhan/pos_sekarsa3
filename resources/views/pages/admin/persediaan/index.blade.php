@@ -202,6 +202,7 @@
                               <option>--Pilih satuan--</option>
                               <option value="Gram">Gram</option>
                               <option value="Kilogram">Kilogram</option>
+                              <option value="Sisir">Sisir</option>
                               <option value="Bungkus">Bungkus</option>
                               <option value="Unit">Unit</option>
                               <option value="Buah">Buah</option>
@@ -246,6 +247,8 @@
                               <option>--Pilih satuan--</option>
                               <option value="Gram">Gram</option>
                               <option value="Kilogram">Kilogram</option>
+                              <option value="Sisir">Sisir</option>
+                              <option value="Bungkus">Bungkus</option>
                               <option value="Unit">Unit</option>
                               <option value="Buah">Buah</option>
                               <option value="Roll">Roll</option>

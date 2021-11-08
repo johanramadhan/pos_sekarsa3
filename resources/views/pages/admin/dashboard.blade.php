@@ -53,41 +53,11 @@
         <div class="row">
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <h3>150</h3>
-
-                <p>Items</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-bag"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-3 col-md-3">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <h3>150</h3>
-
-                <p>Suppliers</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-archive"></i>
-              </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-12 col-sm-3 col-md-3">
-            <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>150</h3>
+                <h3>{{ $total_menu_today }}</h3>
 
-                <p>Cutomers</p>
+                <p>Total Menu Terjual Harini</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>
@@ -100,12 +70,42 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>150</h3>
+                <h3>Rp{{ format_uang($total_penjualan_today) }}</h3>
 
-                <p>Users</p>
+                <p>Total Penjualan Harini</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{ format_uang($total_menu) }}</h3>
+
+                <p>Total Menu Terjual</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>Rp{{format_uang($total_penjualan)}}</h3>
+
+                <p>Total Penjualan</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-archive"></i>
               </div>
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
@@ -125,7 +125,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Aset</span>
-                <span class="info-box-number">Rp{{ number_format($transaction) }}</span>
+                <span class="info-box-number"></span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -138,7 +138,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Pengajuan</span>
-                <span class="info-box-number">Rp{{ number_format($proposals) }}</span>
+                <span class="info-box-number"></span>
               </div>
               <!-- /.info-box-content -->
             </div>

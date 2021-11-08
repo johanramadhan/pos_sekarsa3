@@ -7,22 +7,23 @@ use App\Product;
 use App\Proposal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Transaction;
+use App\TransactionDetail;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $user = User::count();
-        $product = Product::count();
-        $proposal = Proposal::count();
-        $transaction = Product::sum('price_modal');
-        $proposals = Proposal::sum('total_price');
+        $tanggalAkhir = date('Y-m-d');
+        $total_menu = TransactionDetail::sum('jumlah');
+        $total_menu_today = TransactionDetail::whereDate('created_at', $tanggalAkhir)->sum('jumlah');
+        $total_penjualan = Transaction::sum('bayar');
+        $total_penjualan_today = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
         return view('pages.admin.dashboard', [
-            'user'=> $user,
-            'product'=> $product,
-            'proposal'=> $proposal,
-            'proposals'=> $proposals,
-            'transaction'=> $transaction,
+            'total_menu'=> $total_menu,
+            'total_menu_today'=> $total_menu_today,
+            'total_penjualan'=> $total_penjualan,
+            'total_penjualan_today'=> $total_penjualan_today,
         ]);
     }
 }

@@ -93,27 +93,27 @@
     <table width="100%">
         <tr>
             <td class="text-center" width="50%">
-                <b>Menyetujui</b>
+                <b>Chief Financial Officier</b>
                 <br>
                 <br>
                 <br>
-                Divisi Keuangan
+                Wan M Johan Ramadhan
             </td>
             <td class="text-center" width="50%">
-                <b>Kasir</b>
+                <b>Chief Logistic</b>
                 <br>
                 <br>
                 <br>
-                {{ auth()->user()->name }}
+                Ceca Junio Damara
             </td>
         </tr>
         <tr>
             <td class="text-center" colspan="3">
-                <b>Mengetahui</b>
+                Mengetahui, <br><b>Chie Executive Officier</b>
                 <br>
                 <br>
                 <br>
-                Kepala Direktur 
+                Rahmat Saputra
             </td>            
         </tr>
     </table>

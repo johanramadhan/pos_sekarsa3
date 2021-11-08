@@ -131,7 +131,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Nama</label>
                         <div class="col-sm-9">                          
-                          <input type="text" class="form-control" id="name_persediaan" placeholder="Nama Persediaan" readonly>
+                          <input type="text" class="form-control" id="name_persediaan" placeholder="Nama Persediaan">
                         </div>
                       </div>
                       <div class="form-group row">
