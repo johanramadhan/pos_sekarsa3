@@ -127,6 +127,12 @@
                 <p>Transaksi Penjualan</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ route('transactions.transactionAll') }}" class="nav-link {{ (request()->is('admin/data-transaction/transaction/transactionAll*')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Transaksi Det. Penjualan</p>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="nav-item {{ (request()->is('admin/data-proposal*')) ? 'menu-open' : '' }}">

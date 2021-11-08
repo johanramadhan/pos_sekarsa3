@@ -294,4 +294,13 @@ class TransactionController extends Controller
             'detail' => $detail,
         ]);
     }
+
+    public function transactionAll()
+    {
+        $transactionAll = TransactionDetail::orderBy('id_transaction_detail', 'desc')->get(); 
+        
+        return view('pages.admin.transaction.transactionAll', [
+            'transactionAll' => $transactionAll,
+        ]);
+    }
 }

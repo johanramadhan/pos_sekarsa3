@@ -15,4 +15,8 @@ class TransactionDetail extends Model
     {
         return $this->hasOne(Produk::class, 'id_produk', 'products_id');
     }
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'id_transaction', 'transactions_id');
+    }
 }
