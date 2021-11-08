@@ -125,10 +125,12 @@ class TransactionController extends Controller
         $transaksi->total_item = $request->total_item;
         $transaksi->transaction_status = 'success';
         $transaksi->id_member = $request->id_member;
+        $transaksi->customer_name = $request->customer_name;
         $transaksi->total_harga = $request->total;
         $transaksi->diskon = $request->diskon;
         $transaksi->bayar = $request->bayar;
         $transaksi->diterima = $request->diterima;
+        $transaksi->keterangan = $request->keterangan;
         $transaksi->update();
 
         $detail = TransactionDetail::where('transactions_id', $transaksi->id_transaction)->get();

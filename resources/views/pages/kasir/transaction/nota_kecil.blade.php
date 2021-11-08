@@ -68,6 +68,7 @@
     </div>
     <div class="clear-both" style="clear: both;"></div>
     <p style="margin: 0;">No: {{ $penjualan->code }}</p>
+    <p style="margin: 0;">Name: {{ $penjualan->customer_name }}</p>
     <p style="margin: 0;" class="text-center m-0">===================================</p>
     
     <br>
@@ -120,7 +121,7 @@
     </table>
 
     <p class="text-center">===================================</p><br><br><br>
-    <p class="text-center">-- TERIMA KASIH --</p> <br><br>
+    <p class="text-center">INSTAGRAM <br>-- sekarsa_coffee --</p> <br><br>
     <p class="text-center" style="color: white">----</p> <br><br><br>
 
     <script>

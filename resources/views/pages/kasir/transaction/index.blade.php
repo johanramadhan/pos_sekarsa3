@@ -55,6 +55,7 @@
                         <th>Tanggal</th>
                         <th>Kasir</th>
                         <th>Member</th>
+                        <th>Customer</th>
                         <th>Total Item</th>
                         <th>Total Harga</th>
                         <th>Diskon</th>
@@ -72,6 +73,7 @@
                           <td>{{ tanggal_indonesia ($item->created_at) }}</td>
                           <td class="text-center">{{ $item->user->name }}</td>
                           <td>{{ $item->member->name ?? '' }}</td>
+                          <td>{{ $item->customer_name ?? '' }}</td>
                           <td class="text-center">{{ format_uang ($item->total_item) }}</td>
                           <td>Rp{{ format_uang ($item->total_harga) }}</td>
                           <td class="text-center">{{ $item->diskon }}%</td>

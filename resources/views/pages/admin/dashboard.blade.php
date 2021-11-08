@@ -53,7 +53,7 @@
         <div class="row">
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-danger">
               <div class="inner">
                 <h3>{{ $total_menu_today }}</h3>
 
@@ -83,7 +83,7 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-success">
               <div class="inner">
                 <h3>{{ format_uang($total_menu) }}</h3>
 
@@ -119,26 +119,52 @@
         <!-- /.row -->
 
         <div class="row">
-          <div class="col-12 col-sm-6 col-md-6">
+          <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total Aset</span>
-                <span class="info-box-number"></span>
+                <span class="info-box-text">Pengeluaran Hari Ini</span>
+                <span class="info-box-number">Rp{{ format_uang($total_pengeluaran_today) }}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
             <!-- /.info-box -->
           </div>
           <!-- /.col -->
-          <div class="col-12 col-sm-6 col-md-6">
+          <div class="col-12 col-sm-3 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Sisa Kas Hari Ini</span>
+                <span class="info-box-number">Rp{{ format_uang($sisa_kas_today) }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Total Pengajuan</span>
-                <span class="info-box-number"></span>
+                <span class="info-box-text">Total Pengeluaran</span>
+                <span class="info-box-number">Rp{{ format_uang($total_pengeluaran) }}</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Total Sisa Kas</span>
+                <span class="info-box-number">Rp{{ format_uang($sisa_kas) }}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
