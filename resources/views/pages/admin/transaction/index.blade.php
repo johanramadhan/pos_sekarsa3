@@ -55,12 +55,14 @@
                         <th>Tanggal</th>
                         <th>Kasir</th>
                         <th>Member</th>
+                        <th>Customer</th>
                         <th>Total Item</th>
                         <th>Total Harga</th>
                         <th>Diskon</th>
                         <th>Bayar</th>
                         <th>Diterima</th>
                         <th>Status</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -72,6 +74,7 @@
                           <td>{{ tanggal_indonesia ($item->created_at) }}</td>
                           <td class="text-center">{{ $item->user->name }}</td>
                           <td>{{ $item->member->name ?? '' }}</td>
+                          <td>{{ $item->customer_name ?? '' }}</td>
                           <td class="text-center">{{ format_uang ($item->total_item) }}</td>
                           <td>Rp{{ format_uang ($item->total_harga) }}</td>
                           <td class="text-center">{{ $item->diskon }}%</td>
@@ -84,6 +87,7 @@
                               <span class="badge badge-danger">Pending</span>
                             @endif                                
                           </td>
+                          <td>{{ $item->keterangan ?? '' }}</td>
                           <td class="text-center">
                             <div class="btn-group">
                               @if (($item->transaction_status) === "pending")
