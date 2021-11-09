@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Kaskecil;
 use App\Pengeluaran;
 use App\Transaction;
+use App\TransactionDetail;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -17,6 +18,7 @@ class DashboardController extends Controller
         $bayar = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
         $pengeluaran = Pengeluaran::whereDate('created_at', $tanggalAkhir)->sum('bayar');
         $sisakas = $kaskecil + $bayar - $pengeluaran;
+        $total_menu_today = TransactionDetail::whereDate('created_at', $tanggalAkhir)->sum('jumlah');
         
 
         return view('pages.kasir.dashboard', [
@@ -24,6 +26,7 @@ class DashboardController extends Controller
             'bayar' => $bayar,
             'pengeluaran' => $pengeluaran,
             'sisakas' => $sisakas,
+            'total_menu_today' => $total_menu_today,
         ]);
     }
 }

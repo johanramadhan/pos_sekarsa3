@@ -38,7 +38,7 @@
                 <br>
             </td>
             <td>Tanggal</td>
-            <td>: {{ tanggal_indonesia(date('Y-m-d')) }}</td>
+            <td>: {{ tanggal_indonesia($pengeluaran->created_at) }}</td>
         </tr>
         <tr>
             <td>Kode Pengeluaran</td>

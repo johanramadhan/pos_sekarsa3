@@ -32,7 +32,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">Dashboard - <b>{{ tanggal_indonesia(date('Y-m-d')) }}</b></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -50,51 +50,70 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12 col-sm-3 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-download"></i></span>
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{ $total_menu_today }}</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Kas Kecil</span>
-                <span class="info-box-number">Rp{{ format_uang($kaskecil) }},00</span>
+                <p>Total Menu Terjual Harini</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
           </div>
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-primary elevation-1"><i class="fas fa-cart-plus"></i></span>
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>Rp{{ format_uang($kaskecil) }},00</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Penjualan Hari Ini</span>
-                <span class="info-box-number">Rp{{ format_uang($bayar) }},00</span>
+                <p>Kas Kecil</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
           </div>
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas  fa-upload"></i></span>
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>Rp{{ format_uang($bayar) }},00</h3>
 
-              <div class="info-box-content">
-                <span class="info-box-text">Pengeluaran Hari Ini</span>
-                <span class="info-box-number">Rp{{ format_uang($pengeluaran) }},00</span>
+                <p>Penjualan Hari Ini</p>
               </div>
-              <!-- /.info-box-content -->
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
-            <!-- /.info-box -->
           </div>
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
-            <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas  fa-edit"></i></span>
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>Rp{{ format_uang($pengeluaran) }},00</h3>
 
+                <p>Pengeluaran Hari Ini</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-12 col-md-12 text-center">
+            <div class="info-box mb-3">
               <div class="info-box-content">
                 <span class="info-box-text">Sisa Kas Kecil</span>
-                <span class="info-box-number">Rp{{ format_uang($sisakas) }},00</span>
+                <h3 class="info-box-number">Rp{{ format_uang($sisakas) }},00</h3>
               </div>
               <!-- /.info-box-content -->
             </div>

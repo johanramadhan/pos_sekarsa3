@@ -38,7 +38,7 @@
                 <br>
             </td>
             <td>Tanggal</td>
-            <td>: {{ tanggal_indonesia(date('Y-m-d')) }}</td>
+            <td>: {{ tanggal_indonesia($pembelian->created_at) }}</td>
         </tr>
         <tr>
             <td>Kode Pembelian</td>

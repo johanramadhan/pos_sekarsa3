@@ -59,6 +59,8 @@
                         <th>Jumlah</th>
                         <th>Diskon</th>
                         <th>Total Harga</th>
+                        <th>Total Modal</th>
+                        <th>Keuntungan</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
