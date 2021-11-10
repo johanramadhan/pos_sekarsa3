@@ -254,4 +254,13 @@ class PembelianController extends Controller
 
         return $pdf->stream('Pembelian-'. date('Y-m-d-his') .'.pdf');
     }
+
+    public function pembelianAll()
+    {
+        $pembelianAll = PembelianDetail::orderBy('id_produk', 'desc')->get(); 
+        
+        return view('pages.admin.pembelian.pembelianAll', [
+            'pembelianAll' => $pembelianAll,
+        ]);
+    }
 }

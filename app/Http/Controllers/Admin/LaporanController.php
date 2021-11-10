@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Pembelian;
 use App\Pengeluaran;
 use App\Transaction;
+use App\TransactionDetail;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -38,6 +39,7 @@ class LaporanController extends Controller
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1 day", strtotime($awal)));
 
+            $total_menu = TransactionDetail::where('created_at', 'LIKE', "%$tanggal%")->sum('jumlah');
             $total_penjualan = Transaction::where('created_at', 'LIKE', "%$tanggal%")->sum('bayar');
             $total_pembelian = Pembelian::where('created_at', 'LIKE', "%$tanggal%")->sum('bayar');
             $total_pengeluaran = Pengeluaran::where('created_at', 'LIKE', "%$tanggal%")->sum('total_harga');
@@ -48,6 +50,7 @@ class LaporanController extends Controller
             $row = array();
             $row['DT_RowIndex'] = $no++;
             $row['tanggal'] = tanggal_indonesia($tanggal, false);
+            $row['menu'] = format_uang($total_menu);
             $row['penjualan'] = format_uang($total_penjualan);
             $row['pembelian'] = format_uang($total_pembelian);
             $row['pengeluaran'] = format_uang($total_pengeluaran);
@@ -59,6 +62,7 @@ class LaporanController extends Controller
         $data[] = [
             'DT_RowIndex' => '',
             'tanggal' => '',
+            'menu' => '',
             'penjualan' => '',
             'pembelian' => '',
             'pengeluaran' => 'Total Pendapatan',

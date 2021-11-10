@@ -116,6 +116,10 @@
                 <i class="far fa-circle nav-icon"></i>
                 <p>+ Persediaan</p>
               </a>
+              <a href="{{ route('pembelian.pembelianAll') }}" class="nav-link {{ (request()->is('admin/data-transaction/persediaan/detail*')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>+ Detail Persediaan</p>
+              </a>
               <a href="{{ route('tambahStok.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/tambahStok*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>+ Stok Produk</p>
