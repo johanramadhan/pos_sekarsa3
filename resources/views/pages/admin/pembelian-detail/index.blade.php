@@ -8,9 +8,16 @@
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
   <style>
     .tampil-bayar {
         font-size: 4em;
@@ -190,6 +197,26 @@
 
               <div class="card">
                 <div class="card-body">
+                  {{-- Tanggal Pembelian --}}
+                  <div class="form-group row">
+                    <label class="col-lg-3 control-label">Tanggal Pembelian</label>
+                    <div class="col-lg-9">
+                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                        <input type="text" 
+                        class="form-control datetimepicker-input"  
+                        data-inputmask-alias="datetime" 
+                        data-inputmask-inputformat="dd/mm/yyyy" 
+                        data-mask 
+                        data-target="#reservationdate"
+                        name="tgl_pembelian"
+                        id="tgl_pembelian"
+                        required/>
+                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   {{-- Total Pembelian --}}
                   <div class="form-group row">
                     <label for="totalrp" class="col-lg-3 control-label">Total</label>
@@ -239,18 +266,13 @@
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-
-  {{-- <script>
-     $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-          theme: 'bootstrap4'
-        })
-     })
-  </script> --}}
+  <!-- InputMask -->
+  <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+  <script src="{{ asset('plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
+  <!-- date-range-picker -->
+  <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
   
   <script>
     let table, table1;
@@ -280,8 +302,15 @@
               {class: 'text-center', data: 'aksi', searchable: false, sortable: false},
           ]
       })
+
       .on('draw.dt', function () {
           loadForm($('#diskon').val());
+      });
+
+      //Date range picker
+      $('#reservationdate').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
       });       
 
       table1 = $('.table-produk').DataTable();  

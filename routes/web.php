@@ -30,6 +30,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
+        Route::get('/menuterjual', 'DashboardController@menuterjual')->name('dashboard-admin.menuterjual');
         
         Route::resource('category', 'CategoryController');
         Route::resource('supplier', 'SupplierController');
@@ -61,6 +62,7 @@ Route::prefix('admin')
         // Pengeluaran
         Route::get('/pengeluaran/{id}/tambah', 'PengeluaranController@tambah')->name('tambah-pengeluaran');
         Route::get('data-transaction/pengeluaran/data', 'PengeluaranController@data')->name('pengeluaran.data');
+        Route::get('data-transaction/pengeluaran/{id}/detail', 'PengeluaranController@detail')->name('pengeluaran.detail');
         Route::get('data-transaction/pengeluaran/print/{id}', 'PengeluaranController@print')->name('pengeluaran.print');
         Route::resource('data-transaction/pengeluaran', 'PengeluaranController');
 
@@ -73,11 +75,13 @@ Route::prefix('admin')
         Route::get('/pembelian/{id}/tambah', 'PembelianController@tambah')->name('tambah-pembelian');
         Route::get('data-transaction/pembelian/data', 'PembelianController@data')->name('pembelian.data');
         Route::get('data-transaction/pembelian/print/{id}', 'PembelianController@print')->name('pembelian.print');
-        Route::get('data-transaction/persediaan/detail', 'PembelianController@pembelianAll')->name('pembelian.pembelianAll');
+        Route::get('data-transaction/pembelian/{id}/detail', 'PembelianController@detail')->name('pembelian.detail');
+        
         Route::resource('data-transaction/pembelian', 'PembelianController');
 
         // Pembelian-detail
         Route::get('data-transaction/pembelian_detail/{id}/data', 'PembelianDetailController@data')->name('pembelian_detail.data');
+        Route::get('data-transaction/persediaan/detail', 'PembelianDetailController@pembelianAll')->name('pembelian.pembelianAll');
         Route::get('data-transaction/pembelian_detail/loadform/{diskon}/{total}', 'PembelianDetailController@loadForm')->name('pembelian_detail.load_form');
         Route::resource('data-transaction/pembelian_detail', 'PembelianDetailController');
 
@@ -110,8 +114,6 @@ Route::prefix('admin')
         Route::get('/laporan', 'LaporanController@index')->name('laporan.index');
         Route::get('/laporan/data/{awal}/{akhir}', 'LaporanController@data')->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', 'LaporanController@exportPDF')->name('laporan.export_pdf');
-
-
 
 
         Route::resource('data-proposal/pengajuan', 'ProposalController');

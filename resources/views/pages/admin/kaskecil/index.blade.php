@@ -123,7 +123,7 @@
       table = $('.table-kaskecil').DataTable({
         processing: true,
         autoWidth: false,
-    });
+      });
       $('.table-supplier').DataTable();
       table1 = $('.table-detail').DataTable({
           processing: true,

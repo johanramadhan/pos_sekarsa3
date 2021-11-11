@@ -8,11 +8,17 @@
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -72,7 +78,7 @@
                       <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td class="text-center">{{ $item->code }}</td>
-                        <td class="text-center">{{ tanggal_indonesia($item->created_at) }}</td>
+                        <td class="text-center">{{ tanggal_indonesia($item->tgl_pengeluaran) }}</td>
                         <td>{{ $item->keterangan }}</td>
                         <td class="text-center">{{ $item->user->name }}</td>
                         <td class="text-center">{{ format_uang($item->total_item) }}</td>
@@ -92,7 +98,8 @@
                             @else
                               <button onclick="print('{{ route('pengeluaran.print', $item->id_pengeluaran) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                             @endif
-                            <button onclick="showDetail( '{{ route('pengeluaran.show', $item->id_pengeluaran) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                            <button onclick="editForm( '{{ route('pengeluaran.update', $item->id_pengeluaran) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
+                            <button onclick="showDetail( '{{ route('pengeluaran.detail', $item->id_pengeluaran) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
                             <button type="submit" id="delete" href="{{ route('pengeluaran.destroy', $item->id_pengeluaran) }}" 
                               class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
                             <form action="" method="POST" id="deleteForm">
@@ -123,6 +130,7 @@
 
   @includeIf('pages.admin.pengeluaran.detail')
   @includeIf('pages.admin.pengeluaran.tambah')
+  @includeIf('pages.admin.pengeluaran.form')
 
 @endsection
 
@@ -135,6 +143,13 @@
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- Select2 -->
   <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+  <!-- InputMask -->
+  <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+  <script src="{{ asset('plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
+  <!-- date-range-picker -->
+  <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
   <script>
     let table, table1;
@@ -143,7 +158,7 @@
       table = $('.table-pengeluaran').DataTable({
         processing: true,
         autoWidth: false,
-    });
+      });
           
       table1 = $('.table-detail-pengeluaran').DataTable({
           processing: true,
@@ -158,7 +173,54 @@
               {class: 'text-center', data: 'subtotal'},
           ]
       });
+
+      //Date range picker
+      $('#reservationdate').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
+      });
+      //Date range picker
+      $('#reservationdate2').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
+      });
     });
+
+    function addForm() {
+        $('#modal-pengeluaran').modal('show');
+    }
+
+    function showDetail(url) {
+        $('#modal-detail').modal('show');
+
+        table1.ajax.url(url);
+        table1.ajax.reload();
+    }
+
+    function editForm(url) {
+      $('#modal-form').modal('show');
+      $('#modal-form .modal-title').text('Edit Pengeluaran');
+
+      $('#modal-form form')[0].reset();
+      $('#modal-form form').attr('action', url);
+      $('#modal-form [name=_method]').val('put');
+      $('#modal-form [name=keterangan]').focus();
+
+      $.get(url)
+        .done((response) => {
+            $('#modal-form [name=tgl_pengeluaran]').val(response.tgl_pengeluaran);
+            $('#modal-form [name=users_id]').val(response.users_id);
+            $('#modal-form [name=total_item]').val(response.total_item);
+            $('#modal-form [name=total_harga]').val(response.total_harga);
+            $('#modal-form [name=bayar]').val(response.bayar);
+            $('#modal-form [name=status]').val(response.status);
+            $('#modal-form [name=keterangan]').val(response.keterangan);
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menampilkan data');
+            return;
+        });
+    }
 
     function print(url, title) {
         popupCenter(url, title, 625, 500);
@@ -185,17 +247,6 @@
         );
 
         if (window.focus) newWindow.focus();
-    }
-
-    function addForm() {
-        $('#modal-pengeluaran').modal('show');
-    }
-
-    function showDetail(url) {
-        $('#modal-detail').modal('show');
-
-        table1.ajax.url(url);
-        table1.ajax.reload();
     }
 
     function deleteData(url) {

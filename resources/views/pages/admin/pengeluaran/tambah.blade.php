@@ -15,6 +15,23 @@
                 <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
+                        <label>Tanggal Pengeluaran</label>
+                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                          <input type="text" 
+                          class="form-control datetimepicker-input"  
+                          data-inputmask-alias="datetime" 
+                          data-inputmask-inputformat="dd/mm/yyyy" 
+                          data-mask 
+                          data-target="#reservationdate"
+                          name="tgl_pengeluaran"
+                          required/>
+                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.Tanggal pengeluaran -->
+                      <div class="form-group">
                         <label>Keterangan Pengeluaran</label>
                         <textarea class="form-control" name="keterangan" rows="3" placeholder="Keterangan pengeluaran"></textarea>
                       </div>

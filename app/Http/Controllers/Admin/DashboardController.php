@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Pembelian;
 use App\Pengeluaran;
+use App\Produk;
 use App\Transaction;
 use App\TransactionDetail;
 
@@ -44,6 +45,17 @@ class DashboardController extends Controller
             'total_pengeluaran_today'=> $total_pengeluaran_today,
             'sisa_kas'=> $sisa_kas,
             'sisa_kas_today'=> $sisa_kas_today,
+        ]);
+    }
+
+    public function menuterjual(Request $request, $id)
+    {
+        $produks = Produk::orderBy('name_product', 'asc')->get();
+        $produk = Produk::where('id', $id)->firstOrFail();
+        $transactionDetails = TransactionDetail::with(['produks'])->where('products_id', $produk->id_produk)->paginate(32);
+        return view('pages.admin.menuterjual', [
+            'produks' => $produks,
+            'transactionDetails' => $transactionDetails
         ]);
     }
 }

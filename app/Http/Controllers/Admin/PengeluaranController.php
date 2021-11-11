@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Pengeluaran;
 use App\PengeluaranDetail;
 use App\Setting;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
@@ -19,10 +20,12 @@ class PengeluaranController extends Controller
      */
     public function index()
     {
+        $users = User::all();
         $pengeluarans = Pengeluaran::orderBy('id_pengeluaran', 'desc')->get();  
 
         return view('pages.admin.pengeluaran.index', [
-            'pengeluarans' => $pengeluarans
+            'users' => $users,
+            'pengeluarans' => $pengeluarans,
         ]);
     }
 
@@ -61,6 +64,7 @@ class PengeluaranController extends Controller
                 return '
                 <div class="btn-group">
                     <button onclick="showDetail(`'. route('pengeluaran.show', $pengeluaran->id_pengeluaran) .'`)" class="btn btn-xs btn-info m-1"><i class="fa fa-eye"></i></button>
+                    <button onclick="showDetail(`'. route('pengeluaran.show', $pengeluaran->id_pengeluaran) .'`)" class="btn btn-xs btn-warning m-1"><i class="fa fa-edit"></i></button>
                     <button onclick="deleteData(`'. route('pengeluaran.destroy', $pengeluaran->id_pengeluaran) .'`)" class="btn btn-xs btn-danger m-1"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
@@ -85,7 +89,8 @@ class PengeluaranController extends Controller
         $pengeluaran = new Pengeluaran();
         $pengeluaran->code        = $code;
         $pengeluaran->users_id    =  auth()->id();
-        $pengeluaran->keterangan  =  $request->keterangan;;
+        $pengeluaran->tgl_pengeluaran  =  $request->tgl_pengeluaran;
+        $pengeluaran->keterangan  =  $request->keterangan;
         $pengeluaran->total_item  = 0;
         $pengeluaran->total_harga = 0;
         $pengeluaran->diskon      = 0;
@@ -118,13 +123,7 @@ class PengeluaranController extends Controller
          ->with('success', 'Data pengeluaran berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function detail($id)
     {
         $detail = PengeluaranDetail::where('id_pengeluaran', $id)->get();
 
@@ -154,6 +153,19 @@ class PengeluaranController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $pengeluaran = Pengeluaran::find($id);
+
+        return response()->json($pengeluaran);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -173,18 +185,13 @@ class PengeluaranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'description' => 'required',
-            'nominal' => 'required',
-        ]);
         $data = $request->all();
-
         $item = Pengeluaran::findOrFail($id);
 
         $item->update($data);
 
-        return redirect()->route('pengeluaran.index')
-            ->with('update', 'Data pengeluaran berhasil diubah');
+         return redirect()->route('pengeluaran.index')
+          ->with('success', 'Data pengeluaran berhasil diedit');
     }
 
     /**

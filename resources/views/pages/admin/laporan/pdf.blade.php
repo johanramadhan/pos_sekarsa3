@@ -52,6 +52,7 @@
             <tr>
                 <th width="5%" class="text-center">No</th>
                 <th class="text-center">Tanggal</th>
+                <th class="text-center">Menu</th>
                 <th class="text-center">Penjualan</th>
                 <th class="text-center">Pembelian</th>
                 <th class="text-center">Pengeluaran</th>

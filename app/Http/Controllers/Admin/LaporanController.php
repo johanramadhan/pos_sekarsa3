@@ -41,8 +41,8 @@ class LaporanController extends Controller
 
             $total_menu = TransactionDetail::where('created_at', 'LIKE', "%$tanggal%")->sum('jumlah');
             $total_penjualan = Transaction::where('created_at', 'LIKE', "%$tanggal%")->sum('bayar');
-            $total_pembelian = Pembelian::where('created_at', 'LIKE', "%$tanggal%")->sum('bayar');
-            $total_pengeluaran = Pengeluaran::where('created_at', 'LIKE', "%$tanggal%")->sum('total_harga');
+            $total_pembelian = Pembelian::where('tgl_pembelian', 'LIKE', "%$tanggal%")->sum('bayar');
+            $total_pengeluaran = Pengeluaran::where('tgl_pengeluaran', 'LIKE', "%$tanggal%")->sum('total_harga');
 
             $pendapatan = $total_penjualan - $total_pembelian - $total_pengeluaran;
             $total_pendapatan += $pendapatan;

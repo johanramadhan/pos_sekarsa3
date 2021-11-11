@@ -26,6 +26,7 @@ class PembelianDetailController extends Controller
         $supplier = Supplier::find(session('id_supplier'));
         $codePembelian = Pembelian::find($id_pembelian)->code ?? 0;
         $diskon = Pembelian::find($id_pembelian)->diskon ?? 0;
+              
 
         if (! $supplier) {
             return redirect()->route('pembelian.index');
@@ -135,7 +136,9 @@ class PembelianDetailController extends Controller
      */
     public function show($id)
     {
-        //
+        $pembelianDetail = PembelianDetail::find($id);
+
+        return response()->json($pembelianDetail);
     }
 
     /**
@@ -144,9 +147,15 @@ class PembelianDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $item = PembelianDetail::findOrFail($id);
+
+        $item->update($data);
+
+         return redirect()->route('pembelian_detail.index')
+          ->with('success', 'Data pembelian detail berhasil diedit');
     }
 
     /**
@@ -158,11 +167,13 @@ class PembelianDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $data = $request->all();
         $detail = PembelianDetail::find($id);
         $detail->jumlah = $request->jumlah;
         $detail->subtotal = $detail->harga_beli * $request->jumlah;
         $detail->berat_total = $detail->berat * $request->jumlah;
         $detail->update();
+        $detail->update($data);
     }
 
     /**
@@ -190,5 +201,18 @@ class PembelianDetailController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function pembelianAll()
+    {
+        $pembelianAll = PembelianDetail::orderBy('id_pembelian', 'desc')->get(); 
+        $persediaans = Persediaan::orderBy('id_persediaan')->get(); 
+        $pembelians = Pembelian::orderBy('id_pembelian', 'desc')->get(); 
+        
+        return view('pages.admin.pembelian-detail.pembelianAll', [
+            'pembelianAll' => $pembelianAll,
+            'persediaans' => $persediaans,
+            'pembelians' => $pembelians,
+        ]);
     }
 }

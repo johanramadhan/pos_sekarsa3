@@ -123,6 +123,7 @@ class PembelianController extends Controller
     public function store(Request $request)
     {
         $pembelian = Pembelian::findOrFail($request->id_pembelian);
+        $pembelian->tgl_pembelian = $request->tgl_pembelian;
         $pembelian->total_item = $request->total_item;
         $pembelian->total_harga = $request->total;
         $pembelian->diskon = $request->diskon;
@@ -150,7 +151,7 @@ class PembelianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function detail($id)
     {
         $detail = PembelianDetail::with('persediaan')->where('id_pembelian', $id)->get();
 
@@ -185,6 +186,13 @@ class PembelianController extends Controller
             ->make(true);
     }
 
+    public function show($id)
+    {
+        $pembelian = Pembelian::find($id);
+
+        return response()->json($pembelian);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -205,7 +213,13 @@ class PembelianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $item = Pembelian::findOrFail($id);
+
+        $item->update($data);
+
+         return redirect()->route('pembelian.index')
+          ->with('success', 'Data pembelian berhasil diedit');
     }
 
     /**
@@ -255,7 +269,7 @@ class PembelianController extends Controller
         return $pdf->stream('Pembelian-'. date('Y-m-d-his') .'.pdf');
     }
 
-    public function pembelianAll()
+    public function pembelianAllEdit()
     {
         $pembelianAll = PembelianDetail::orderBy('id_produk', 'desc')->get(); 
         
