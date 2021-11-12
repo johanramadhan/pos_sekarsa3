@@ -29,8 +29,8 @@ class DashboardController extends Controller
         $pembelian = Pembelian::sum('bayar');
         $total_pengeluaran = $pengeluaran + $pembelian;
 
-        $pengeluaran_today = Pengeluaran::whereDate('created_at', $tanggalAkhir)->sum('bayar');
-        $pembelian_today = Pembelian::whereDate('created_at', $tanggalAkhir)->sum('bayar');
+        $pengeluaran_today = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)->sum('bayar');
+        $pembelian_today = Pembelian::whereDate('tgl_pembelian', $tanggalAkhir)->sum('bayar');
         $total_pengeluaran_today = $pengeluaran_today + $pembelian_today;
 
         $sisa_kas = $total_penjualan - $total_pengeluaran;
