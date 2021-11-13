@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Kasir;
 
-use App\Http\Controllers\Controller;
 use App\Kaskecil;
 use App\Pengeluaran;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -16,7 +17,7 @@ class DashboardController extends Controller
         $tanggalAkhir = date('Y-m-d');
         $kaskecil = Kaskecil::whereDate('created_at', $tanggalAkhir)->sum('kredit');
         $bayar = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
-        $pengeluaran = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)->sum('bayar');
+        $pengeluaran = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
         $sisakas = $kaskecil + $bayar - $pengeluaran;
         $total_menu_today = TransactionDetail::whereDate('created_at', $tanggalAkhir)->sum('jumlah');
         

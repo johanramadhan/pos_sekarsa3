@@ -68,9 +68,9 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>Rp{{ format_uang($kaskecil) }},00</h3>
+                <h3>Rp{{ format_uang($bayar) }},00</h3>
 
-                <p>Kas Kecil</p>
+                <p>Penjualan Hari Ini</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>
@@ -83,9 +83,9 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>Rp{{ format_uang($bayar) }},00</h3>
+                <h3>Rp{{ format_uang($kaskecil) }},00</h3>
 
-                <p>Penjualan Hari Ini</p>
+                <p>Kas Kecil</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>

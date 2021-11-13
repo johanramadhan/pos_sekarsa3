@@ -112,6 +112,7 @@ class PengeluaranController extends Controller
     public function store(Request $request)
     {
         $pengeluaran = Pengeluaran::findOrFail($request->id_pengeluaran);
+        $pengeluaran->users_id    =  $request->users_id;
         $pengeluaran->total_item = $request->total_item;
         $pengeluaran->total_harga = $request->total;
         $pengeluaran->diskon = $request->diskon;
