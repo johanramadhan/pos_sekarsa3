@@ -48,7 +48,7 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+                    <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modal-primary">
                       + Supplier
                     </button>
                     <thead>
@@ -162,7 +162,6 @@
                               name="email"
                               class="form-control"
                               placeholder="Email"
-                              required
                             />
                           </div>
                           <!-- /.email -->             
@@ -173,13 +172,12 @@
                               name="phone"
                               class="form-control"
                               placeholder="No. HP/WA"
-                              required
                             />
                           </div>
                           <!-- /.No. HP/WA -->             
                           <div class="form-group">
                             <label>Address*</label>
-                            <textarea class="form-control" name="address" rows="2" placeholder="Address/Alamat" required></textarea>
+                            <textarea class="form-control" name="address" rows="2" placeholder="Address/Alamat"></textarea>
                           </div>
                           <!-- /.Address -->            
                           <div class="form-group">
@@ -247,7 +245,7 @@
   <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, "lengthChange": true, "autoWidth": true,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       $('#example2').DataTable({

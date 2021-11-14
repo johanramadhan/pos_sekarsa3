@@ -60,6 +60,7 @@
                         <th class="text-center">Code</th>
                         <th class="text-center">Tanggal Pembelian</th>
                         <th class="text-center">Supplier</th>
+                        <th class="text-center">User</th>
                         <th class="text-center">Total Item</th>
                         <th class="text-center">Total Harga</th>
                         <th class="text-center">Diskon</th>
@@ -75,6 +76,7 @@
                         <td class="text-center">{{ $item->code }}</td>
                         <td class="text-center">{{ tanggal_indonesia($item->tgl_pembelian) }}</td>
                         <td>{{ $item->supplier->name }}</td>
+                        <td>{{ $item->user->name }}</td>
                         <td class="text-center">{{ format_uang($item->total_item) }}</td>
                         <td class="text-center">Rp{{ format_uang($item->total_harga) }}</td>
                         <td class="text-center">{{ $item->diskon }}%</td>

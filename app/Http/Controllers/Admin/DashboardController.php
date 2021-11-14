@@ -12,6 +12,7 @@ use App\Pengeluaran;
 use App\Produk;
 use App\Transaction;
 use App\TransactionDetail;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -21,6 +22,14 @@ class DashboardController extends Controller
 
         $total_menu = TransactionDetail::sum('jumlah');
         $total_menu_today = TransactionDetail::whereDate('created_at', $tanggalAkhir)->sum('jumlah');
+
+        $transactions = TransactionDetail::with(['transaction','produk'])
+                            ->whereHas('produk', function($product){
+                                $product->where('id_produk', TransactionDetail::all('products_id'));
+                            });
+        $modal_today = $transactions->get()->reduce(function ($carry, $item){
+            return $carry + $item->harga_beli;
+        });
         
         $total_penjualan = Transaction::sum('bayar');
         $total_penjualan_today = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
@@ -45,6 +54,7 @@ class DashboardController extends Controller
             'total_pengeluaran_today'=> $total_pengeluaran_today,
             'sisa_kas'=> $sisa_kas,
             'sisa_kas_today'=> $sisa_kas_today,
+            'modal_today'=> $modal_today,
         ]);
     }
 

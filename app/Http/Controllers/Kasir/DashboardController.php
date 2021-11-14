@@ -8,6 +8,7 @@ use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Pembelian;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -18,7 +19,8 @@ class DashboardController extends Controller
         $kaskecil = Kaskecil::whereDate('created_at', $tanggalAkhir)->sum('kredit');
         $bayar = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
         $pengeluaran = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
-        $sisakas = $kaskecil + $bayar - $pengeluaran;
+        $pembelian = Pembelian::whereDate('tgl_pembelian', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
+        $sisakas = $kaskecil + $bayar - $pengeluaran - $pembelian;
         $total_menu_today = TransactionDetail::whereDate('created_at', $tanggalAkhir)->sum('jumlah');
         
 

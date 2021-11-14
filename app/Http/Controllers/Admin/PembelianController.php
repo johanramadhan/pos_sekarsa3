@@ -26,12 +26,14 @@ class PembelianController extends Controller
         $suppliers = Supplier::orderBy('name')->get();  
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
+        $users = User::all();
         $pembelians = Pembelian::orderBy('id_pembelian', 'desc')->get();
 
         return view('pages.admin.pembelian.index', [
             'suppliers' => $suppliers,
             'produk' => $produk,
             'user' => $user,
+            'users' => $users,
             'pembelians' => $pembelians,
         ]);
     }
@@ -87,6 +89,7 @@ class PembelianController extends Controller
     public function tambah($id)
     {
         $tanggal = Carbon::now()->format('dmY');
+        $tanggalAkhir = date('Y-m-d');
         $cek = Pembelian::count();
         if ($cek == 0) {
             $urut = 100001;
@@ -100,6 +103,7 @@ class PembelianController extends Controller
         $pembelian = new Pembelian();
         $pembelian->code         = $code;
         $pembelian->users_id     =  auth()->id();
+        $pembelian->tgl_pembelian =  $tanggalAkhir;
         $pembelian->id_supplier  = $id;
         $pembelian->total_item  = 0;
         $pembelian->total_harga = 0;
@@ -123,6 +127,7 @@ class PembelianController extends Controller
     public function store(Request $request)
     {
         $pembelian = Pembelian::findOrFail($request->id_pembelian);
+        $pembelian->users_id = $request->users_id;
         $pembelian->tgl_pembelian = $request->tgl_pembelian;
         $pembelian->total_item = $request->total_item;
         $pembelian->total_harga = $request->total;

@@ -48,7 +48,7 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table id="example1" class="table table-bordered table-striped">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-primary">
+                    <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#modal-primary">
                       + Customer
                     </button>
                     <thead>
@@ -279,7 +279,7 @@
   <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, "lengthChange": true, "autoWidth": true,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       $('#example2').DataTable({

@@ -19,8 +19,8 @@ class CreateSuppliersTable extends Migration
             $table->string('slug')->nullable();
             $table->bigInteger('phone')->nullable();
             $table->string('address')->nullable();
-            $table->string('email')->unique();
-            $table->string('description');
+            $table->string('email')->unique()->nullable();
+            $table->string('description')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

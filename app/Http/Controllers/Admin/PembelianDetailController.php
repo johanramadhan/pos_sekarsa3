@@ -9,6 +9,7 @@ use App\Persediaan;
 use App\Product;
 use App\Produk;
 use App\Supplier;
+use App\User;
 use Illuminate\Http\Request;
 
 class PembelianDetailController extends Controller
@@ -26,6 +27,7 @@ class PembelianDetailController extends Controller
         $supplier = Supplier::find(session('id_supplier'));
         $codePembelian = Pembelian::find($id_pembelian)->code ?? 0;
         $diskon = Pembelian::find($id_pembelian)->diskon ?? 0;
+        $users = User::all();
               
 
         if (! $supplier) {
@@ -39,6 +41,7 @@ class PembelianDetailController extends Controller
             'supplier' => $supplier,
             'codePembelian' => $codePembelian,
             'diskon' => $diskon,
+            'users' => $users,
         ]);
     }
 

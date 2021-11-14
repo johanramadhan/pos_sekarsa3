@@ -128,7 +128,7 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Berat Satuan</label>
                         <div class="col-sm-9">
-                          <input type="number" class="form-control" name="berat" id="berat" placeholder="Berat">
+                          <input type="number" class="form-control" name="berat" id="berat" placeholder="Berat" required>
                         </div>
                       </div>
                     </div>
@@ -197,6 +197,18 @@
 
               <div class="card">
                 <div class="card-body">
+                  {{-- Total Pengeluaran --}}
+                  <div class="form-group row">
+                    <label for="totalrp" class="col-lg-3 control-label">User</label>
+                    <div class="col-lg-9">
+                      <select class="form-control select2bs4" name="users_id" style="width: 100%;" required>
+                        <option>--Pilih User--</option>
+                        @foreach ($users as $item)
+                          <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
                   {{-- Tanggal Pembelian --}}
                   <div class="form-group row">
                     <label class="col-lg-3 control-label">Tanggal Pembelian</label>

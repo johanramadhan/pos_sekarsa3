@@ -14,4 +14,9 @@ class Pembelian extends Model
     {
         return $this->belongsTo(Supplier::class, 'id_supplier', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
 }
