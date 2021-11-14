@@ -98,7 +98,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>Rp{{ format_uang($pengeluaran) }},00</h3>
+                <h3>Rp{{ format_uang($keluar) }},00</h3>
 
                 <p>Pengeluaran Hari Ini</p>
               </div>

@@ -20,7 +20,8 @@ class DashboardController extends Controller
         $bayar = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
         $pengeluaran = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
         $pembelian = Pembelian::whereDate('tgl_pembelian', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
-        $sisakas = $kaskecil + $bayar - $pengeluaran - $pembelian;
+        $keluar = $pengeluaran + $pembelian;
+        $sisakas = $kaskecil + $bayar - $keluar;
         $total_menu_today = TransactionDetail::whereDate('created_at', $tanggalAkhir)->sum('jumlah');
         
 
@@ -30,6 +31,7 @@ class DashboardController extends Controller
             'pengeluaran' => $pengeluaran,
             'sisakas' => $sisakas,
             'total_menu_today' => $total_menu_today,
+            'keluar' => $keluar,
         ]);
     }
 }
