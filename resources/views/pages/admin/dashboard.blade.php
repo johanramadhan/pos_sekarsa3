@@ -53,7 +53,7 @@
         <div class="row">
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-success">
               <div class="inner">
                 <h3>{{ $total_menu_today }}</h3>
 
@@ -62,13 +62,13 @@
               <div class="icon">
                 <i class="ion ion-person"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a onclick="detailMenu()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>              
             </div>
           </div>
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-success">
               <div class="inner">
                 <h3>Rp{{ format_uang($total_penjualan_today) }}</h3>
 
@@ -83,7 +83,7 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-primary">
               <div class="inner">
                 <h3>{{ format_uang($total_menu) }}</h3>
 
@@ -92,13 +92,13 @@
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="{{ route('dashboard-admin.menuterjual') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a onclick="detailMenuTotal()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> 
             </div>
           </div>
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-primary">
               <div class="inner">
                 <h3>Rp{{format_uang($total_penjualan)}}</h3>
 
@@ -134,7 +134,7 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Sisa Kas Hari Ini</span>
@@ -147,7 +147,7 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Pengeluaran</span>
@@ -160,7 +160,7 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Sisa Kas</span>
@@ -173,6 +173,7 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+
 
         {{-- <div class="row">
           <div class="col-12 col-sm-6 col-md-12">
@@ -217,6 +218,9 @@
           </div>
         </div> --}}
         <!-- /.row -->
+
+        @includeIf('pages.admin.detailMenu')
+        @includeIf('pages.admin.detailMenuTotal')
 
       </div><!-- /.container-fluid -->
     </div>
@@ -282,6 +286,26 @@
       $('.duallistbox').bootstrapDualListbox()
 
     })
+  </script>
+  <script>
+    let table, table1;
+
+    function detailMenu() {
+      table = $('.table-detail-menu').DataTable({
+        processing: true,
+        autoWidth: true,  
+      });
+
+      $('#modal-menu').modal('show');
+    }
+    function detailMenuTotal() {
+      table1 = $('.table-detail-menu-total').DataTable({
+        processing: true,
+        autoWidth: true,  
+      });
+
+      $('#modal-menu-total').modal('show');
+    }
   </script>
   <script>
     $(function () {

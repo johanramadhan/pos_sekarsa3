@@ -51,7 +51,7 @@
         <div class="row">
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-success">
               <div class="inner">
                 <h3>{{ $total_menu_today }}</h3>
 
@@ -66,7 +66,7 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-success">
               <div class="inner">
                 <h3>Rp{{ format_uang($bayar) }},00</h3>
 
@@ -81,11 +81,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-primary">
               <div class="inner">
                 <h3>Rp{{ format_uang($kaskecil) }},00</h3>
 
-                <p>Kas Kecil</p>
+                <p>Kas Kecil Hari Ini</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>
@@ -96,11 +96,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-danger">
               <div class="inner">
                 <h3>Rp{{ format_uang($keluar) }},00</h3>
 
-                <p>Pengeluaran Hari Ini</p>
+                <p>Pengeluaran Kas Kecil Hari Ini</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>
