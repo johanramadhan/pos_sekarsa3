@@ -60,7 +60,7 @@
               <div class="icon">
                 <i class="ion ion-person"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a onclick="detailMenu()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- /.col -->
@@ -90,7 +90,7 @@
               <div class="icon">
                 <i class="ion ion-person"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a onclick="detailKaskecil()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- /.col -->
@@ -105,7 +105,7 @@
               <div class="icon">
                 <i class="ion ion-person"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a onclick="detailPengeluaran()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- /.col -->
@@ -122,6 +122,9 @@
           <!-- /.col -->
         </div>
         
+        @includeIf('pages.kasir.detailMenu')
+        @includeIf('pages.kasir.detailKaskecil')
+        @includeIf('pages.kasir.detailPengeluaran')
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -178,5 +181,35 @@
 
 
     })
+  </script>
+  <script>
+    let table, table1, table2;
+
+    function detailMenu() {
+      table = $('.table-detail-menu').DataTable({
+        processing: true,
+        autoWidth: true,  
+      });
+
+      $('#modal-menu').modal('show');
+    }
+
+    function detailKaskecil() {
+      table1 = $('.table-detail-kaskecil').DataTable({
+        processing: true,
+        autoWidth: true,  
+      });
+
+      $('#modal-kaskecil').modal('show');
+    }
+
+    function detailPengeluaran() {
+      table2 = $('.table-detail-pengeluaran').DataTable({
+        processing: true,
+        autoWidth: true,  
+      });
+
+      $('#modal-pengeluaran').modal('show');
+    }
   </script>
 @endpush
