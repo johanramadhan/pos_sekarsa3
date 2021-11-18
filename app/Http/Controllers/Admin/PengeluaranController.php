@@ -21,7 +21,7 @@ class PengeluaranController extends Controller
     public function index()
     {
         $users = User::all();
-        $pengeluarans = Pengeluaran::orderBy('id_pengeluaran', 'desc')->get();  
+        $pengeluarans = Pengeluaran::orderBy('tgl_pengeluaran', 'desc')->get();  
 
         return view('pages.admin.pengeluaran.index', [
             'users' => $users,

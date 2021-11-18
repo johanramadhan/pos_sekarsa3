@@ -25,8 +25,7 @@ class DashboardController extends Controller
         $pengeluaran = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
         $pengeluaranDetail = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)
             ->where('users_id', Auth::user()->id)
-            ->get()
-            ->groupBy(function() {});
+            ->get();
 
         $pembelian = Pembelian::whereDate('tgl_pembelian', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
         $keluar = $pengeluaran + $pembelian;
