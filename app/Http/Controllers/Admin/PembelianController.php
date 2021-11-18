@@ -27,7 +27,7 @@ class PembelianController extends Controller
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
         $users = User::all();
-        $pembelians = Pembelian::orderBy('id_pembelian', 'desc')->get();
+        $pembelians = Pembelian::orderBy('tgl_pembelian', 'desc')->get();
 
         return view('pages.admin.pembelian.index', [
             'suppliers' => $suppliers,
