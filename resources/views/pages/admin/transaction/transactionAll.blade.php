@@ -51,30 +51,31 @@
                     <thead>
                       <tr class="text-center">
                         <th>No</th>
-                        <th>Code</th>
+                        <th>Code Transaksi</th>
                         <th>Tanggal</th>
-                        <th>Transaksi</th>
                         <th>Nama Produk</th>
+                        <th>Modal</th>
                         <th>Harga Jual</th>
                         <th>Jumlah</th>
                         <th>Diskon</th>
-                        <th>Total Harga</th>
                         <th>Total Modal</th>
+                        <th>Total Harga</th>
                         <th>Keuntungan</th>
-                        <th>Aksi</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                       @forelse ($transactionAll as $item)
                         <tr>
                           <td class="text-center">{{ $loop->iteration }}</td>
                           <td class="text-center">{{ $item->code }}</td>
                           <td>{{ tanggal_indonesia ($item->created_at) }}</td>
-                          <td class="text-center">{{ $item->transaction->code }}</td>
                           <td class="text-center">{{ $item->produk->name_product }}</td>
+                          <td class="text-center">Rp{{ format_uang ($item->produk->harga_beli) }}</td>
                           <td class="text-center">Rp{{ format_uang ($item->harga_jual) }}</td>
                           <td class="text-center">{{ format_uang ($item->jumlah) }}</td>
                           <td class="text-center">{{ $item->diskon }}%</td>
+                          <td>Rp{{ format_uang ($item->produk->harga_beli) }}</td>
+                          <td>Rp{{ format_uang ($item->subtotal) }}</td>
                           <td>Rp{{ format_uang ($item->subtotal) }}</td>
                           <td class="text-center">
                             <div class="btn-group">
@@ -93,7 +94,7 @@
                       @empty
                           Tidak ada data
                       @endforelse
-                    </tbody>
+                    </tbody> --}}
                   </table>
                 </div>
               </div>
@@ -124,19 +125,23 @@
       table = $('.table-penjualan-detail').DataTable({
         processing: true,
         autoWidth: false,  
-      });
-
-      table1 = $('.table-detail-penjualan').DataTable({
-        processing: true,
-          columns: [
+        bSort: true,
+        bPaginate: true,
+        ajax: {
+          url: '{{ route('transactions.transactionAllDetail') }}',
+        },
+        columns: [
             {data: 'DT_RowIndex', searchable: false, sortable: false},
-            {data: 'code'},
-            {data: 'tanggal'},
-            {data: 'nama_produk'},
+            {class: 'text-center', data: 'code'},
+            {class: 'text-center', data: 'created_at'},
+            {data: 'name_produk'},
+            {data: 'modal'},
             {data: 'harga_jual'},
-            {data: 'jumlah'},
-            {data: 'diskon'},
+            {class: 'text-center', data: 'jumlah'},
+            {class: 'text-center', data: 'diskon'},
+            {data: 'total_modal'},
             {data: 'subtotal'},
+            {data: 'keuntungan'},
         ]
       });
     });

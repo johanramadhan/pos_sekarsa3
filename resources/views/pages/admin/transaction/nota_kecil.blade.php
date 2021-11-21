@@ -65,9 +65,11 @@
     <div>
         <p style="float: left;">{{ date('d-m-Y') }}</p>
         <p style="float: right; margin-right: 20px;">{{ strtoupper(auth()->user()->name) }}</p>
+        <p style="float: left;">{{ date('H:i') }} WIB</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
     <p style="margin: 0;">No: {{ $penjualan->code }}</p>
+    <p style="margin: 0;">Name: {{ $penjualan->customer_name }}</p>
     <p style="margin: 0;" class="text-center m-0">===================================</p>
     
     <br>
@@ -120,7 +122,7 @@
     </table>
 
     <p class="text-center">===================================</p><br><br><br>
-    <p class="text-center">-- TERIMA KASIH --</p> <br><br>
+    <p class="text-center">INSTAGRAM <br>-- sekarsa_coffee --</p> <br><br>
     <p class="text-center" style="color: white">----</p> <br><br><br>
 
     <script>

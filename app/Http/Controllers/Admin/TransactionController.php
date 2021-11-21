@@ -126,10 +126,12 @@ class TransactionController extends Controller
         $transaksi->total_item = $request->total_item;
         $transaksi->transaction_status = 'success';
         $transaksi->id_member = $request->id_member;
+        $transaksi->customer_name = $request->customer_name;
         $transaksi->total_harga = $request->total;
         $transaksi->diskon = $request->diskon;
         $transaksi->bayar = $request->bayar;
         $transaksi->diterima = $request->diterima;
+        $transaksi->keterangan = $request->keterangan;
         $transaksi->update();
 
         $detail = TransactionDetail::where('transactions_id', $transaksi->id_transaction)->get();
@@ -302,5 +304,56 @@ class TransactionController extends Controller
         return view('pages.admin.transaction.transactionAll', [
             'transactionAll' => $transactionAll,
         ]);
+    }
+
+    public function dataDetail()
+    {
+        $transactionAll = TransactionDetail::orderBy('id_transaction_detail', 'desc')
+            ->get();
+        $data = array();
+        $total_jumlah = 0;
+        $total_modal = 0;
+        $total_penjualan = 0;
+        $total_keuntungan = 0;
+
+        foreach($transactionAll as $item) {
+            $total_jumlah += $item->jumlah;
+            $total_modal += $item->produk->harga_beli * $item->jumlah;
+            $total_penjualan += $item->subtotal;
+            $total_keuntungan += $item->subtotal - ($item->produk->harga_beli * $item->jumlah);
+
+            $row = array();
+            $row['code'] = $item->code;
+            $row['created_at'] = tanggal_indonesia($item->created_at);
+            $row['code_produk'] = $item->produk['code'];
+            $row['name_produk'] = $item->produk['name_product'];
+            $row['modal'] = 'Rp'.format_uang($item->produk['harga_beli']);
+            $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
+            $row['jumlah'] = format_uang($item->jumlah);
+            $row['diskon'] = $item->diskon.'%';
+            $row['total_modal'] = 'Rp'.format_uang($item->produk->harga_beli * $item->jumlah);
+            $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
+            $row['keuntungan'] = 'Rp'.format_uang($item->subtotal - ($item->produk->harga_beli * $item->jumlah));
+
+            $data[] = $row;
+        }
+        $data[] = [
+            'code' => '<b> Total </b>',
+            'created_at' => '',
+            'name_produk' => '',
+            'modal' => '',
+            'harga_jual' => '',
+            'jumlah' => format_uang($total_jumlah),
+            'diskon' => '',
+            'total_modal' => 'Rp'.format_uang($total_modal),
+            'subtotal' => 'Rp'.format_uang($total_penjualan),
+            'keuntungan' => 'Rp'.format_uang($total_keuntungan),
+        ];
+        
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['code', 'code_produk'])
+            ->make(true);
     }
 }

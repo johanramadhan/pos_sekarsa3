@@ -232,6 +232,20 @@
                         <input type="text" id="kembali" name="kembali" class="form-control" required value="0" readonly>
                     </div>
                   </div>
+                  {{-- Nama Customer --}}
+                  <div class="form-group row">
+                    <label for="customer name" class="col-lg-3 control-label">Nama Customer</label>
+                    <div class="col-lg-9">
+                        <input type="text" name="customer_name" class="form-control">
+                    </div>
+                  </div>
+                  {{-- Keterangan --}}
+                  <div class="form-group row">
+                    <label for="Keterangan" class="col-lg-3 control-label">Keterangan</label>
+                    <div class="col-lg-9">
+                      <textarea name="keterangan" rows="3" class="form-control" placeholder="Keterangan" required></textarea>
+                    </div>
+                  </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-md float-right btn-simpan"><i class="fa fa-save"></i> Simpan Transaksi</button>
               </div>

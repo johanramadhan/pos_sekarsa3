@@ -64,6 +64,7 @@
     <br>
     <div>
         <p style="float: left;">{{ date('d-m-Y') }}</p>
+        <p style="float: left;">{{ date('H:i') }} WIB</p>
         <p style="float: right; margin-right: 20px;">{{ strtoupper(auth()->user()->bidang) }}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>

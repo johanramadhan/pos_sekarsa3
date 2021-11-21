@@ -98,11 +98,12 @@ Route::prefix('admin')
 
         // Penjualan
         Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transactions.data');
-        Route::get('data-transaction/transaction/selesai', 'TransactionController@selesai')->name('transactions.selesai');
+        Route::get('data-transaction/transactions/selesai', 'TransactionController@selesai')->name('transactions.selesai');
         Route::get('data-transaction/transaction/nota-kecil', 'TransactionController@notaKecil')->name('transactions.nota_kecil');
         Route::get('data-transaction/transaction/nota-besar', 'TransactionController@notaBesar')->name('transactions.nota_besar');
         Route::get('data-transaction/transaction/print/{id}', 'TransactionController@print')->name('transactions.print');
         Route::get('data-transaction/transaction/transactionAll', 'TransactionController@transactionAll')->name('transactions.transactionAll');
+        Route::get('data-transaction/transaction/transactionAll/dataDetail', 'TransactionController@dataDetail')->name('transactions.transactionAllDetail');
         Route::resource('data-transaction/transactions', 'TransactionController');
 
         // Penjualan-detail
