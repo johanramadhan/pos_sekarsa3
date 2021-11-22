@@ -15,16 +15,22 @@
                     <th class="text-center">Kode</th>
                     <th class="text-center">Nama Menu</th>
                     <th class="text-center">Jumlah Terjual</th>
+                    <th class="text-center">Total Modal</th>
+                    <th class="text-center">Total Penjualan</th>
+                    <th class="text-center">Keuntungan</th>
                   </tr>
                 </thead>
                 <tbody>
                   @foreach ($menu_terjual_today as $item)
-                     <tr>
+                    <tr>
                       <td width="5%" class="text-center">{{ $loop->iteration }}</td>
                       <td>{{ $item->produk->code }}</td>
                       <td>{{ $item->produk->name_product }} - {{ $item->produk->diskon }}%</td>
                       <td width="15%" class="text-center">{{ format_uang($item->total_jumlah) }}</td>
-                    </tr> 
+                      <td width="15%" class="text-center">Rp{{ format_uang($item->total_jumlah * $item->produk->harga_beli) }}</td>
+                      <td width="15%" class="text-center">Rp{{ format_uang($item->total_jumlah * $item->produk->harga_jual) }}</td>
+                      <td width="15%" class="text-center">Rp{{ format_uang(($item->total_jumlah * $item->produk->harga_jual) -  ($item->total_jumlah * $item->produk->harga_beli))}}</td>
+                    </tr>  
                   @endforeach
                 </tbody>
               </table>

@@ -73,4 +73,36 @@ class DashboardController extends Controller
             'transactionDetails' => $transactionDetails
         ]);
     }
+
+    public function dataMenu()
+    {
+        $tanggalAkhir = date('Y-m-d');
+
+        $total_menu = TransactionDetail::sum('jumlah');
+        $menu_terjual = TransactionDetail::select('products_id')
+            ->selectRaw("SUM(jumlah) as total_jumlah")
+            ->groupBy('products_id')
+            ->orderBy('total_jumlah', 'desc')
+            ->get();
+        
+        $data = array();
+        $total_jumlah = 0;
+        $total_modal = 0;
+        $total_penjualan = 0;
+        $total_keuntungan = 0;
+
+        foreach($menu_terjual as $item) {
+            
+        }
+
+        $data[] = [
+
+        ];
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['code', 'code_produk'])
+            ->make(true);
+    }
 }
