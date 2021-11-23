@@ -28,29 +28,19 @@
                     </tr>
                   </tr>
                 </thead>
-                <thead>
-                  <tr>
-                    <th colspan="4" class="text-center">TOTAL</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
                 <tbody>
                   @foreach ($menu_terjual as $item)
-                  <tr>
-                    <td width="5%" class="text-center">{{ $loop->iteration }}</td>
-                    <td>{{ $item->produk->code }}</td>
-                    <td>{{ $item->produk->name_product }} - {{ $item->produk->diskon }}%</td>
-                    <td width="15%" class="text-center">{{ format_uang($item->total_jumlah) }}</td>
-                    <td width="15%" class="text-center">Rp{{ format_uang($item->produk->harga_beli) }}</td>
-                    <td width="15%" class="text-center">Rp{{ format_uang($item->total_jumlah * $item->produk->harga_beli) }}</td>
-                    <td width="15%" class="text-center">Rp{{ format_uang($item->produk->harga_jual) }}</td>
-                    <td width="15%" class="text-center">Rp{{ format_uang(($item->total_jumlah * $item->produk->harga_jual) - (($item->produk->harga_jual * $item->produk->diskon / 100) * $item->total_jumlah)) }}</td>
-                    <td width="15%" class="text-center">Rp{{ format_uang((($item->total_jumlah * $item->produk->harga_jual) - (($item->produk->harga_jual * $item->produk->diskon / 100) * $item->total_jumlah)) -  ($item->total_jumlah * $item->produk->harga_beli))}}</td>
-                  </tr> 
+                    <tr>
+                      <td width="5%" class="text-center">{{ $loop->iteration }}</td>
+                      <td>{{ $item->produk->code }}</td>
+                      <td>{{ $item->produk->name_product }} - {{ $item->produk->diskon }}%</td>
+                      <td width="15%" class="text-center">{{ format_uang($item->total_jumlah) }}</td>
+                      <td width="15%" class="text-center">Rp{{ format_uang($item->produk->harga_beli) }}</td>
+                      <td width="15%" class="text-center">Rp{{ format_uang($item->total_jumlah * $item->produk->harga_beli) }}</td>
+                      <td width="15%" class="text-center">Rp{{ format_uang($item->produk->harga_jual) }}</td>
+                      <td width="15%" class="text-center">Rp{{ format_uang(($item->total_jumlah * $item->produk->harga_jual) - (($item->produk->harga_jual * $item->produk->diskon / 100) * $item->total_jumlah)) }}</td>
+                      <td width="15%" class="text-center">Rp{{ format_uang((($item->total_jumlah * $item->produk->harga_jual) - (($item->produk->harga_jual * $item->produk->diskon / 100) * $item->total_jumlah)) -  ($item->total_jumlah * $item->produk->harga_beli))}}</td>
+                    </tr> 
                   @endforeach
                 </tbody>
                 

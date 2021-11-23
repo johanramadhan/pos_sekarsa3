@@ -20,9 +20,9 @@
                     <th class="text-center">Keuntungan</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody>                  
                   @foreach ($menu_terjual_today as $item)
-                     <tr>
+                    <tr>
                       <td width="5%" class="text-center">{{ $loop->iteration }}</td>
                       <td>{{ $item->produk->code }}</td>
                       <td>{{ $item->produk->name_product }} - {{ $item->produk->diskon }}%</td>

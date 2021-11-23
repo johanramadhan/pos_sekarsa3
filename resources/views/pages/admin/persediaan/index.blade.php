@@ -200,44 +200,7 @@
                             <label>Satuan Barang*</label>
                             <select name="satuan" class="form-control select2" required>
                               <option>--Pilih satuan--</option>
-                              <option value="Gram">Gram</option>
-                              <option value="Kilogram">Kilogram</option>
-                              <option value="Sisir">Sisir</option>
-                              <option value="Bungkus">Bungkus</option>
-                              <option value="Unit">Unit</option>
-                              <option value="Buah">Buah</option>
-                              <option value="Botol">Botol</option>
-                              <option value="Stell">Stell</option>
-                              <option value="Jalan">Jalan</option>
-                              <option value="Paket">Paket</option>
-                              <option value="Besi">Besi</option>
-                              <option value="Biro">Biro</option>
-                              <option value="Fiber">Fiber</option>
-                              <option value="Gros">Gros</option>
-                              <option value="Helai">Helai</option>
-                              <option value="Kali">Kali</option>
-                              <option value="Kayu">Kayu</option>
-                              <option value="Lembar">Lembar</option>
-                              <option value="Lusin">Lusin</option>
-                              <option value="Meter">Meter</option>
-                              <option value="Pcs">Pcs</option>
-                              <option value="Peket">Peket</option>
-                              <option value="Plastik">Plastik</option>
-                              <option value="Plong">Plong</option>
-                              <option value="SET">SET</option>
-                              <option value="Shet">Shet</option>
-                              <option value="Stenlis">Stenlis</option>
-                              <option value="Beton">Beton</option>
-                              <option value="M2">M2</option>
-                              <option value="Exp">Exp</option>
-                              <option value="Kaleng">Kaleng</option>
-                              <option value="Kotak">Kotak</option>
-                              <option value="Pasang">Pasang</option>
-                              <option value="Slop">Slop</option>
-                              <option value="Sambungan">Sambungan</option>
-                              <option value="m'">m'</option>
-                              <option value="KVA">KVA</option>
-                              <option value="Keping">Keping</option>
+                              @includeIf('pages.satuan')
                             </select>                            
                           </div>
                           <!-- /.satuan -->   
@@ -245,44 +208,7 @@
                             <label>Satuan Berat*</label>
                             <select name="satuan_berat" class="form-control select2" required>
                               <option>--Pilih satuan--</option>
-                              <option value="Gram">Gram</option>
-                              <option value="Kilogram">Kilogram</option>
-                              <option value="Sisir">Sisir</option>
-                              <option value="Bungkus">Bungkus</option>
-                              <option value="Unit">Unit</option>
-                              <option value="Buah">Buah</option>
-                              <option value="Roll">Roll</option>
-                              <option value="Stell">Stell</option>
-                              <option value="Jalan">Jalan</option>
-                              <option value="Paket">Paket</option>
-                              <option value="Besi">Besi</option>
-                              <option value="Biro">Biro</option>
-                              <option value="Fiber">Fiber</option>
-                              <option value="Gros">Gros</option>
-                              <option value="Helai">Helai</option>
-                              <option value="Kali">Kali</option>
-                              <option value="Kayu">Kayu</option>
-                              <option value="Lembar">Lembar</option>
-                              <option value="Lusin">Lusin</option>
-                              <option value="Meter">Meter</option>
-                              <option value="Pcs">Pcs</option>
-                              <option value="Peket">Peket</option>
-                              <option value="Plastik">Plastik</option>
-                              <option value="Plong">Plong</option>
-                              <option value="SET">SET</option>
-                              <option value="Shet">Shet</option>
-                              <option value="Stenlis">Stenlis</option>
-                              <option value="Beton">Beton</option>
-                              <option value="M2">M2</option>
-                              <option value="Exp">Exp</option>
-                              <option value="Kaleng">Kaleng</option>
-                              <option value="Kotak">Kotak</option>
-                              <option value="Pasang">Pasang</option>
-                              <option value="Slop">Slop</option>
-                              <option value="Sambungan">Sambungan</option>
-                              <option value="m'">m'</option>
-                              <option value="KVA">KVA</option>
-                              <option value="Keping">Keping</option>
+                              @includeIf('pages.satuan')
                             </select>                            
                           </div>
                           <!-- /.satuan berat -->             

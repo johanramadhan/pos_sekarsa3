@@ -52,6 +52,7 @@
                       <tr class="text-center">
                         <th>No</th>
                         <th>Code</th>
+                        <th>Pukul</th>
                         <th>Tanggal</th>
                         <th>Kasir</th>
                         <th>Member</th>
@@ -71,6 +72,7 @@
                         <tr>
                           <td class="text-center">{{ $loop->iteration }}</td>
                           <td class="text-center">{{ $item->code }}</td>
+                          <td>{{ $item->created_at->format('H:i') }} WIB</td>
                           <td>{{ tanggal_indonesia ($item->created_at) }}</td>
                           <td class="text-center">{{ $item->user->name }}</td>
                           <td>{{ $item->member->name ?? '' }}</td>
