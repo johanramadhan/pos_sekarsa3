@@ -232,7 +232,7 @@
                           <!-- /.Fungsi -->
                           <div class="form-group">
                             <label>Thumbnail*</label>
-                            <input type="file" name="photos" class="form-control" required/>
+                            <input type="file" name="photos" class="form-control"/>
                             <p class="text-muted">
                               Masukkan gambar barang
                             </p>

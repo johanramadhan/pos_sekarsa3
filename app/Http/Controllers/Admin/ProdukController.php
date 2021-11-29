@@ -19,7 +19,7 @@ class ProdukController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Produk::with(['category'])->get();
+        $products = Produk::with(['category'])->orderBy('name_product', 'asc')->get();
         $tanggal = Carbon::now()->format('dmY');
         $cek = Produk::count();
         if ($cek == 0) {

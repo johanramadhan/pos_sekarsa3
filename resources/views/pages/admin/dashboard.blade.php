@@ -25,6 +25,12 @@
   <link rel="stylesheet" href="{{ asset('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+
+  <style>
+    .table-detail-menu tbody tr:last-child{
+      font-weight: bold;
+    }
+  </style>
 @endpush
 
 @section('content')
@@ -294,7 +300,21 @@
       table = $('.table-detail-menu').DataTable({
         processing: true,
         autoWidth: true,  
-        lengthChange: true,  
+        lengthChange: true, 
+        bSort: true,
+        bPaginate: true,
+        ajax: {
+            url: '{{ route('dashboard_admin.menuterjual') }}',
+        },
+        columns: [
+            {data: 'DT_RowIndex', searchable: false, sortable: false},
+            {data: 'code'},
+            {data: 'name_product'},
+            {class: 'text-center', data: 'jumlah_terjual'},
+            {data: 'modal'},
+            {data: 'penjualan'},
+            {data: 'keuntungan'},
+        ], 
       });
 
       $('#modal-menu').modal('show');

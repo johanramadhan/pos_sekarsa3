@@ -38,7 +38,6 @@
                             placeholder="Kode Barang"
                             readonly
                             value="{{$code}}"
-                            readonly
                           />
                         </div>
                         <!-- /.Kode Barang --> 
@@ -56,7 +55,7 @@
                         <!-- /.Nama Barang --> 
                         <div class="form-group">
                           <label>Kategori*</label>
-                          <select name="categories_id" class="form-control select2">
+                          <select name="categories_id" class="form-control select2" required>
                             <option>--Pilih Kategori--</option>
                             @foreach ($categories as $category)
                               <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -132,7 +131,7 @@
                         </div>
                         <!-- /.Merk -->                           
                         <div class="form-group">
-                          <label>Stok</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
+                          <label>Stok</label>
                           <input
                             type="text"
                             name="stok"

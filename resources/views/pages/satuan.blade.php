@@ -2,6 +2,9 @@
 <option value="Kilogram">Kilogram</option>
 <option value="Sisir">Sisir</option>
 <option value="Bungkus">Bungkus</option>
+<option value="Gelas">Gelas</option>
+<option value="Cup">Cup</option>
+<option value="Piring">Piring</option>
 <option value="Unit">Unit</option>
 <option value="Buah">Buah</option>
 <option value="Botol">Botol</option>

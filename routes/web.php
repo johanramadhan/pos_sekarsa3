@@ -30,7 +30,7 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->group(function() {
         Route::get('/', 'DashboardController@index')->name('dashboard-admin');
-        Route::get('/menuterjual', 'DashboardController@menuterjual')->name('dashboard-admin.menuterjual');
+        Route::get('/menuterjual', 'DashboardController@menuterjual')->name('dashboard_admin.menuterjual');
         
         Route::resource('category', 'CategoryController');
         Route::resource('supplier', 'SupplierController');

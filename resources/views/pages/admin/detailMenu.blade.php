@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">Detail Menu Terjual</h4>
+              <h4 class="modal-title">Detail Menu Terjual - <b>{{ tanggal_indonesia(date('Y-m-d')) }}</b></h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -20,8 +20,8 @@
                     <th class="text-center">Keuntungan</th>
                   </tr>
                 </thead>
-                <tbody>                  
-                  @foreach ($menu_terjual_today as $item)
+                <tbody>                
+                  {{-- @foreach ($menu_terjual_today as $item)
                     <tr>
                       <td width="5%" class="text-center">{{ $loop->iteration }}</td>
                       <td>{{ $item->produk->code }}</td>
@@ -31,7 +31,7 @@
                       <td width="15%" class="text-center">Rp{{ format_uang($item->total_jumlah * $item->produk->harga_jual) }}</td>
                       <td width="15%" class="text-center">Rp{{ format_uang(($item->total_jumlah * $item->produk->harga_jual) -  ($item->total_jumlah * $item->produk->harga_beli))}}</td>
                     </tr> 
-                  @endforeach
+                  @endforeach --}}
                 </tbody>
               </table>
             </div>

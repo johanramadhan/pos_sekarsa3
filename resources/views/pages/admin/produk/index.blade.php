@@ -63,6 +63,7 @@
                         <th>Kode Produk</th>
                         <th>Nama Produk</th>
                         <th>Kategori</th>
+                        <th>Diskon</th>
                         <th>Jumlah Stok</th>
                         <th>Satuan</th>
                         <th>Berat</th>
@@ -78,11 +79,18 @@
                           <td>{{ $item->code }}</td>
                           <td>{{ $item->name_product }}</td>
                           <td>{{ $item->category->name }}</td>
-                          <td class="text-center">{{ $item->stok }}</td>
+                          <td class="text-center">{{ format_uang($item->diskon) }}%</td>
+                          <td class="text-center">
+                            @if (($item->stok) == 0)
+                              <span class="badge badge-danger">Habis</span> 
+                            @else
+                              {{ $item->stok }}
+                            @endif
+                          </td>
                           <td class="text-center">{{ $item->satuan }}</td>
                           <td class="text-center">{{ $item->berat }} {{ $item->satuan_berat }}</td>
-                          <td>{{ format_uang($item->harga_beli) }}</td>
-                          <td>{{ format_uang($item->harga_jual) }}</td>
+                          <td class="text-center">Rp{{ format_uang($item->harga_beli) }}</td>
+                          <td class="text-center">Rp{{ format_uang($item->harga_jual) }}</td>
                           <td class="text-center">
                             <div class="btn-group">
                               <button onclick="editForm( '{{ route('produk.update', $item->id_produk) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
@@ -156,7 +164,6 @@
                               placeholder="Kode Barang"
                               readonly
                               value="{{$code}}"
-                              readonly
                             />
                           </div>
                           <!-- /.Kode Barang --> 
@@ -173,7 +180,7 @@
                           <!-- /.Nama Barang --> 
                           <div class="form-group">
                             <label>Kategori*</label>
-                            <select name="categories_id" class="form-control select2">
+                            <select name="categories_id" class="form-control select2" required>
                               <option>--Pilih Kategori--</option>
                               @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -207,6 +214,7 @@
                               name="diskon"
                               class="form-control"
                               placeholder="Masukkan diskon"
+                              required
                             />
                           </div>
                           <!-- /.Diskon -->       
@@ -233,16 +241,26 @@
                           </div>
                           <!-- /.Harga Jual -->                                
                           <div class="form-group">
-                            <label>Merk</label> (<i><small>Kosongkan jika tidak ada link</small></i>)
+                            <label>Merk</label> (<i><small>Kosongkan jika tidak ada merek</small></i>)
                             <input
                               type="text"
                               name="merk"
                               class="form-control"
                               placeholder="Masukkan Merk"
-                              required
                             />
                           </div>
-                          <!-- /.Merk -->                           
+                          <!-- /.Merk --> 
+                          <div class="form-group">
+                          <label>Stok*</label>
+                          <input
+                            type="text"
+                            name="stok"
+                            class="form-control"
+                            placeholder="Masukkan Stok"
+                            required
+                          />
+                        </div>
+                        <!-- /.Stok -->                           
                         </div>
                       </div>
                     </div>

@@ -33,6 +33,10 @@ class LaporanController extends Controller
         $no = 1;
         $data = array();
         $pendapatan = 0;
+        $menu = 0;
+        $penjualan = 0;
+        $pembelian = 0;
+        $pengeluaran = 0;
         $total_pendapatan = 0;
 
         while (strtotime($awal) <= strtotime($akhir)) {
@@ -43,6 +47,11 @@ class LaporanController extends Controller
             $total_penjualan = Transaction::where('created_at', 'LIKE', "%$tanggal%")->sum('bayar');
             $total_pembelian = Pembelian::where('tgl_pembelian', 'LIKE', "%$tanggal%")->sum('bayar');
             $total_pengeluaran = Pengeluaran::where('tgl_pengeluaran', 'LIKE', "%$tanggal%")->sum('total_harga');
+
+            $menu += $total_menu;
+            $penjualan += $total_penjualan;
+            $pembelian += $total_pembelian;
+            $pengeluaran += $total_pengeluaran;
 
             $pendapatan = $total_penjualan - $total_pembelian - $total_pengeluaran;
             $total_pendapatan += $pendapatan;
@@ -61,11 +70,11 @@ class LaporanController extends Controller
 
         $data[] = [
             'DT_RowIndex' => '',
-            'tanggal' => '',
-            'menu' => '',
-            'penjualan' => '',
-            'pembelian' => '',
-            'pengeluaran' => 'Total Pendapatan',
+            'tanggal' => 'Total',
+            'menu' => format_uang($menu),
+            'penjualan' => 'Rp'.format_uang($penjualan),
+            'pembelian' => 'Rp'.format_uang($pembelian),
+            'pengeluaran' => 'Rp'.format_uang($pengeluaran),
             'pendapatan' => 'Rp'.format_uang($total_pendapatan),
         ];
 

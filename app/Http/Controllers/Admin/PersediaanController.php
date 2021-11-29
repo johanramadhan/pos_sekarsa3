@@ -21,7 +21,7 @@ class PersediaanController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $persediaans = Persediaan::with(['category'])->get();
+        $persediaans = Persediaan::with(['category'])->orderBy('name_persediaan', 'asc')->get();
         $tanggal = Carbon::now()->format('dmY');
         $cek = Persediaan::count();
         if ($cek == 0) {
@@ -61,14 +61,7 @@ class PersediaanController extends Controller
     {
         $data = $request->all();
 
-        $persediaan = Persediaan::create($data);
-
-        $gallery = [
-            'persediaans_id' => $persediaan->id_persediaan,
-            'photos' => $request->file('photos')->store('assets/persediaan','public')
-        ];
-
-        PersediaanGallery::create($gallery);
+        Persediaan::create($data);
 
         return redirect()->route('persediaan.index')
           ->with('success', 'Data persediaan berhasil ditambahkan');
@@ -137,14 +130,7 @@ class PersediaanController extends Controller
         $data = $request->all();
         $item = Persediaan::findOrFail($id);
 
-        $item2 = PersediaanGallery::findOrFail($id);
-        if ($request->hasFile('photos')) {
-            Storage::delete('photos');
-            $data['photos'] = $request->file('photos')->store('assets/persediaan','public');
-        }
-
         $item->update($data);
-        $item2->update($data);
 
          return redirect()->route('persediaan.index')
           ->with('success', 'Data persediaan berhasil diedit');
