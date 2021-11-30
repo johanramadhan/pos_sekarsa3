@@ -30,6 +30,7 @@
     .table-detail-menu tbody tr:last-child{
       font-weight: bold;
     }
+    }
   </style>
 @endpush
 
@@ -127,7 +128,11 @@
         <div class="row">
           <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-danger btn-app">
+                <a onclick="detailPengeluaran()">
+                  <i class="fas fa-shopping-cart"></i>
+                </a>
+              </span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Pengeluaran Hari Ini</span>
@@ -140,7 +145,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-warning btn-app">
+                <a href="#">
+                  <i class="fas fa-shopping-cart"></i>
+                </a>
+              </span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Sisa Kas Hari Ini</span>
@@ -153,7 +162,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-danger btn-app">
+                <a href="#">
+                  <i class="fas fa-shopping-cart"></i>
+                </a>
+              </span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Pengeluaran</span>
@@ -166,7 +179,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-cart"></i></span>
+              <span class="info-box-icon bg-warning btn-app">
+                <a href="#">
+                  <i class="fas fa-shopping-cart"></i>
+                </a>
+              </span>
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Sisa Kas</span>
@@ -227,6 +244,7 @@
 
         @includeIf('pages.admin.detailMenu')
         @includeIf('pages.admin.detailMenuTotal')
+        @includeIf('pages.admin.detailPengeluaran')
 
       </div><!-- /.container-fluid -->
     </div>
@@ -294,7 +312,7 @@
     })
   </script>
   <script>
-    let table, table1;
+    let table, table1, table2, table3;
 
     function detailMenu() {
       table = $('.table-detail-menu').DataTable({
@@ -326,6 +344,26 @@
       });
 
       $('#modal-menu-total').modal('show');
+    }
+
+    function detailPengeluaran() {
+      table2 = $('.table-detail-pengeluaran').DataTable({
+        processing: true,
+        autoWidth: true,  
+        lengthChange: true, 
+        bSort: true,
+        bPaginate: true 
+      });
+
+      table3 = $('.table-detail-pembelian').DataTable({
+        processing: true,
+        autoWidth: true,  
+        lengthChange: true, 
+        bSort: true,
+        bPaginate: true,
+      });
+
+      $('#modal-pengeluaran').modal('show');
     }
   </script>
   <script>

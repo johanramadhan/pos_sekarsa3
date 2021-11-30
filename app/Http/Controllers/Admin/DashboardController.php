@@ -8,7 +8,9 @@ use App\Proposal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Pembelian;
+use App\PembelianDetail;
 use App\Pengeluaran;
+use App\PengeluaranDetail;
 use App\Produk;
 use App\Transaction;
 use App\TransactionDetail;
@@ -49,6 +51,12 @@ class DashboardController extends Controller
         $sisa_kas = $total_penjualan - $total_pengeluaran;
         $sisa_kas_today = $total_penjualan_today - $total_pengeluaran_today;
 
+        $pembelianDetail = PembelianDetail::whereDate('created_at', $tanggalAkhir)->get();
+        $pembelianDetailSum = PembelianDetail::whereDate('created_at', $tanggalAkhir)->sum('subtotal');
+
+        $pengeluaranDetail = PengeluaranDetail::whereDate('created_at', $tanggalAkhir)->get();
+        $pengeluaranDetailSum = PengeluaranDetail::whereDate('created_at', $tanggalAkhir)->sum('subtotal');
+
         return view('pages.admin.dashboard', [
             'total_menu'=> $total_menu,
             'total_menu_today'=> $total_menu_today,
@@ -60,7 +68,11 @@ class DashboardController extends Controller
             'sisa_kas_today'=> $sisa_kas_today,
             'menu_terjual_today'=> $menu_terjual_today,
             'menu_terjual'=> $menu_terjual,
-            'tanggalAkhir' => $tanggalAkhir
+            'tanggalAkhir' => $tanggalAkhir,
+            'pembelianDetail' => $pembelianDetail,
+            'pembelianDetailSum' => $pembelianDetailSum,
+            'pengeluaranDetail' => $pengeluaranDetail,
+            'pengeluaranDetailSum' => $pengeluaranDetailSum,
         ]);
     }
 
@@ -118,35 +130,45 @@ class DashboardController extends Controller
             ->make(true);
     }
 
-    public function dataMenu()
+    public function pengeluaran()
     {
         $tanggalAkhir = date('Y-m-d');
 
-        $total_menu = TransactionDetail::sum('jumlah');
-        $menu_terjual = TransactionDetail::select('products_id')
-            ->selectRaw("SUM(jumlah) as total_jumlah")
-            ->groupBy('products_id')
-            ->orderBy('total_jumlah', 'desc')
-            ->get();
+        $pengeluaranDetail = PengeluaranDetail::whereDate('created_at', $tanggalAkhir)->get();
         
+        $no = 1;
         $data = array();
-        $total_jumlah = 0;
-        $total_modal = 0;
-        $total_penjualan = 0;
-        $total_keuntungan = 0;
+        $total_pengeluaran = 0;
 
-        foreach($menu_terjual as $item) {
-            
+        foreach($pengeluaranDetail as $item) {
+            $row = array();
+            $row['DT_RowIndex'] = $no++;
+            $row['code'] = $item->code;
+            $row['uraian'] = $item->uraian;
+            $row['jumlah'] = format_uang($item->jumlah);
+            $row['satuan'] = $item->satuan;
+            $row['harga_beli'] = 'Rp'.format_uang($item->harga_beli);
+            $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
+
+            $data[] = $row;
+
+            $total_pengeluaran += $item->subtotal;
         }
 
         $data[] = [
-
+            'DT_RowIndex' => '',
+            'code' => 'TOTAL',
+            'uraian' => '',
+            'jumlah' => '',
+            'satuan' => '',
+            'harga_beli' => '',
+            'subtotal' => 'Rp'.format_uang($total_pengeluaran) .'',
         ];
 
         return datatables()
             ->of($data)
             ->addIndexColumn()
-            ->rawColumns(['code', 'code_produk'])
+            ->rawColumns(['code'])
             ->make(true);
     }
 }
