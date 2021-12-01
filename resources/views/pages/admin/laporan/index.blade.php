@@ -50,10 +50,42 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                <button onclick="addForm()" class="btn btn-primary mb-2">Update Tanggal</i></button>
+                <a href="{{ route('laporan.export_pdf', [$tanggalAwal, $tanggalAkhir]) }}" target="_blank" class="btn btn-danger mb-2 ml-2"><i class="fa fa-file-pdf"></i> Export PDF</a>
                 <div class="table-responsive">
                   <table class="table table-laporan table-bordered table-striped">
-                    <button onclick="addForm()" class="btn btn-primary mb-2">Update Tanggal</i></button>
-                    <a href="{{ route('laporan.export_pdf', [$tanggalAwal, $tanggalAkhir]) }}" target="_blank" class="btn btn-danger mb-2 ml-2"><i class="fa fa-file-pdf"></i> Export PDF</a>
+                    <thead>
+                      <tr>
+                        <th width="5%">No</th>
+                        <th>Tanggal</th>
+                        <th>Menu</th>
+                        <th>Penjualan</th>
+                        <th>Pembelian</th>
+                        <th>Pengeluaran</th>
+                        <th>Pendapatan</th>
+                      </tr>
+                    </thead>
+                  </table>  
+                </div>
+              </div>
+            </div><!-- /.card -->
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+
+        {{-- Data Report --}}
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Data Laporan</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <a href="{{ route('laporan.export_pdf_report', [$tanggalAwal, $tanggalAkhir]) }}" target="_blank" class="btn btn-danger mb-2 ml-2"><i class="fa fa-file-pdf"></i> Export PDF</a>
+                <div class="table-responsive">
+                  <table class="table table-laporan-report table-bordered table-striped">
                     <thead>
                       <tr>
                         <th width="5%">No</th>
@@ -138,6 +170,39 @@
     function addForm() {
         $('#modal-laporan').modal('show');
     }
+
+    $(function () {
+      table1 = $('.table-laporan-report').DataTable({
+        processing: true,
+        autoWidth: false,
+        bSort: true,
+        bPaginate: true,
+        ajax: {
+            url: '{{ route('laporan.dataReport', [$tanggalAwal, $tanggalAkhir]) }}',
+        },
+        columns: [
+            {data: 'DT_RowIndex', searchable: false, sortable: false},
+            {data: 'tanggal'},
+            {data: 'menu'},
+            {data: 'penjualan'},
+            {data: 'pembelian'},
+            {data: 'pengeluaran'},
+            {data: 'pendapatan'}
+        ],
+      });
+
+      //Date range picker
+      $('#reservationdate').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
+      });
+      //Date range picker
+      $('#reservationdate2').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
+      });
+          
+    });
 
   </script>
 @endpush

@@ -40,12 +40,12 @@
 </style>
 
 <body>
-    <h3 class="text-center">Laporan Pendapatan</h3>
-    <h4 class="text-center">
+    <h4 class="text-center text-uppercase">Laporan Penjualan <br>Sekarsa Coffee & Space</h4>
+    <h5 class="text-center text-uppercase">
         Tanggal {{ tanggal_indonesia($awal, false) }}
         s/d
         Tanggal {{ tanggal_indonesia($akhir, false) }}
-    </h4>
+    </h5>
 
     <table class="table table-striped">
         <thead>
@@ -69,5 +69,21 @@
             @endforeach
         </tbody>
     </table>
+
+    <table width="100%" style="border: 0px;">
+        <tr >
+            <td class="text-center" width="65%">
+                
+            </td>
+            <td class="text-left text-uppercase p-2" style="font-size: 14px" colspan="3">
+                <b>Chief Executive Officier <br>Sekarsa Coffee & Space</b>
+                <br>
+                <br>
+                <br>
+                Rahmat Saputra
+            </td> 
+        </tr>
+    </table>
+    
 </body>
 </html> 

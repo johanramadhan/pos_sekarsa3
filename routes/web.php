@@ -117,6 +117,10 @@ Route::prefix('admin')
         Route::get('/laporan', 'LaporanController@index')->name('laporan.index');
         Route::get('/laporan/data/{awal}/{akhir}', 'LaporanController@data')->name('laporan.data');
         Route::get('/laporan/pdf/{awal}/{akhir}', 'LaporanController@exportPDF')->name('laporan.export_pdf');
+        
+        // Laporan Penjualan Report
+        Route::get('/laporan/data_report/{awal}/{akhir}', 'LaporanController@dataReport')->name('laporan.dataReport');
+        Route::get('/laporan/pdf_report/{awal}/{akhir}', 'LaporanController@exportPDFReport')->name('laporan.export_pdf_report');
 
 
         Route::resource('data-proposal/pengajuan', 'ProposalController');
