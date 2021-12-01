@@ -119,6 +119,7 @@
                           <label>Status*</label>
                           <select name="status" class="form-control select2">
                             <option>--Pilih Status--</option>
+                            <option value="Sukses">Sukses</option>
                             <option value="Success">Success</option>
                             <option value="Pending">Pending</option>
                           </select>                            

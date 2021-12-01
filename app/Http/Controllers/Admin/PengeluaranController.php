@@ -21,11 +21,14 @@ class PengeluaranController extends Controller
     public function index()
     {
         $users = User::all();
-        $pengeluarans = Pengeluaran::orderBy('tgl_pengeluaran', 'desc')->get();  
+        $pengeluarans = Pengeluaran::orderBy('tgl_pengeluaran', 'desc')->get();
+        
+        $total_pengeluaran_report = Pengeluaran::where('status', 'Sukses')->sum('total_harga');
 
         return view('pages.admin.pengeluaran.index', [
             'users' => $users,
             'pengeluarans' => $pengeluarans,
+            'total_pengeluaran_report' => $total_pengeluaran_report,
         ]);
     }
 

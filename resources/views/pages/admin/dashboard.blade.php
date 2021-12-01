@@ -57,6 +57,162 @@
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-sm-3 col-md-3">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>{{ $total_menu_today }}</h3>
+
+                    <p>Total Menu Terjual Harini</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person"></i>
+                  </div>
+                  <a onclick="detailMenu()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>              
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>Rp{{ format_uang($total_penjualan_today) }}</h3>
+
+                    <p>Total Penjualan Harini</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <!-- small box -->
+                <div class="small-box bg-primary">
+                  <div class="inner">
+                    <h3>{{ format_uang($total_menu) }}</h3>
+
+                    <p>Total Menu Terjual</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a onclick="detailMenuTotal()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> 
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <!-- small box -->
+                <div class="small-box bg-primary">
+                  <div class="inner">
+                    <h3>Rp{{format_uang($total_penjualan)}}</h3>
+
+                    <p>Total Penjualan</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-archive"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- /.col -->
+
+              <!-- fix for small devices only -->
+              <div class="clearfix hidden-md-up"></div>
+                
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+              <div class="col-12 col-sm-3 col-md-3">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-danger btn-app">
+                    <a onclick="detailPengeluaran()">
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Pengeluaran Hari Ini</span>
+                    <span class="info-box-number">Rp{{ format_uang($total_pengeluaran_today) }}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-warning btn-app">
+                    <a href="#">
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Sisa Kas Hari Ini</span>
+                    <span class="info-box-number">Rp{{ format_uang($sisa_kas_today) }}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-danger btn-app">
+                    <a href="#">
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Total Pengeluaran</span>
+                    <span class="info-box-number">Rp{{ format_uang($total_pengeluaran) }}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-warning btn-app">
+                    <a href="#">
+                      <i class="fas fa-shopping-cart"></i>
+                    </a>
+                  </span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text">Total Sisa Kas</span>
+                    <span class="info-box-number">Rp{{ format_uang($sisa_kas) }}</span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+        </div>
+
+        {{-- dashbord report --}}
         <div class="row">
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
@@ -68,8 +224,7 @@
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>
-              </div>
-              <a onclick="detailMenu()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>              
+              </div>              
             </div>
           </div>
           <!-- /.col -->
@@ -84,7 +239,6 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- /.col -->
@@ -92,14 +246,13 @@
             <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>{{ format_uang($total_menu) }}</h3>
+                <h3>{{ format_uang($jumlah_penjualan_report) }}</h3>
 
                 <p>Total Menu Terjual</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a onclick="detailMenuTotal()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> 
             </div>
           </div>
           <!-- /.col -->
@@ -107,14 +260,13 @@
             <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
-                <h3>Rp{{format_uang($total_penjualan)}}</h3>
+                <h3>Rp{{format_uang($total_penjualan_report)}}</h3>
 
                 <p>Total Penjualan</p>
               </div>
               <div class="icon">
                 <i class="ion ion-archive"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- /.col -->
@@ -170,7 +322,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Pengeluaran</span>
-                <span class="info-box-number">Rp{{ format_uang($total_pengeluaran) }}</span>
+                <span class="info-box-number">Rp{{ format_uang($total_pengeluaran_sum) }}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -187,7 +339,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Total Sisa Kas</span>
-                <span class="info-box-number">Rp{{ format_uang($sisa_kas) }}</span>
+                <span class="info-box-number">Rp{{ format_uang($sisa_kas_repot) }}</span>
               </div>
               <!-- /.info-box-content -->
             </div>

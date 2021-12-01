@@ -25,10 +25,15 @@ class TransactionController extends Controller
         $produk = Produk::orderBy('name_product')->get();
         $user = User::orderBy('name')->get();
 
+        $total_penjualan_report = Transaction::where('transaction_status', 'sukses')->sum('bayar');
+        $jumlah_penjualan_report = Transaction::where('transaction_status', 'sukses')->sum('total_item');
+
         return view('pages.admin.transaction.index', [
             'transactions' => $transactions,
             'produk' => $produk,
             'user' => $user,
+            'total_penjualan_report' => $total_penjualan_report,
+            'jumlah_penjualan_report' => $jumlah_penjualan_report,
         ]);
     }
 
@@ -151,7 +156,7 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function detail($id)
     {
         $detail = TransactionDetail::with('produk')->where('transactions_id', $id)->get();
 
@@ -179,6 +184,13 @@ class TransactionController extends Controller
             ->make(true);
     }
 
+    public function show($id)
+    {
+        $transaction = Transaction::find($id);
+
+        return response()->json($transaction);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -199,7 +211,13 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $item = Transaction::findOrFail($id);
+
+        $item->update($data);
+
+         return redirect()->route('transactions.index')
+          ->with('success', 'Data Trasaction berhasil diedit');
     }
 
     /**

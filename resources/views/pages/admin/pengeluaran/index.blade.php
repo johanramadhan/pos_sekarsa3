@@ -28,7 +28,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Pengeluaran</h1>
+            <h1 class="m-0">Pengeluaran <b>Rp{{ format_uang($total_pengeluaran_report) }}</b></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -87,10 +87,12 @@
                         <td class="text-center">Rp{{ format_uang($item->bayar) }}</td>
                         <td class="text-center">
                           @if (($item->status ) === "Success")
-                            <span class="badge badge-success">Success</span>
-                          @else
-                            <span class="badge badge-danger">Pending</span>
-                          @endif                                
+                              <span class="badge badge-success">Success</span>
+                            @elseif (($item->status ) === "Sukses")
+                              <span class="badge badge-success">Sukses</span>
+                            @else
+                              <span class="badge badge-danger">Pending</span>
+                            @endif                                 
                         </td>
                         <td class="text-center">
                           <div class="btn-group">

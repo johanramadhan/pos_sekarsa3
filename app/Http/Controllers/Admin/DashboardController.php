@@ -57,6 +57,14 @@ class DashboardController extends Controller
         $pengeluaranDetail = PengeluaranDetail::whereDate('created_at', $tanggalAkhir)->get();
         $pengeluaranDetailSum = PengeluaranDetail::whereDate('created_at', $tanggalAkhir)->sum('subtotal');
 
+        $total_penjualan_report = Transaction::where('transaction_status', 'sukses')->sum('bayar');
+        $jumlah_penjualan_report = Transaction::where('transaction_status', 'sukses')->sum('total_item');
+
+        $total_pembelian_report = Pembelian::where('status', 'Sukses')->sum('total_harga');
+        $total_pengeluaran_report = Pengeluaran::where('status', 'Sukses')->sum('total_harga');
+        $total_pengeluaran_sum = $total_pembelian_report + $total_pengeluaran_report;
+        $sisa_kas_repot = $total_penjualan_report - $total_pengeluaran_sum;
+
         return view('pages.admin.dashboard', [
             'total_menu'=> $total_menu,
             'total_menu_today'=> $total_menu_today,
@@ -73,6 +81,11 @@ class DashboardController extends Controller
             'pembelianDetailSum' => $pembelianDetailSum,
             'pengeluaranDetail' => $pengeluaranDetail,
             'pengeluaranDetailSum' => $pengeluaranDetailSum,
+            'total_penjualan_report' => $total_penjualan_report,
+            'jumlah_penjualan_report' => $jumlah_penjualan_report,
+            'total_pengeluaran_sum' => $total_pengeluaran_sum,
+            'sisa_kas_repot' => $sisa_kas_repot,
+
         ]);
     }
 

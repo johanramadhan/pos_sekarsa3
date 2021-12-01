@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Pembelian;
 use App\Persediaan;
 use App\PersediaanGallery;
 use Carbon\Carbon;
@@ -37,7 +38,7 @@ class PersediaanController extends Controller
             'categories' => $categories,
             'persediaans' => $persediaans,
             'tanggal' => $tanggal,
-            'code' => $code
+            'code' => $code,
         ]);
     }
 

@@ -99,6 +99,7 @@ Route::prefix('admin')
 
         // Penjualan
         Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transactions.data');
+        Route::get('data-transaction/transaction/{id}/detail', 'TransactionController@detail')->name('transactions.detail');
         Route::get('data-transaction/transactions/selesai', 'TransactionController@selesai')->name('transactions.selesai');
         Route::get('data-transaction/transaction/nota-kecil', 'TransactionController@notaKecil')->name('transactions.nota_kecil');
         Route::get('data-transaction/transaction/nota-besar', 'TransactionController@notaBesar')->name('transactions.nota_besar');

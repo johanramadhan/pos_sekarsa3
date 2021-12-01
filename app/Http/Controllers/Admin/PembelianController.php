@@ -28,6 +28,7 @@ class PembelianController extends Controller
         $user = User::orderBy('name')->get();
         $users = User::all();
         $pembelians = Pembelian::orderBy('tgl_pembelian', 'desc')->get();
+        $total_pembelian_report = Pembelian::where('status', 'Sukses')->sum('total_harga');
 
         return view('pages.admin.pembelian.index', [
             'suppliers' => $suppliers,
@@ -35,6 +36,7 @@ class PembelianController extends Controller
             'user' => $user,
             'users' => $users,
             'pembelians' => $pembelians,
+            'total_pembelian_report' => $total_pembelian_report,
         ]);
     }
 

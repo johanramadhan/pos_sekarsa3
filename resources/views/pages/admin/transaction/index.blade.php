@@ -20,7 +20,7 @@
         <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-            <h1 class="m-0">Transaksi Penjualan</h1>
+            <h1 class="m-0">Transaksi Penjualan <b>{{ format_uang($jumlah_penjualan_report) }} Menu -> Rp{{ format_uang($total_penjualan_report) }}</b></h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -85,6 +85,8 @@
                           <td class="text-center">
                             @if (($item->transaction_status ) === "success")
                               <span class="badge badge-success">Success</span>
+                            @elseif (($item->transaction_status ) === "sukses")
+                              <span class="badge badge-success">Sukses</span>
                             @else
                               <span class="badge badge-danger">Pending</span>
                             @endif                                
@@ -92,11 +94,12 @@
                           <td>{{ $item->keterangan ?? '' }}</td>
                           <td class="text-center">
                             <div class="btn-group">
+                              <button onclick="editForm( '{{ route('transactions.update', $item->id_transaction) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
                               @if (($item->transaction_status) === "pending")
                               @else
                                 <button onclick="print('{{ route('transactions.print', $item->id_transaction) }}')" class="btn btn-xs btn-default btn-flat m-1"><i class="fa fa-print"></i></button>
                               @endif
-                              <button onclick="showDetail( '{{ route('transactions.show', $item->id_transaction) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                              <button onclick="showDetail( '{{ route('transactions.detail', $item->id_transaction) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
                               <button type="submit" id="delete" href="{{ route('transactions.destroy', $item->id_transaction) }}" 
                                 class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
                               <form action="" method="POST" id="deleteForm">
@@ -125,6 +128,8 @@
 
   @includeIf('pages.admin.transaction.product')
   @includeIf('pages.admin.transaction.detail')
+  @includeIf('pages.admin.transaction.form')
+
 
 @endsection
 
@@ -162,6 +167,34 @@
       });
     });
 
+    function showDetail(url) {
+        $('#modal-detail').modal('show');
+
+        table1.ajax.url(url);
+        table1.ajax.reload();
+    }
+
+    function editForm(url) {
+      $('#modal-form').modal('show');
+      $('#modal-form .modal-title').text('Edit Transaction');
+
+      $('#modal-form form')[0].reset();
+      $('#modal-form form').attr('action', url);
+      $('#modal-form [name=_method]').val('put');
+      $('#modal-form [name=keterangan]').focus();
+
+      $.get(url)
+        .done((response) => {
+            $('#modal-form [name=bayar]').val(response.bayar);
+            $('#modal-form [name=transaction_status]').val(response.transaction_status);
+            $('#modal-form [name=keterangan]').val(response.keterangan);
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menampilkan data');
+            return;
+        });
+    }
+
     function print(url, title) {
         popupCenter(url, title, 625, 500);
     }
@@ -190,13 +223,6 @@
     }
 
     
-    function showDetail(url) {
-        $('#modal-detail').modal('show');
-
-        table1.ajax.url(url);
-        table1.ajax.reload();
-    }
-
     function deleteData(url) {
       if (confirm('Yakin ingin menghapus data terpilih?')) {
         $.post(url, {
