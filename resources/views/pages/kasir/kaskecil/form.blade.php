@@ -75,7 +75,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <label>Keterangan</label>
-                          <textarea class="form-control" name="keterangan" id="keterangan" rows="3" placeholder="Keterangan"></textarea>
+                          <textarea class="form-control" name="keterangan" id="keterangan" rows="8" placeholder="Keterangan"></textarea>
                         </div>
                         <!-- /.Keterangan -->
                       </div>

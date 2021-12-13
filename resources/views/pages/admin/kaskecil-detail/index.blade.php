@@ -90,7 +90,21 @@
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Uraian</label>
                         <div class="col-sm-9">
-                          <textarea name="uraian" id="uraian" rows="3" class="form-control" placeholder="Tulis uraian kas kecil" required></textarea>
+                          <select class="form-control select2bs4" name="uraian" id="uraian" style="width: 100%;">
+                            <option>--Pilih Jenis Uang--</option>
+                            <option value="Kertas Rp100.000">Kertas Rp100.000</option>
+                            <option value="Kertas Rp75.000">Kertas Rp75.000</option>
+                            <option value="Kertas Rp50.000">Kertas Rp50.000</option>
+                            <option value="Kertas Rp20.000">Kertas Rp20.000</option>
+                            <option value="Kertas Rp10.000">Kertas Rp10.000</option>
+                            <option value="Kertas Rp5.000">Kertas Rp5.000</option>
+                            <option value="Kertas Rp2.000">Kertas Rp2.000</option>
+                            <option value="Kertas Rp1.000">Kertas Rp1.000</option>
+                            <option value="Koin Rp1.000">Koin Rp1.000</option>
+                            <option value="Koin Rp500">Koin Rp500</option>
+                            <option value="Koin Rp200">Koin Rp200</option>
+                            <option value="Koin Rp100">Koin Rp100</option>
+                          </select>
                         </div>
                       </div>
                     </div>

@@ -8,6 +8,10 @@
 <option value="Unit">Unit</option>
 <option value="Buah">Buah</option>
 <option value="Botol">Botol</option>
+<option value="Dus">Dus</option>
+<option value="Kaleng">Kaleng</option>
+<option value="Tabung">Tabung</option>
+<option value="Roll">Roll</option>
 <option value="Ekor">Ekor</option>
 <option value="Paket">Paket</option>
 <option value="Gros">Gros</option>
@@ -27,3 +31,4 @@
 <option value="Slop">Slop</option>
 <option value="m'">m'</option>
 <option value="Keping">Keping</option>
+<option value="Liter">Liter</option>
