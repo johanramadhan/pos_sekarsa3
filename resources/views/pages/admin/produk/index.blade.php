@@ -61,6 +61,7 @@
                       <tr class="text-center">
                         <th>No</th>
                         <th>Kode Produk</th>
+                        <th>Poin</th>
                         <th>Nama Produk</th>
                         <th>Kategori</th>
                         <th>Diskon</th>
@@ -77,6 +78,7 @@
                         <tr>
                           <td>{{ $loop->iteration }}</td>
                           <td>{{ $item->code }}</td>
+                          <td class="text-center">{{ $item->poin }}</td>
                           <td>{{ $item->name_product }}</td>
                           <td>{{ $item->category->name }}</td>
                           <td class="text-center">{{ format_uang($item->diskon) }}%</td>
@@ -195,7 +197,7 @@
                               @includeIf('pages.satuan')
                             </select>                            
                           </div>
-                          <!-- /.satuan -->     
+                          <!-- /.satuan -->    
                           <div class="form-group">
                             <label>Satuan Berat*</label>
                             <select name="satuan_berat" class="form-control select2" required>
@@ -204,7 +206,17 @@
                               <option value="Gram">Gram</option>
                             </select>                            
                           </div>
-                          <!-- /.satuan berat-->    
+                          <!-- /.satuan berat-->  
+                          <div class="form-group">
+                            <label>Poin</label>
+                            <input
+                              type="number"
+                              name="poin"
+                              class="form-control"
+                              placeholder="Poin"
+                            />
+                          </div>
+                          <!-- /.Poin -->   
                         </div>
                         <div class="col-md-6">    
                           <div class="form-group">
@@ -354,6 +366,7 @@
             $('#modal-form [name=berat]').val(response.berat);
             $('#modal-form [name=total_berat]').val(response.total_berat);
             $('#modal-form [name=satuan_berat]').val(response.satuan_berat);
+            $('#modal-form [name=poin]').val(response.poin);
             $('#modal-form [name=merk]').val(response.merk);
             $('#modal-form [name=stok]').val(response.stok);
             $('#modal-form [name=diskon]').val(response.diskon);

@@ -66,10 +66,12 @@ class TransactionDetailController extends Controller
         $data = array();
         $total = 0;
         $total_item = 0;
+        $total_poin = 0;
 
         foreach($detail as $item) {
             $row = array();
             $row['code_product'] = $item->produk['code'];
+            $row['poin'] = $item->produk['poin'];
             $row['name_product'] = $item ->produk['name_product'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_transaction_detail .'" value="'. $item->jumlah .'">';
             $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
@@ -82,12 +84,15 @@ class TransactionDetailController extends Controller
             $total += ($item->harga_jual - ($item->harga_jual * $item->diskon / 100)) * $item->jumlah;
 
             $total_item += $item->jumlah;
+            $total_poin += $item->produk->poin;
         }
         $data[] = [
             'code_product' => '
-                <div class="total d-none">'. $total .'</div>
-                <div class="total_item d-none">'. $total_item .'</div>',
+                <div class="total ">'. $total .'</div>
+                <div class="total_item ">'. $total_item .'</div>
+                <div class="total_poin ">'. $total_poin .'</div>',
             'name_product' => '',
+            'poin' => '',
             'jumlah'      => '',
             'harga_jual'  => '',
             'diskon'      => '',

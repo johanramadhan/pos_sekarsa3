@@ -21,7 +21,7 @@
         padding: 10px;
         background: #f0f0f0;
     }
-    .table-penjualan tbody tr:last-child {
+    .table-penjualan1  tbody tr:last-child {
         display: none;
     }
   </style>
@@ -83,17 +83,6 @@
                         <label class="col-sm-3 col-form-label">Kasir</label>
                         <div class="col-sm-9">
                           <input type="text" class="form-control" value="{{ Auth::user()->name }}" placeholder="Kasir" readonly>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Layanan</label>
-                        <div class="col-sm-9">
-                          <select class="form-control select2bs4">
-                            <option>Produk</option>
-                            <option>Coffee</option>
-                            <option>Non Coffee</option>
-                            <option>Cemilan</option>
-                          </select>
                         </div>
                       </div>
                     </div>
@@ -162,6 +151,7 @@
                       <tr>
                         <th class="text-center">No</th>
                         <th class="text-center">Kode Produk</th>
+                        <th class="text-center">Poin</th>
                         <th class="text-center">Nama Item</th>
                         <th class="text-center" width="15%">jumlah</th>
                         <th class="text-center">Harga</th>
@@ -180,10 +170,10 @@
             <form action="{{ route('transactions.store') }}" class="form-penjualan" method="post">
               @csrf
               <input type="hidden" name="transactions_id" value="{{ $transactions_id }}" readonly>
-              <input type="hidden" name="total" id="total" readonly>
-              <input type="hidden" name="total_item" id="total_item" readonly>
-              <input type="hidden" name="bayar" id="bayar" readonly>
-              <input type="hidden" name="id_member" id="id_member" readonly>
+              <input type="text" name="total" id="total" readonly>
+              <input type="text" name="total_item" id="total_item" readonly>
+              <input type="text" name="bayar" id="bayar" readonly>
+              <input type="text" name="id_member" id="id_member" readonly>
 
               <div class="card">
                 <div class="card-body">
@@ -218,6 +208,13 @@
                         <input type="text" id="bayarrp" class="form-control" required readonly>
                     </div>
                   </div>
+                  {{-- Poin --}}
+                  <div class="form-group row">
+                    <label for="poin_member" class="col-lg-3 control-label">Poin Bertambah</label>
+                    <div class="col-lg-9">
+                        <input type="number" name="total_poin" id="total_poin" class="form-control" required readonly>
+                    </div>
+                  </div>
                   {{-- Diterima --}}
                   <div class="form-group row">
                     <label for="diterima" class="col-lg-3 control-label">Diterima</label>
@@ -236,7 +233,7 @@
                   <div class="form-group row">
                     <label for="customer name" class="col-lg-3 control-label">Nama Customer</label>
                     <div class="col-lg-9">
-                        <input type="text" name="customer_name" class="form-control">
+                        <input type="text" name="customer_name" id="nama_member" class="form-control">
                     </div>
                   </div>
                   {{-- Keterangan --}}
@@ -324,6 +321,7 @@
         columns: [
           {class: 'text-center', data: 'DT_RowIndex', searchable:false, sortable:false},
           {class: 'text-center', data: 'code_product'},
+          {class: 'text-center', data: 'poin'},
           {class: 'text-center', data: 'name_product'},
           {class: 'text-center', data: 'jumlah'},
           {class: 'text-center', data: 'harga_jual'},
@@ -431,9 +429,10 @@
         $('#modal-member').modal('show');
     }
 
-    function pilihMember(id, code_member) {
+    function pilihMember(id, code_member, nama_member) {
         $('#id_member').val(id);
         $('#code_member').val(code_member);
+        $('#nama_member').val(nama_member);
          $('#diskon').val('{{ $diskon2 }}');
         loadForm($('#diskon').val());
         $('#diterima').val(0).focus().select();
@@ -458,12 +457,14 @@
     function loadForm(diskon = 0, diterima = 0) {
         $('#total').val($('.total').text());
         $('#total_item').val($('.total_item').text());
+        $('#total_poin').val($('.total_poin').text());
 
         $.get(`{{ url('admin/data-transaction/transaction-detail/loadform') }}/${diskon}/${$('.total').text()}/${diterima}`)
             .done(response => {
                 $('#totalrp').val('Rp'+ response.totalrp);
                 $('#bayarrp').val('Rp'+ response.bayarrp);
                 $('#bayar').val(response.bayar);
+                $('#poin').val(response.poin);
                 $('.tampil-bayar').text('Bayar: Rp. '+ response.bayarrp);
                 $('.tampil-terbilang').text(response.terbilang);
 

@@ -79,7 +79,18 @@
                             <option value="Gram">Gram</option>
                           </select>                            
                         </div>
-                        <!-- /.satuan berat-->    
+                        <!-- /.satuan berat--> 
+                        <div class="form-group">
+                          <label>Poin</label>
+                          <input
+                            type="number"
+                            name="poin"
+                            id="poin"
+                            class="form-control"
+                            placeholder="Masukkan Poin"
+                          />
+                        </div>
+                        <!-- /.Diskon -->    
                       </div>
                       <div class="col-md-6">    
                         <div class="form-group">

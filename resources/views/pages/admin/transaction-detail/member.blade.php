@@ -12,6 +12,7 @@
                 <thead>
                     <th class="text-center" width="5%">No</th>
                     <th class="text-center">Kode</th>
+                    <th class="text-center">Poin</th>
                     <th class="text-center">Nama</th>
                     <th class="text-center">Email</th>
                     <th class="text-center">Gender</th>
@@ -25,6 +26,7 @@
                     <tr>
                       <td class="text-center" width="5%">{{ $loop->iteration }}</td>
                       <td class="text-center"><span class="badge badge-success">{{ $item->code }}</span></td>
+                      <td>{{ $item->poin }}</td>
                       <td>{{ $item->name }}</td>
                       <td>{{ $item->email }}</td>
                       <td class="text-center">
@@ -38,7 +40,7 @@
                       <td>{{ $item->address }}</td>
                       <td>{{ $item->description }}</td>
                       <td>
-                        <a href="#" class="modal-pilih-member btn btn-primary btn-xs" onclick="pilihMember('{{ $item->id }}', '{{ $item->code }}')" data-dismiss="modal">
+                        <a href="#" class="modal-pilih-member btn btn-primary btn-xs" onclick="pilihMember('{{ $item->id }}', '{{ $item->code }}', '{{ $item->name }}')" data-dismiss="modal">
                           <i class="fa fa-check-circle"></i>
                           Pilih
                         </a>
