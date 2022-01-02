@@ -69,6 +69,7 @@ Route::prefix('admin')
 
         // Pengeluaran-Detail
         Route::get('data-transaction/pengeluaran_detail/{id}/data', 'PengeluaranDetailController@data')->name('pengeluaran_detail.data');
+        Route::get('data-transaction/keluaran/detail', 'PengeluaranDetailController@pengeluaranAll')->name('pengeluaran.pengeluaranAll');
         Route::get('data-transaction/pengeluaran_detail/loadform/{diskon}/{total}', 'PengeluaranDetailController@loadForm')->name('pengeluaran_detail.load_form');
         Route::resource('data-transaction/pengeluaran_detail', 'PengeluaranDetailController');
 

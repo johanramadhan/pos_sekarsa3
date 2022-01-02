@@ -112,6 +112,10 @@
                 <i class="far fa-circle nav-icon"></i>
                 <p>+ Pengeluaran</p>
               </a>
+              <a href="{{ route('pengeluaran.pengeluaranAll') }}" class="nav-link {{ (request()->is('admin/data-transaction/keluaran/detail')) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>+ Detail Pengeluaran</p>
+              </a>
               <a href="{{ route('pembelian.index') }}" class="nav-link {{ (request()->is('admin/data-transaction/pembelian*')) ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p>+ Persediaan</p>

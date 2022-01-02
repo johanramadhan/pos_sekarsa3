@@ -6,6 +6,7 @@ use App\Customer;
 use App\Http\Controllers\Controller;
 use App\Pengeluaran;
 use App\PengeluaranDetail;
+use App\Persediaan;
 use App\Produk;
 use App\User;
 use Carbon\Carbon;
@@ -120,7 +121,9 @@ class PengeluaranDetailController extends Controller
      */
     public function show($id)
     {
-        //
+        $pengeluaranDetail = PengeluaranDetail::find($id);
+
+        return response()->json($pengeluaranDetail);
     }
 
     /**
@@ -129,9 +132,15 @@ class PengeluaranDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $item = PengeluaranDetail::findOrFail($id);
+
+        $item->update($data);
+
+         return redirect()->route('pengeluaran_detail.index')
+          ->with('success', 'Data pengeluaran detail berhasil diedit');
     }
 
     /**
@@ -143,10 +152,12 @@ class PengeluaranDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $data = $request->all();
         $detail = PengeluaranDetail::find($id);
         $detail->jumlah = $request->jumlah;
         $detail->subtotal = $detail->harga_beli * $request->jumlah;
         $detail->update();
+        $detail->update($data);
     }
 
     /**
@@ -174,5 +185,16 @@ class PengeluaranDetailController extends Controller
         ];
 
         return response()->json($data);
+    }
+
+    public function pengeluaranAll()
+    {
+        $pengeluaranAll = PengeluaranDetail::orderBy('id_pengeluaran', 'desc')->get(); 
+        $pengeluarans = Pengeluaran::orderBy('id_pengeluaran', 'desc')->get(); 
+        
+        return view('pages.admin.pengeluaran-detail.pengeluaranAll', [
+            'pengeluaranAll' => $pengeluaranAll,
+            'pengeluarans' => $pengeluarans,
+        ]);
     }
 }

@@ -92,8 +92,6 @@
                         <th>Tanggal</th>
                         <th>Menu</th>
                         <th>Penjualan</th>
-                        <th>Pembelian</th>
-                        <th>Pengeluaran</th>
                         <th>Pendapatan</th>
                       </tr>
                     </thead>
@@ -185,8 +183,6 @@
             {data: 'tanggal'},
             {data: 'menu'},
             {data: 'penjualan'},
-            {data: 'pembelian'},
-            {data: 'pengeluaran'},
             {data: 'pendapatan'}
         ],
       });

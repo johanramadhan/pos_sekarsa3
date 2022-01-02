@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-    Transaksi Pembelian
+    Transaksi Pengeluaran
 @endsection
 
 @push('addon-style')
