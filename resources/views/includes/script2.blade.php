@@ -1,0 +1,1 @@
+<script src="/vendor/jquery/app.js"></script>
