@@ -92,7 +92,6 @@
                         <th>Tanggal</th>
                         <th>Menu</th>
                         <th>Penjualan</th>
-                        <th>Pendapatan</th>
                       </tr>
                     </thead>
                   </table>  
@@ -183,7 +182,6 @@
             {data: 'tanggal'},
             {data: 'menu'},
             {data: 'penjualan'},
-            {data: 'pendapatan'}
         ],
       });
 

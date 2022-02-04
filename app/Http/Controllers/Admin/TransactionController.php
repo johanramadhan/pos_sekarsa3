@@ -315,12 +315,22 @@ class TransactionController extends Controller
         ]);
     }
 
-    public function transactionAll()
+    public function transactionAll(Request $request)
     {
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != "" && $request->has('tanggal_akhir') && $request->tanggal_akhir) {
+            $tanggalAwal = $request->tanggal_awal;
+            $tanggalAkhir = $request->tanggal_akhir;
+        }
+
         $transactionAll = TransactionDetail::orderBy('id_transaction_detail', 'desc')->get(); 
         
         return view('pages.admin.transaction.transactionAll', [
             'transactionAll' => $transactionAll,
+            'tanggalAwal' => $tanggalAwal,
+            'tanggalAkhir' => $tanggalAkhir
         ]);
     }
 
@@ -372,6 +382,75 @@ class TransactionController extends Controller
             ->of($data)
             ->addIndexColumn()
             ->rawColumns(['code', 'code_produk'])
+            ->make(true);
+    }
+
+    public function searchByDate(Request $request)
+    {
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != "" && $request->has('tanggal_akhir') && $request->tanggal_akhir) {
+            $tanggalAwal = $request->tanggal_awal;
+            $tanggalAkhir = $request->tanggal_akhir;
+        }
+
+        $transactionAll = TransactionDetail::where('created_at', '>=', $request->tanggal_awal)->where('created_at', '<=', $request->tanggal_akhir)->get(); 
+        
+        return view('pages.admin.transaction.transactionAll', [
+            'transactionAll' => $transactionAll,
+            'tanggalAwal' => $tanggalAwal,
+            'tanggalAkhir' => $tanggalAkhir
+        ]);
+    }
+
+    public function getData($awal, $akhir)
+    {
+        $no = 1;
+        $data = array();
+        $menu = 0;
+        $modal = 0;
+        $penjualan = 0;
+        $profit = 0;
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1 day", strtotime($awal)));
+
+            $total_menu = TransactionDetail::where('created_at', 'LIKE', "%$tanggal%")->sum('jumlah');
+            $total_penjualan = TransactionDetail::where('created_at', 'LIKE', "%$tanggal%")->sum('subtotal');
+
+            $menu += $total_menu;
+            $penjualan += $total_penjualan;
+
+            $pendapatan = $total_penjualan;
+
+            $transactionAll = TransactionDetail::orderBy('id_transaction_detail', 'desc')
+            ->get();
+
+            $row = array();
+            $row['DT_RowIndex'] = $no++;
+            $row['tanggal'] = tanggal_indonesia($tanggal, false);
+            $row['code_produk'] = $transactionAll->produk['code'];
+
+            $data[] = $row;
+        }
+
+        $data[] = [
+            'DT_RowIndex' => '',
+            'tanggal' => 'Total',
+            'code_produk' => '',
+        ];
+
+        return $data;
+    }
+
+    public function dataPenjualan($awal, $akhir)
+    {
+        $data = $this->getData($awal, $akhir);
+
+        return datatables()
+            ->of($data)
             ->make(true);
     }
 }

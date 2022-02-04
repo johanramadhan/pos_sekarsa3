@@ -16,12 +16,12 @@ $(function () {
   var salesChart = new Chart($salesChart, {
     type: 'bar',
     data: {
-      labels: ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      labels: {{ json_encode($data_tanggal) }},
       datasets: [
         {
           backgroundColor: '#007bff',
           borderColor: '#007bff',
-          data: [1000, 2000, 3000, 2500, 2700, 2500, 3000]
+          data: {{ json_encode($data_penjualan) }}
         },
         {
           backgroundColor: '#ced4da',

@@ -8,9 +8,15 @@
   <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+  <!-- Tempusdominus Bbootstrap 4 -->
+  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
   <!-- Select2 -->
   <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -20,7 +26,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Transaksi Penjualan</h1>
+            <h1 class="m-0">Laporan Penjualan {{ tanggal_indonesia($tanggalAwal, false) }} s/d {{ tanggal_indonesia($tanggalAkhir, false) }}</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -42,12 +48,7 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-penjualan-detail table-bordered table-striped">
-                    <a href="{{ route('transactions.create') }}" class="btn btn-primary mb-2">
-                      + Transaksi Penjualan
-                    </a>
-                    @empty(! session('id_transaction'))
-                    <a href="{{ route('transaction-details.index') }}" class="btn btn-danger mb-2 ml-2"> Transaksi Aktif</a>
-                    @endempty
+                    <button onclick="addForm()" class="btn btn-primary mb-2 ml-2">Update Tanggal</i></button>
                     <thead>
                       <tr class="text-center">
                         <th>No</th>
@@ -63,7 +64,7 @@
                         <th>Keuntungan</th>
                       </tr>
                     </thead>
-                    {{-- <tbody>
+                    <tbody>
                       @forelse ($transactionAll as $item)
                         <tr>
                           <td class="text-center">{{ $loop->iteration }}</td>
@@ -94,7 +95,7 @@
                       @empty
                           Tidak ada data
                       @endforelse
-                    </tbody> --}}
+                    </tbody>
                   </table>
                 </div>
               </div>
@@ -105,6 +106,8 @@
     </div>
     <!-- /.content -->
   </div>
+
+  @includeIf('pages.admin.transaction.date') 
 
 @endsection
 
@@ -117,12 +120,19 @@
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <!-- Select2 -->
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+<!-- InputMask -->
+<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+<script src="{{ asset('plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
+<!-- date-range-picker -->
+<script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
 <script>
   let table, table1;
 
   $(function () {
-      table = $('.table-penjualan-detail').DataTable({
+      table = $('.table-penjualan-detail1').DataTable({
         processing: true,
         autoWidth: false,  
         bSort: true,
@@ -144,7 +154,23 @@
             {data: 'keuntungan'},
         ]
       });
+
+       //Date range picker
+       $('#reservationdate').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
+      });
+      //Date range picker
+      $('#reservationdate2').datetimepicker({
+          format: 'YYYY-MM-DD',
+          autoclose: true
+      });
+
     });
+
+    function addForm() {
+        $('#modal-laporan').modal('show');
+    }
 </script>
 
 @endpush

@@ -32,3 +32,6 @@
 <option value="m'">m'</option>
 <option value="Keping">Keping</option>
 <option value="Liter">Liter</option>
+<option value="Bulan">Bulan</option>
+<option value="OB">OB</option>
+<option value="Orang">Orang</option>

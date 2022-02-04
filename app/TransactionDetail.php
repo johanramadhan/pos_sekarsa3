@@ -8,7 +8,7 @@ class TransactionDetail extends Model
 {
     protected $primaryKey = 'id_transaction_detail';
     protected $fillable = [
-        'code', 'transactions_id', 'products_id', 'harga_jual', 'jumlah', 'diskon', 'subtotal', 'shipping_status', 'resi'
+        'code', 'transactions_id', 'products_id', 'harga_jual', 'jumlah', 'diskon', 'subtotal', 'poin', 'shipping_status', 'resi'
     ];
 
     public function produk()

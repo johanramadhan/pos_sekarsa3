@@ -42,6 +42,7 @@
             </p>
           </a>
         </li>
+        
         <li class="nav-item">
           <a href="{{ route('category.index') }}" class="nav-link {{ (request()->is('admin/category*')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-tasks"></i>

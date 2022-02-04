@@ -20,6 +20,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $tanggalAwal = date('Y-m-01');
         $tanggalAkhir = date('Y-m-d');
 
         $total_menu = TransactionDetail::sum('jumlah');
@@ -65,6 +66,23 @@ class DashboardController extends Controller
         $total_pengeluaran_sum = $total_pembelian_report + $total_pengeluaran_report;
         $sisa_kas_repot = $total_penjualan_report - $total_pengeluaran_sum;
 
+        $data_tanggal = array();
+        $data_penjualan = array();
+
+        while (strtotime($tanggalAwal) <= strtotime($tanggalAkhir)) {
+            $data_tanggal[] = (int) substr($tanggalAwal, 8, 2);
+
+            $total_menu = TransactionDetail::where('created_at', 'LIKE', "%$tanggalAwal%")->sum('jumlah');
+            $total_penjualan = Transaction::where('created_at', 'LIKE', "%$tanggalAwal%")->sum('bayar');
+            $total_pembelian = Pembelian::where('tgl_pembelian', 'LIKE', "%$tanggalAwal%")->sum('bayar');
+            $total_pengeluaran = Pengeluaran::where('tgl_pengeluaran', 'LIKE', "%$tanggalAwal%")->sum('total_harga');
+
+            $pendapatan = $total_penjualan - $total_pembelian - $total_pengeluaran;
+            $data_penjualan[] += $pendapatan;
+
+            $tanggalAwal = date('Y-m-d', strtotime("+1 day", strtotime($tanggalAwal)));
+        }
+
         return view('pages.admin.dashboard', [
             'total_menu'=> $total_menu,
             'total_menu_today'=> $total_menu_today,
@@ -76,6 +94,7 @@ class DashboardController extends Controller
             'sisa_kas_today'=> $sisa_kas_today,
             'menu_terjual_today'=> $menu_terjual_today,
             'menu_terjual'=> $menu_terjual,
+            'tanggalAwal' => $tanggalAwal,
             'tanggalAkhir' => $tanggalAkhir,
             'pembelianDetail' => $pembelianDetail,
             'pembelianDetailSum' => $pembelianDetailSum,
@@ -85,6 +104,8 @@ class DashboardController extends Controller
             'jumlah_penjualan_report' => $jumlah_penjualan_report,
             'total_pengeluaran_sum' => $total_pengeluaran_sum,
             'sisa_kas_repot' => $sisa_kas_repot,
+            'data_tanggal' => $data_tanggal,
+            'data_penjualan' => $data_penjualan,
 
         ]);
     }

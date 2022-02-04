@@ -5,143 +5,103 @@
 @endsection
 
 @section('content')
-  <div class="page-content page-home">
-    <!-- Carousel -->
-    <section class="damkar-carousel">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12" data-aos="zoom-in">
-            <div
-              id="damkarCarousel"
-              class="carousel slide"
-              data-ride="carousel"
-            >
-              <ol class="carousel-indicators">
-                <li
-                  class="active"
-                  data-target="#damkarCarousel"
-                  data-slide-to="0"
-                ></li>
-                <li data-target="#damkarCarousel" data-slide-to="1"></li>
-                <li data-target="#damkarCarousel" data-slide-to="2"></li>
-              </ol>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img
-                    src="/images/banner2.jpg"
-                    alt="Carousel Image"
-                    class="d-block w-100"
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="/images/banner2.jpg"
-                    alt="Carousel Image"
-                    class="d-block w-100"
-                  />
-                </div>
-                <div class="carousel-item">
-                  <img
-                    src="/images/banner2.jpg"
-                    alt="Carousel Image"
-                    class="d-block w-100"
-                  />
-                </div>
-              </div>
+  <div class="container">
+    <div class="forms-container">
+      <div class="signin-signup">
+        @guest
+          <form method="POST" action="{{ route('login') }}" class="sign-in-form">
+            @csrf
+            <h2 class="title">Sign In</h2>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input id="email" type="email" class="form-control w-75 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+              @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Akhir Carousel -->
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input id="password" type="password" class="form-control w-75 @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
-    <!-- Categories -->
-    <section class="damkar-trend-categories">
-      <div class="container">
-        <div class="row">
-          <div class="col-12" data-aos="fade-up">
-            <h5>Kategori</h5>
-          </div>
-        </div>
-        <div class="row">
-          @php $incrementCategory = 0 @endphp
-          @forelse ($categories as $category)
-              <div
-                class="col-6 col-md-3 col-lg-2"
-                data-aos="fade-up"
-                data-aos-delay="{{ $incrementCategory+= 100 }}">
-                <a href="{{ route('categories-detail', $category->slug) }}" class="component-categories d-block">
-                  <div class="categories-image">
-                    <img 
-                    src="{{ Storage::url($category->photo) }}" 
-                    alt="" 
-                    class="w-100 {{ $incrementCategory+= 100 }}" />
-                  </div>
-                  <p class="categories-text">
-                    {{ $category->name }}
-                  </p>
-                </a>
-              </div>
-            @empty
-              <div class="col-12 text-center py-5" 
-                   data-aos="fade-up"
-                   data-aos-delay="{{ $incrementCategory+= 100 }}">
-                    Tidak ada Kategori
-              </div>
-          @endforelse
-          
-        </div>
-      </div>
-    </section>
-    <!-- Akhir Categories -->
+              @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
+            </div>
+            <input type="submit" value="Login" class="btn solid" />            
+            {{-- <p class="social-text">Or Sign in with social platforms</p>
+            <div class="social-media">
+              <a href="#" class="social-icon">
+                  <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-icon">
+                  <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="social-icon">
+                  <i class="fab fa-google"></i>
+              </a>
+              <a href="#" class="social-icon">
+                  <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div> --}}
+          </form>
+        @endguest
 
-    <!-- Products -->
-    <section class="damkar-new-products">
-      <div class="container">
-        <div class="row">
-          <div class="col-12" data-aos="fade-up">
-            <h5>Sarana dan Prasarana</h5>
-          </div>
-        </div>
-        <div class="row">
-          @php $incrementProduct = 0 @endphp
-          @forelse ($products as $product)
-              <div
-                class="col-6 col-md-4 col-lg-3"
-                data-aos="fade-up"
-                data-aos-delay="{{ $incrementProduct+= 100 }}"
-              >
-                <a href="#" class="component-products d-block">
-                  <div class="products-thumbnail">
-                    <div
-                      class="products-image"
-                      style="
-                        @if($product->galleries->count())
-                          background-image: url('{{ Storage::url($product->galleries->first()->photos) }}')
-                        @else
-                          background-color: #eee
-                        @endif
-                      "
-                    ></div>
-                  </div>
-                  <div class="products-text">
-                    {{ $product->name }}
-                  </div>
-                  <div class="products-price">
-                    {{ $product->kondisi }}
-                  </div>
-                </a>
-              </div>
-            @empty
-              <div class="col-12 text-center py-5" 
-                   data-aos="fade-up"
-                   data-aos-delay="{{ $incrementProduct+= 100 }}">
-                Tidak ada Gambar
-              </div>
-          @endforelse
-        </div>
+        @auth
+          <form class="sign-in-form">
+            <h2 class="title">Hai, {{ Auth::user()->name }}</h2>
+            <h2 class="title">You Are Login Now!</h2>
+            @if ((Auth::user()->roles) === "KASIR")
+              <a href="{{ route('dashboard-kasir') }}" class="btn solid">
+                Dashboard
+              </a>
+            @elseif((Auth::user()->roles) === "ADMIN")
+              <a href="{{ route('dashboard-admin') }}" class="btn solid">
+                Dashboard
+              </a>
+            @endif
+          </form>
+        @endauth
       </div>
-    </section>
-    <!-- Akhir Products -->
+    </div>
+    <div class="panels-container">
+      <div class="panel left-panel">
+        <div class="content">
+          <h3>SEKARSA</h3>
+          <p>
+            Berkehendaklah hari ini, semoga orderan banyak
+          </p>
+        </div>
+        <img src="{{ url('/images/1.svg') }}" class="image" alt="" />
+      </div>
+      <div class="panel right-panel">
+        <div class="content">
+          <h3>One of us ?</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
+            laboriosam ad deleniti.
+          </p>
+          <button href="{{ route('logout') }}"
+           onclick="event.preventDefault();
+           document.getElementById('logout-form').submit();"
+            class="btn transparent">
+            <p>
+              Logout
+            </p>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+          </button>
+          <button class="btn transparent" id="sign-in-btn">
+            Back >
+          </button>
+        </div>
+        <img src="{{ url('/images/2.svg') }}" class="image" alt="" />
+      </div>
+    </div>
   </div>
+ 
 @endsection

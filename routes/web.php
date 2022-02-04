@@ -105,7 +105,10 @@ Route::prefix('admin')
         Route::get('data-transaction/transaction/nota-kecil', 'TransactionController@notaKecil')->name('transactions.nota_kecil');
         Route::get('data-transaction/transaction/nota-besar', 'TransactionController@notaBesar')->name('transactions.nota_besar');
         Route::get('data-transaction/transaction/print/{id}', 'TransactionController@print')->name('transactions.print');
+
         Route::get('data-transaction/transaction/transactionAll', 'TransactionController@transactionAll')->name('transactions.transactionAll');
+        Route::post('data-transaction/transaction/transactionAllDetail', 'TransactionController@searchByDate')->name('transactions.searchByDate');
+
         Route::get('data-transaction/transaction/transactionAll/dataDetail', 'TransactionController@dataDetail')->name('transactions.transactionAllDetail');
         Route::resource('data-transaction/transactions', 'TransactionController');
 
@@ -149,6 +152,7 @@ Route::prefix('kasir')
         Route::get('kaskecil/{id}/detail', 'KaskecilController@detail')->name('kaskecil.detail');
         Route::get('kaskecil/print/{id}', 'KaskecilController@print')->name('kaskecil.print');
         Route::resource('kaskecilkasir', 'KaskecilController');
+        Route::resource('memberkasir', 'MemberController');
 
         // Penjualan
         Route::get('data-transaction/transaction/data', 'TransactionController@data')->name('transaction.data');
@@ -160,7 +164,7 @@ Route::prefix('kasir')
 
         // Penjualan-detail
         Route::get('data-transaction/transaction-detail/{id}/data', 'TransactionDetailController@data')->name('transaction_detail.data');
-        Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}/{diterima}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
+        Route::get('data-transaction/transaction-detail/loadform/{diskon}/{total}/{diterima}/{totalpoin}', 'TransactionDetailController@loadForm')->name('transaction_detail.load_form');
         Route::resource('data-transaction/transaction-detail', 'TransactionDetailController');
 
     });

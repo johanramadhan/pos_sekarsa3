@@ -129,6 +129,7 @@ class TransactionDetailController extends Controller
                 
         $data = $request->all();
         $data['subtotal'] = ($produk->harga_jual - ($produk->harga_jual * $produk->diskon / 100)) * $request->jumlah;
+        $data['poin'] = ($produk->poin * $request->jumlah);
 
         TransactionDetail::create($data);
 
@@ -172,6 +173,7 @@ class TransactionDetailController extends Controller
         $detail = TransactionDetail::find($id);
         $detail->jumlah = $request->jumlah;
         $detail->subtotal = ($detail->harga_jual - ($detail->harga_jual * $detail->diskon / 100)) * $request->jumlah;
+        $detail->poin =  $request->poin * $request->jumlah;
         $detail->update();
     }
 

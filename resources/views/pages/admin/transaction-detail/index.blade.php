@@ -110,6 +110,7 @@
                         <label class="col-sm-3 col-form-label">Diskon</label>
                         <div class="col-sm-9">
                           <input type="number" class="form-control" name="diskon" id="diskon_product" placeholder="diskon" readonly>
+                          <input type="number" class="form-control" name="poin" id="poin" placeholder="poin" readonly>
                         </div>
                       </div>
                     </div>
@@ -155,7 +156,7 @@
                         <th class="text-center">Nama Item</th>
                         <th class="text-center" width="15%">jumlah</th>
                         <th class="text-center">Harga</th>
-                        <th class="text-center" >Discont / Item</th>
+                        <th class="text-center">Discont / Item</th>
                         <th class="text-center">Total</th>
                         <th class="text-center">Aksi</th>
                       </tr>
@@ -333,8 +334,8 @@
       .on('draw.dt', function () {
           loadForm($('#diskon').val());
           setTimeout(() => {
-                $('#diterima').trigger('input');
-            }, 300);
+              $('#diterima').trigger('input');
+          }, 300);
       });
         
 
@@ -362,7 +363,7 @@
                 })
                 .done(response => {
                     $(this).on('mouseout', function () {
-                        table.ajax.reload(() => loadForm($('#diskon').val()));
+                      table.ajax.reload(() => loadForm($('#diskon').val()));
                     });
                 })
                 .fail(errors => {
@@ -382,14 +383,13 @@
             if ($(this).val() == "") {
                 $(this).val(0).select();
             }
-
             loadForm($('#diskon').val(), $(this).val());
       }).focus(function () {
           $(this).select();
       });
 
       $('.btn-simpan').on('click', function () {
-            $('.form-penjualan').submit();
+          $('.form-penjualan').submit();
       });
 
       $('#modal-form').validator().on('submit', function (e) {
@@ -415,12 +415,13 @@
         $('#modal-produk').modal('hide');
     }
 
-    function pilihProduk(id, code, name_product, harga_jual, diskon) {
+    function pilihProduk(id, code, name_product, harga_jual, diskon, poin) {
         $('#id_produk').val(id);
         $('#code').val(code);
         $('#name_product').val(name_product);
         $('#harga_jual').val(harga_jual);
         $('#diskon_product').val(diskon);
+        $('#poin').val(poin);
         $('#qty').val(1);
         hideProduk();
     }
@@ -433,7 +434,7 @@
         $('#id_member').val(id);
         $('#code_member').val(code_member);
         $('#nama_member').val(nama_member);
-         $('#diskon').val('{{ $diskon2 }}');
+        $('#diskon').val('{{ $diskon2 }}');
         loadForm($('#diskon').val());
         $('#diterima').val(0).focus().select();
     }

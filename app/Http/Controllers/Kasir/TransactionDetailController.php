@@ -64,14 +64,16 @@ class TransactionDetailController extends Controller
         $data = array();
         $total = 0;
         $total_item = 0;
+        $totalpoin = 0;
 
         foreach($detail as $item) {
             $row = array();
             $row['code_product'] = $item->produk['code'];
-            $row['name_product'] = $item ->produk['name_product'];
+            $row['name_product'] = $item->produk['name_product'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_transaction_detail .'" value="'. $item->jumlah .'">';
             $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
             $row['diskon'] = $item ->produk['diskon'].'%';
+            $row['poin'] = $item->poin;
             $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
             $row['aksi'] = '<button onclick="deleteData(`'. route('transaction-detail.destroy', $item->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
 
@@ -80,15 +82,18 @@ class TransactionDetailController extends Controller
             $total += ($item->harga_jual - ($item->harga_jual * $item->diskon / 100)) * $item->jumlah;
 
             $total_item += $item->jumlah;
+            $totalpoin += $item->poin;
         }
         $data[] = [
             'code_product' => '
-                <div class="total d-none">'. $total .'</div>
-                <div class="total_item d-none">'. $total_item .'</div>',
+                <div class="total">'. $total .'</div>
+                <div class="total_item">'. $total_item .'</div>
+                <div class="totalpoin">'. $totalpoin .'</div>',
             'name_product' => '',
             'jumlah'      => '',
             'harga_jual'  => '',
             'diskon'      => '',
+            'poin'      => '',
             'subtotal'    => '',
             'aksi'        => '',
         ];
@@ -122,6 +127,8 @@ class TransactionDetailController extends Controller
                 
         $data = $request->all();
         $data['subtotal'] = ($produk->harga_jual - ($produk->harga_jual * $produk->diskon / 100)) * $request->jumlah;
+        $data['poin'] = $produk->poin * $request->jumlah;
+        $data['resi'] = $produk->poin;
 
         TransactionDetail::create($data);
 
@@ -165,6 +172,7 @@ class TransactionDetailController extends Controller
         $detail = TransactionDetail::find($id);
         $detail->jumlah = $request->jumlah;
         $detail->subtotal = ($detail->harga_jual - ($detail->harga_jual * $detail->diskon / 100)) * $request->jumlah;
+        $detail->poin = $detail->resi * $request->jumlah;
         $detail->update();
     }
 
@@ -182,12 +190,13 @@ class TransactionDetailController extends Controller
         return response(null, 204);
     }
 
-    public function loadForm($diskon, $total, $diterima)
+    public function loadForm($diskon, $total, $diterima, $totalpoin)
     {
         $bayar = $total - ($diskon / 100 * $total);
         $kembali = ($diterima != 0) ? $diterima - $bayar : 0;
         $data  = [
             'totalrp' => format_uang($total),
+            'totalpoin' => format_uang($totalpoin),
             'bayar' => $bayar,
             'bayarrp' => format_uang($bayar),
             'terbilang' => ucwords(terbilang($bayar). ' Rupiah'),

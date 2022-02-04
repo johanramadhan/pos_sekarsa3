@@ -137,7 +137,7 @@ class LaporanController extends Controller
             $row['penjualan'] = format_uang($total_penjualan);
             // $row['pembelian'] = format_uang($total_pembelian);
             // $row['pengeluaran'] = format_uang($total_pengeluaran);
-            $row['pendapatan'] = format_uang($pendapatan);
+            // $row['pendapatan'] = format_uang($pendapatan);
 
             $data[] = $row;
         }
@@ -149,7 +149,7 @@ class LaporanController extends Controller
             'penjualan' => 'Rp'.format_uang($penjualan),
             // 'pembelian' => 'Rp'.format_uang($pembelian),
             // 'pengeluaran' => 'Rp'.format_uang($pengeluaran),
-            'pendapatan' => 'Rp'.format_uang($total_pendapatan),
+            // 'pendapatan' => 'Rp'.format_uang($total_pendapatan),
         ];
 
         return $data;
