@@ -82,7 +82,7 @@
                 @if (($item->diskon) === 0)
                     <td>{{ $item->jumlah }} x {{ format_uang($item->harga_jual) }}</td>
                 @else                    
-                    <td>{{ $item->jumlah }} x ({{ format_uang($item->harga_jual) }} - {{ format_uang($item->diskon) }})</td>
+                    <td>{{ $item->jumlah }} x ({{ format_uang($item->harga_jual) }} - {{ format_uang($item->diskon) }}%)</td>
                 @endif
                 <td></td>
                 <td class="text-right">{{ format_uang(($item->harga_jual - ($item->harga_jual * $item->diskon / 100)) * $item->jumlah) }}</td>

@@ -42,14 +42,14 @@
             </p>
           </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a href="{{ route('memberkasir.index') }}" class="nav-link {{ (request()->is('kasir/memberkasir')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-users"></i>
             <p>
               Member
             </p>
           </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
           <a href="{{ route('kaskecilkasir.index') }}" class="nav-link {{ (request()->is('kasir/kasKecil')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
