@@ -71,20 +71,21 @@ class TransactionDetailController extends Controller
         foreach($detail as $item) {
             $row = array();
             $row['code_product'] = $item->produk['code'];
-            $row['poin'] = $item->produk['poin'];
+            $row['poin'] = $item->poin;
             $row['name_product'] = $item ->produk['name_product'];
             $row['jumlah'] = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_transaction_detail .'" value="'. $item->jumlah .'">';
             $row['harga_jual'] = 'Rp'.format_uang($item->harga_jual);
             $row['diskon'] = $item ->produk['diskon'].'%';
             $row['subtotal'] = 'Rp'.format_uang($item->subtotal);
-            $row['aksi'] = '<button onclick="deleteData(`'. route('transaction-detail.destroy', $item->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
+            $row['resi'] = format_uang($item->resi);
+            $row['aksi'] = '<button onclick="deleteData(`'. route('transaction-details.destroy', $item->id_transaction_detail) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>';
 
             $data[] = $row;
 
             $total += ($item->harga_jual - ($item->harga_jual * $item->diskon / 100)) * $item->jumlah;
 
             $total_item += $item->jumlah;
-            $total_poin += $item->produk->poin;
+            $total_poin += $item->resi;
         }
         $data[] = [
             'code_product' => '
@@ -97,6 +98,7 @@ class TransactionDetailController extends Controller
             'harga_jual'  => '',
             'diskon'      => '',
             'subtotal'    => '',
+            'resi'    => '',
             'aksi'        => '',
         ];
 
@@ -129,7 +131,7 @@ class TransactionDetailController extends Controller
                 
         $data = $request->all();
         $data['subtotal'] = ($produk->harga_jual - ($produk->harga_jual * $produk->diskon / 100)) * $request->jumlah;
-        $data['poin'] = ($produk->poin * $request->jumlah);
+        $data['resi'] = ($produk->poin * $request->jumlah);
 
         TransactionDetail::create($data);
 
@@ -173,7 +175,7 @@ class TransactionDetailController extends Controller
         $detail = TransactionDetail::find($id);
         $detail->jumlah = $request->jumlah;
         $detail->subtotal = ($detail->harga_jual - ($detail->harga_jual * $detail->diskon / 100)) * $request->jumlah;
-        $detail->poin =  $request->poin * $request->jumlah;
+        $detail->resi =  $detail->poin * $request->jumlah;
         $detail->update();
     }
 

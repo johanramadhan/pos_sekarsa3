@@ -62,6 +62,7 @@
                         <th>Total Modal</th>
                         <th>Total Harga</th>
                         <th>Keuntungan</th>
+                        <th>Aksi</th>
                       </tr>
                     </thead>
                     <tbody>

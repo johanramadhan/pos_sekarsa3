@@ -142,8 +142,7 @@ class TransactionController extends Controller
             $produk->update();
         }
 
-        return redirect()->route('transaction.selesai')
-        ->with('success', 'Data transaksi penjualan berhasil ditambahkan');
+        return redirect()->route('transaction.selesai');
     }
 
     /**

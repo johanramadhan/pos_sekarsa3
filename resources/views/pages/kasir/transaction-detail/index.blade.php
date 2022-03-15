@@ -21,7 +21,7 @@
         padding: 10px;
         background: #f0f0f0;
     }
-    .table-penjualan1 tbody tr:last-child {
+    .table-penjualan tbody tr:last-child {
         display: none;
     }
   </style>
@@ -176,10 +176,10 @@
             <form action="{{ route('transaction.store') }}" class="form-penjualan" method="post">
               @csrf
               <input type="hidden" name="transactions_id" value="{{ $transactions_id }}" readonly>
-              <input type="number" name="total" id="total" readonly>
-              <input type="number" name="total_item" id="total_item" readonly>
-              <input type="number" name="totalpoin" id="total_poin" readonly>
-              <input type="number" name="bayar" id="bayar" readonly>
+              <input type="hidden" name="total" id="total" readonly>
+              <input type="hidden" name="total_item" id="total_item" readonly>
+              <input type="hidden" name="totalpoin" id="total_poin" readonly>
+              <input type="hidden" name="bayar" id="bayar" readonly>
               <input type="hidden" name="id_member" id="id_member" readonly>
 
               <div class="card">
@@ -240,7 +240,7 @@
                   <div class="form-group row">
                     <label for="customer name" class="col-lg-3 control-label">Nama Customer</label>
                     <div class="col-lg-9">
-                        <input type="text" name="customer_name" class="form-control">
+                        <input type="text" name="customer_name" id="nama_member" class="form-control">
                     </div>
                   </div>
                   {{-- Keterangan --}}
@@ -437,10 +437,11 @@
         $('#modal-member').modal('show');
     }
 
-    function pilihMember(id, code_member) {
+    function pilihMember(id, code_member, nama_member) {
         $('#id_member').val(id);
         $('#code_member').val(code_member);
-         $('#diskon').val('{{ $diskon2 }}');
+        $('#nama_member').val(nama_member);
+        $('#diskon').val('{{ $diskon2 }}');
         loadForm($('#diskon').val());
         $('#diterima').val(0).focus().select();
     }

@@ -38,7 +38,7 @@
                       <td>{{ $item->address }}</td>
                       <td>{{ $item->description }}</td>
                       <td>
-                        <a href="#" class="modal-pilih-member btn btn-primary btn-xs" onclick="pilihMember('{{ $item->id }}', '{{ $item->code }}')" data-dismiss="modal">
+                        <a href="#" class="modal-pilih-member btn btn-primary btn-xs" onclick="pilihMember('{{ $item->id }}', '{{ $item->code }}', '{{ $item->name }}')" data-dismiss="modal">
                           <i class="fa fa-check-circle"></i>
                           Pilih
                         </a>

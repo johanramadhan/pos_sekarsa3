@@ -79,7 +79,7 @@
                           <td>{{ $item->customer_name ?? '' }}</td>
                           <td class="text-center">{{ format_uang ($item->total_item) }}</td>
                           <td>Rp{{ format_uang ($item->total_harga) }}</td>
-                          <td class="text-center">{{ $item->diskon }}%</td>
+                          <td class="text-center">{{ format_uang($item->diskon) }}</td>
                           <td>Rp{{ format_uang ($item->bayar) }}</td>
                           <td>Rp{{ format_uang ($item->diterima) }}</td>
                           <td class="text-center">
@@ -133,6 +133,7 @@
     let table, table1;
 
     $(function () {
+      $('body').addClass('sidebar-collapse');
       table = $('.table-penjualan').DataTable({
         processing: true,
         autoWidth: false,  

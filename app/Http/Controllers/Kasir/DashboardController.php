@@ -21,6 +21,8 @@ class DashboardController extends Controller
         $kaskecil = Kaskecil::whereDate('created_at', $tanggalAkhir)->sum('kredit');
         $kaskecil_detail = KaskecilDetail::whereDate('created_at', $tanggalAkhir)->get();
         $bayar = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
+        $total_harga = Transaction::whereDate('created_at', $tanggalAkhir)->sum('total_harga');
+        $diskon = Transaction::whereDate('created_at', $tanggalAkhir)->sum('diskon');
 
         $pengeluaran = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)->where('users_id', Auth::user()->id)->sum('bayar');
         $pengeluaranDetail = Pengeluaran::whereDate('tgl_pengeluaran', $tanggalAkhir)
@@ -43,6 +45,8 @@ class DashboardController extends Controller
             'kaskecil' => $kaskecil,
             'kaskecil_detail' => $kaskecil_detail,
             'bayar' => $bayar,
+            'total_harga' => $total_harga,
+            'diskon' => $diskon,
             'pengeluaran' => $pengeluaran,
             'pengeluaranDetail' => $pengeluaranDetail,
             'sisakas' => $sisakas,

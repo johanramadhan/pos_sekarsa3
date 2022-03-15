@@ -192,7 +192,7 @@ class TransactionDetailController extends Controller
 
     public function loadForm($diskon, $total, $diterima, $totalpoin)
     {
-        $bayar = $total - ($diskon / 100 * $total);
+        $bayar = $total - $diskon;
         $kembali = ($diterima != 0) ? $diterima - $bayar : 0;
         $data  = [
             'totalrp' => format_uang($total),

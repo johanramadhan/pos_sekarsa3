@@ -66,11 +66,11 @@
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-warning">
               <div class="inner">
-                <h3>Rp{{ format_uang($bayar) }},00</h3>
+                <h3>Rp{{ format_uang($total_harga) }},00</h3>
 
-                <p>Penjualan Hari Ini</p>
+                <p>Penjualan Sebelum di Diskon</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>
@@ -80,6 +80,36 @@
           </div>
           <!-- /.col -->
           <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>Rp{{ format_uang($diskon) }},00</h3>
+
+                <p>Total Diskon</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>Rp{{ format_uang($bayar) }},00</h3>
+
+                <p>Penjualan Setelah di Diskon</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-6">
             <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
@@ -94,9 +124,9 @@
             </div>
           </div>
           <!-- /.col -->
-          <div class="col-12 col-sm-3 col-md-3">
+          <div class="col-12 col-sm-3 col-md-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-primary">
               <div class="inner">
                 <h3>Rp{{ format_uang($keluar) }},00</h3>
 

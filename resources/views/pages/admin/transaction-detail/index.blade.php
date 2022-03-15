@@ -108,8 +108,10 @@
                       </div>
                       <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Diskon</label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-3">
                           <input type="number" class="form-control" name="diskon" id="diskon_product" placeholder="diskon" readonly>
+                        </div>
+                        <div class="col-sm-6">
                           <input type="number" class="form-control" name="poin" id="poin" placeholder="poin" readonly>
                         </div>
                       </div>
@@ -158,6 +160,7 @@
                         <th class="text-center">Harga</th>
                         <th class="text-center">Discont / Item</th>
                         <th class="text-center">Total</th>
+                        <th class="text-center">Total Poin</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -328,6 +331,7 @@
           {class: 'text-center', data: 'harga_jual'},
           {class: 'text-center', data: 'diskon'},
           {class: 'text-center', data: 'subtotal'},
+          {class: 'text-center', data: 'resi'},
           {class: 'text-center', data: 'aksi', searchable:false, sortable:false},
         ]        
       })
