@@ -69,20 +69,6 @@ class DashboardController extends Controller
         $data_tanggal = array();
         $data_penjualan = array();
 
-        while (strtotime($tanggalAwal) <= strtotime($tanggalAkhir)) {
-            $data_tanggal[] = (int) substr($tanggalAwal, 8, 2);
-
-            $total_menu = TransactionDetail::where('created_at', 'LIKE', "%$tanggalAwal%")->sum('jumlah');
-            $total_penjualan = Transaction::where('created_at', 'LIKE', "%$tanggalAwal%")->sum('bayar');
-            $total_pembelian = Pembelian::where('tgl_pembelian', 'LIKE', "%$tanggalAwal%")->sum('bayar');
-            $total_pengeluaran = Pengeluaran::where('tgl_pengeluaran', 'LIKE', "%$tanggalAwal%")->sum('total_harga');
-
-            $pendapatan = $total_penjualan - $total_pembelian - $total_pengeluaran;
-            $data_penjualan[] += $pendapatan;
-
-            $tanggalAwal = date('Y-m-d', strtotime("+1 day", strtotime($tanggalAwal)));
-        }
-
         return view('pages.admin.dashboard', [
             'total_menu'=> $total_menu,
             'total_menu_today'=> $total_menu_today,
