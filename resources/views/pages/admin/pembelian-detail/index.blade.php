@@ -220,7 +220,7 @@
                         data-inputmask-inputformat="dd/mm/yyyy" 
                         data-mask 
                         data-target="#reservationdate"
-                        value="{{ date("d-m-Y") }}"
+                        value="{{ date("Y-m-d") }}"
                         name="tgl_pembelian"
                         id="tgl_pembelian"
                         required/>

@@ -12,6 +12,7 @@ use App\Produk;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PengeluaranDetailController extends Controller
 {
@@ -216,9 +217,16 @@ class PengeluaranDetailController extends Controller
 
     public function aset(Request $request)
     {
-        $data = $request->all();
+        $aset = new Aset();
+        $aset->pengeluaran_id  =  $request->id_pengeluaran;
+        $aset->uraian  =  $request->uraian;
+        $aset['slug'] = Str::slug($request->uraian);
+        $aset->satuan  =  $request->satuan;
+        $aset->jumlah  =  $request->jumlah;
+        $aset->harga_beli  =  $request->harga_beli;
+        $aset->subtotal  =  $request->subtotal;
+        $aset->save();
 
-        Aset::create($data);
         
         return redirect()->route('pengeluaran.pengeluaranAll');
     }

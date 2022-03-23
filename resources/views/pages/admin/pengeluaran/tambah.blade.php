@@ -24,7 +24,7 @@
                           data-mask 
                           data-target="#reservationdate"
                           name="tgl_pengeluaran"
-                          value="{{ date("d-m-Y") }}"
+                          value="{{ date("Y-m-d") }}"
                           required/>
                           <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
