@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Produk;
+use App\Satuan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,6 +20,7 @@ class ProdukController extends Controller
     public function index()
     {
         $categories = Category::all();
+        $satuans = Satuan::orderBy('name', 'Asc')->get();
         $products = Produk::with(['category'])->orderBy('name_product', 'asc')->get();
         $tanggal = Carbon::now()->format('dmY');
         $cek = Produk::count();
@@ -33,6 +35,7 @@ class ProdukController extends Controller
 
         return view('pages.admin.produk.index',[
             'categories' => $categories,
+            'satuans' => $satuans,
             'products' => $products,
             'tanggal' => $tanggal,
             'code' => $code

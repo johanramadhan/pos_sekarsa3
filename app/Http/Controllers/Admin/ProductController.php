@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 Use App\Http\Requests\ProductRequest;
 use App\Produk;
+use App\Satuan;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +29,7 @@ class ProductController extends Controller
     {
         $products = Produk::with(['galleries','user', 'category'])->get(); 
         $categories = Category::all();
+        $satuans = Satuan::all();
         $tanggal = Carbon::now()->format('dmY');
         $cek = Produk::count();
         if ($cek == 0) {
@@ -42,6 +44,7 @@ class ProductController extends Controller
         return view('pages.admin.product.index', [
             'products' => $products,
             'categories' => $categories,
+            'satuans' => $satuans,
             'tanggal' => $tanggal,
             'code' => $code
         ]);
@@ -125,11 +128,14 @@ class ProductController extends Controller
     public function edit($id)
     {
         $categories = Category::all();
+        $satuans = Satuan::all();
         $item = Produk::with(['galleries', 'category'])->findOrFail($id);
 
         return view('pages.admin.product.edit', [
           'item' => $item,
           'categories' => $categories,
+          'satuans' => $satuans,
+          
         ]);
     }
 

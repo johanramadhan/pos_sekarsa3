@@ -220,6 +220,7 @@
                         data-inputmask-inputformat="dd/mm/yyyy" 
                         data-mask 
                         data-target="#reservationdate"
+                        value="{{ date("d-m-Y") }}"
                         name="tgl_pembelian"
                         id="tgl_pembelian"
                         required/>
@@ -381,11 +382,12 @@
       $('#modal-produk').modal('hide');
     }
 
-    function pilihProduk(id, code, name_persediaan, harga_beli) {
+    function pilihProduk(id, code, name_persediaan, harga_beli, berat) {
         $('#id_persediaan').val(id);
         $('#code').val(code);
         $('#name_persediaan').val(name_persediaan);
         $('#harga_beli').val(harga_beli);
+        $('#berat').val(berat);
         $('#qty').val(1);
         hideProduk();
     }

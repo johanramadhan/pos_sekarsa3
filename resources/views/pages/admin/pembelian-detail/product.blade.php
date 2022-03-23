@@ -32,7 +32,7 @@
                       <td class="text-center">Rp{{ format_uang($item->harga_beli) }}</td>
                       <td class="text-center">{{ $item->merk }}</td>
                       <td class="text-center">
-                        <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_persediaan }}', '{{ $item->code }}', '{{ $item->name_persediaan }}', '{{ $item->harga_beli }}')" data-dismiss="modal">
+                        <a href="#" class="modal-pilih-produk btn btn-primary btn-xs" onclick="pilihProduk('{{ $item->id_persediaan }}', '{{ $item->code }}', '{{ $item->name_persediaan }}', '{{ $item->harga_beli }}', '{{ $item->berat }}')" data-dismiss="modal">
                           <i class="fa fa-check-circle"></i>
                           Pilih
                         </a>

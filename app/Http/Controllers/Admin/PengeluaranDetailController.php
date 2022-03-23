@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Aset;
 use App\Customer;
 use App\Http\Controllers\Controller;
 use App\Pengeluaran;
@@ -174,6 +175,14 @@ class PengeluaranDetailController extends Controller
         return response(null, 204);
     }
 
+    public function delete($id)
+    {
+        $detail = PengeluaranDetail::find($id);
+        $detail->delete();
+
+        return redirect()->route('pengeluaran.pengeluaranAll');
+    }
+
     public function loadForm($diskon, $total)
     {
         $bayar = $total - ($diskon / 100 * $total);
@@ -196,5 +205,21 @@ class PengeluaranDetailController extends Controller
             'pengeluaranAll' => $pengeluaranAll,
             'pengeluarans' => $pengeluarans,
         ]);
+    }
+
+    public function detailAset($id)
+    {
+        $pengeluaranDetail = PengeluaranDetail::find($id);
+
+        return response()->json($pengeluaranDetail);
+    }
+
+    public function aset(Request $request)
+    {
+        $data = $request->all();
+
+        Aset::create($data);
+        
+        return redirect()->route('pengeluaran.pengeluaranAll');
     }
 }

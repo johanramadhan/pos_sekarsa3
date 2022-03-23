@@ -15,6 +15,10 @@ class Persediaan extends Model
     {
         return $this->belongsTo(Category::class, 'categories_id', 'id');
     }
+    public function satuan()
+    {
+        return $this->belongsTo(Satuan::class, 'satuan', 'name');
+    }
 
     public function galleries()
     {

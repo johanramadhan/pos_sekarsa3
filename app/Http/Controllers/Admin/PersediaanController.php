@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Pembelian;
 use App\Persediaan;
 use App\PersediaanGallery;
+use App\Satuan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -22,7 +23,8 @@ class PersediaanController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $persediaans = Persediaan::with(['category'])->orderBy('name_persediaan', 'asc')->get();
+        $satuans = Satuan::orderBy('name', 'Asc')->get();
+        $persediaans = Persediaan::with(['category', 'satuan'])->orderBy('name_persediaan', 'asc')->get();
         $tanggal = Carbon::now()->format('dmY');
         $cek = Persediaan::count();
         if ($cek == 0) {
@@ -36,6 +38,7 @@ class PersediaanController extends Controller
 
         return view('pages.admin.persediaan.index',[
             'categories' => $categories,
+            'satuans' => $satuans,
             'persediaans' => $persediaans,
             'tanggal' => $tanggal,
             'code' => $code,

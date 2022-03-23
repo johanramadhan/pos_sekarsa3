@@ -34,6 +34,7 @@ Route::prefix('admin')
         Route::get('/pengeluaran', 'DashboardController@pengeluaran')->name('dashboard_admin.pengeluaran');
         
         Route::resource('category', 'CategoryController');
+        Route::resource('satuan', 'SatuanController');
         Route::resource('supplier', 'SupplierController');
         Route::resource('customer', 'CustomerController');
         Route::resource('user', 'UserController');
@@ -70,6 +71,11 @@ Route::prefix('admin')
         // Pengeluaran-Detail
         Route::get('data-transaction/pengeluaran_detail/{id}/data', 'PengeluaranDetailController@data')->name('pengeluaran_detail.data');
         Route::get('data-transaction/keluaran/detail', 'PengeluaranDetailController@pengeluaranAll')->name('pengeluaran.pengeluaranAll');
+        Route::delete('data-transaction/keluaran/delete/{id}', 'PengeluaranDetailController@delete')->name('pengeluaran.pengeluaranDelete');
+
+        Route::get('data-transaction/keluaran/{id}/detail-aset', 'PengeluaranDetailController@detailAset')->name('pengeluaran.pengeluaranDetailAset');
+        Route::post('data-transaction/keluaran/aset', 'PengeluaranDetailController@aset')->name('tambahAset');
+
         Route::get('data-transaction/pengeluaran_detail/loadform/{diskon}/{total}', 'PengeluaranDetailController@loadForm')->name('pengeluaran_detail.load_form');
         Route::resource('data-transaction/pengeluaran_detail', 'PengeluaranDetailController');
 

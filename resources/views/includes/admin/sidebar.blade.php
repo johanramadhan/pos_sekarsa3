@@ -52,6 +52,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="{{ route('satuan.index') }}" class="nav-link {{ (request()->is('admin/satuan*')) ? 'active' : '' }}">
+            <i class="nav-icon fas fa-tasks"></i>
+            <p>
+              Satuan
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="{{ route('supplier.index') }}" class="nav-link {{ (request()->is('admin/supplier*')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-truck"></i>
             <p>
@@ -68,7 +76,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ route('kasKecil.index') }}" class="nav-link {{ (request()->is('admin/kaskecil*')) ? 'active' : '' }}">
+          <a href="{{ route('kasKecil.index') }}" class="nav-link {{ (request()->is('admin/kasKecil*')) ? 'active' : '' }}">
             <i class="nav-icon fas fa-users"></i>
             <p>
               Kas Kecil

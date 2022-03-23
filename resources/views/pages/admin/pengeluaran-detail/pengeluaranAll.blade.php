@@ -81,7 +81,8 @@
                           <td class="text-center">
                             <div class="btn-group">
                               <button onclick="editForm( '{{ route('pengeluaran_detail.update', $item->id_pengeluaran_detail) }}')" class="btn btn-xs btn-warning btn-flat m-1"><i class="fa fa-edit"></i></button>
-                              <button type="submit" id="delete" href="{{ route('pengeluaran_detail.destroy', $item->id_pengeluaran_detail) }}" 
+                              <button onclick="showDetail( '{{ route('pengeluaran.pengeluaranDetailAset', $item->id_pengeluaran_detail) }}')" class="btn btn-xs btn-info btn-flat m-1"><i class="fa fa-eye"></i></button>
+                              <button type="submit" id="delete" href="{{ route('pengeluaran.pengeluaranDelete', $item->id_pengeluaran_detail) }}" 
                                 class="btn btn-xs btn-danger btn-flat m-1"><i class="fa fa-trash"></i></button>
                               <form action="" method="POST" id="deleteForm">
                                 @csrf
@@ -108,6 +109,7 @@
   </div>
 
   @includeIf('pages.admin.pengeluaran-detail.form')
+  @includeIf('pages.admin.pengeluaran-detail.aset')
 
 @endsection
 
@@ -176,6 +178,27 @@
             $('#modal-form [name=satuan]').val(response.satuan);
             $('#modal-form [name=harga_beli]').val(response.harga_beli);
             $('#modal-form [name=subtotal]').val(response.subtotal);
+        })
+        .fail((errors) => {
+            alert('Tidak dapat menampilkan data');
+            return;
+        });
+    }
+    function showDetail(url) {
+      $('#modal-aset').modal('show');
+      $('#modal-aset .modal-title').text('Tambah Aset');
+
+      $('#modal-aset form')[0].reset();
+
+      $.get(url)
+        .done((response) => {
+            $('#modal-aset [name=created_at]').val(response.created_at);
+            $('#modal-aset [name=id_pengeluaran]').val(response.id_pengeluaran);
+            $('#modal-aset [name=uraian]').val(response.uraian);
+            $('#modal-aset [name=jumlah]').val(response.jumlah);
+            $('#modal-aset [name=satuan]').val(response.satuan);
+            $('#modal-aset [name=harga_beli]').val(response.harga_beli);
+            $('#modal-aset [name=subtotal]').val(response.subtotal);
         })
         .fail((errors) => {
             alert('Tidak dapat menampilkan data');

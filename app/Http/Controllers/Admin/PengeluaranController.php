@@ -25,10 +25,13 @@ class PengeluaranController extends Controller
         
         $total_pengeluaran_report = Pengeluaran::where('status', 'Sukses')->sum('total_harga');
 
+        $tanggal = Carbon::now()->format('dmY');
+
         return view('pages.admin.pengeluaran.index', [
             'users' => $users,
             'pengeluarans' => $pengeluarans,
             'total_pengeluaran_report' => $total_pengeluaran_report,
+            'tanggal' => $tanggal,
         ]);
     }
 

@@ -200,7 +200,9 @@
                             <label>Satuan Barang*</label>
                             <select name="satuan" class="form-control select2" required>
                               <option>--Pilih satuan--</option>
-                              @includeIf('pages.satuan')
+                              @foreach ($satuans as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                              @endforeach
                             </select>                            
                           </div>
                           <!-- /.satuan -->   
@@ -208,7 +210,9 @@
                             <label>Satuan Berat*</label>
                             <select name="satuan_berat" class="form-control select2" required>
                               <option>--Pilih satuan--</option>
-                              @includeIf('pages.satuan')
+                              @foreach ($satuans as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                              @endforeach
                             </select>                            
                           </div>
                           <!-- /.satuan berat -->             

@@ -127,7 +127,7 @@
   </div>
 
   @includeIf('pages.admin.produk.detail')
-   @includeIf('pages.admin.produk.form')
+  @includeIf('pages.admin.produk.form')
 
   <div class="modal fade" id="modal-primary">
     <div class="modal-dialog modal-xl">
@@ -194,7 +194,9 @@
                             <label>Satuan Barang*</label>
                             <select name="satuan" class="form-control select2" required>
                               <option>--Pilih satuan--</option>
-                              @includeIf('pages.satuan')
+                              @foreach ($satuans as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                              @endforeach
                             </select>                            
                           </div>
                           <!-- /.satuan -->    
