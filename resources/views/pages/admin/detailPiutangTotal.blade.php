@@ -21,6 +21,7 @@
                       <tr>
                         <th width="5%" class="text-center">No</th>
                         <th class="text-center">Kode</th>
+                        <th class="text-center">Tanggal</th>
                         <th class="text-center">Waktu</th>
                         <th class="text-center">Kasir</th>
                         <th class="text-center">Customer</th>
@@ -33,6 +34,7 @@
                         <tr>
                           <td class="text-center">{{ $loop->iteration }}</td>
                           <td>{{ $item->code }}</td>
+                          <td class="text-center">{{ tanggal_indonesia($item->created_at) }}</td>
                           <td class="text-center">{{ $item->created_at->format('H:i') }} WIB</td>
                           <td class="text-center">{{ $item->user->name }}</td>
                           <td class="text-center">{{ $item->customer_name ?? '' }}</td>
@@ -43,7 +45,7 @@
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th class="text-center" colspan="6">Total</th>
+                        <th class="text-center" colspan="7">Total</th>
                         <th>Rp{{ format_uang($total_piutang ) }}</th>
                       </tr>
                     </tfoot>
