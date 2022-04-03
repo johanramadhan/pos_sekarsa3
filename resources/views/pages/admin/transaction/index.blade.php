@@ -87,6 +87,8 @@
                               <span class="badge badge-success">Success</span>
                             @elseif (($item->transaction_status ) === "sukses")
                               <span class="badge badge-success">Sukses</span>
+                            @elseif (($item->transaction_status ) === "piutang")
+                              <span class="badge badge-primary">Piutang</span>
                             @else
                               <span class="badge badge-danger">Pending</span>
                             @endif                                
@@ -147,6 +149,8 @@
     let table, table1;
 
     $(function () {
+      $('body').addClass('sidebar-collapse');
+      
       table = $('.table-penjualan').DataTable({
         processing: true,
         autoWidth: false,  

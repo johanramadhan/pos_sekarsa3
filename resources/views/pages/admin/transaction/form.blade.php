@@ -49,6 +49,7 @@
                             <option value="sukses">Sukses</option>
                             <option value="success">Success</option>
                             <option value="pending">Pending</option>
+                            <option value="piutang">Piutang</option>
                           </select>                            
                         </div>
                         <!-- /.Total Harga -->

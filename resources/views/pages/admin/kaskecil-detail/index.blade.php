@@ -92,7 +92,7 @@
                         <div class="col-sm-9">
                           <select class="form-control select2bs4" name="uraian" id="uraian" style="width: 100%;">
                             <option>--Pilih Jenis Uang--</option>
-                            <option value="Kertas Rp100.000">Kertas Rp100.000</option>
+                            <option value="Kertas Rp100.000" onclick="pilihProduk('lembar', '100000')">Kertas Rp100.000</option>
                             <option value="Kertas Rp75.000">Kertas Rp75.000</option>
                             <option value="Kertas Rp50.000">Kertas Rp50.000</option>
                             <option value="Kertas Rp20.000">Kertas Rp20.000</option>
@@ -118,7 +118,7 @@
                           <input type="number" class="form-control" name="jumlah" id="qty" placeholder="Volume 1" onkeyup="sum()" required>
                         </div>
                         <div class="col-sm-6">
-                          <select class="form-control select2bs4" name="satuan" style="width: 100%;">
+                          <select class="form-control select2bs4" name="satuan" id="satuan" style="width: 100%;">
                             <option>--Pilih Satuan--</option>
                             <option value="Lembar">Lembar</option>
                             <option value="Keping">Keping</option>
@@ -336,7 +336,13 @@
             $('.form-pengeluaran').submit();
         });
       
-    });          
+    });   
+    
+    function pilihProduk(satuan, harga_beli) {
+        $('#satuan').val(satuan);
+        $('#harga_beli').val(harga_beli);
+        hideProduk();
+    }
 
 
     function deleteData(url) {

@@ -41,6 +41,11 @@ class DashboardController extends Controller
         $total_penjualan = Transaction::sum('bayar');
         $total_penjualan_today = Transaction::whereDate('created_at', $tanggalAkhir)->sum('bayar');
 
+        $total_piutang = Transaction::where('transaction_status','piutang')->sum('bayar');
+        $list_total_piutang = Transaction::where('transaction_status','piutang')->get();
+        $total_piutang_today = Transaction::whereDate('created_at', $tanggalAkhir)->where('transaction_status','piutang')->sum('bayar');
+        $list_piutang_today = Transaction::whereDate('created_at', $tanggalAkhir)->where('transaction_status','piutang')->get();
+
         $pengeluaran = Pengeluaran::sum('bayar');
         $pembelian = Pembelian::sum('bayar');
         $total_pengeluaran = $pengeluaran + $pembelian;
@@ -49,8 +54,8 @@ class DashboardController extends Controller
         $pembelian_today = Pembelian::whereDate('tgl_pembelian', $tanggalAkhir)->sum('bayar');
         $total_pengeluaran_today = $pengeluaran_today + $pembelian_today;
 
-        $sisa_kas = $total_penjualan - $total_pengeluaran;
-        $sisa_kas_today = $total_penjualan_today - $total_pengeluaran_today;
+        $sisa_kas = $total_penjualan - $total_pengeluaran - $total_piutang;
+        $sisa_kas_today = $total_penjualan_today - $total_pengeluaran_today - $total_piutang_today;
 
         $pembelianDetail = PembelianDetail::whereDate('created_at', $tanggalAkhir)->get();
         $pembelianDetailSum = PembelianDetail::whereDate('created_at', $tanggalAkhir)->sum('subtotal');
@@ -74,6 +79,10 @@ class DashboardController extends Controller
             'total_menu_today'=> $total_menu_today,
             'total_penjualan'=> $total_penjualan,
             'total_penjualan_today'=> $total_penjualan_today,
+            'total_piutang'=> $total_piutang,
+            'list_total_piutang'=> $list_total_piutang,
+            'total_piutang_today'=> $total_piutang_today,
+            'list_piutang_today'=> $list_piutang_today,
             'total_pengeluaran'=> $total_pengeluaran,
             'total_pengeluaran_today'=> $total_pengeluaran_today,
             'sisa_kas'=> $sisa_kas,

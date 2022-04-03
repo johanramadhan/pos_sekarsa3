@@ -30,7 +30,7 @@
     .table-detail-menu tbody tr:last-child{
       font-weight: bold;
     }
-    }
+    
   </style>
 @endpush
 
@@ -140,23 +140,74 @@
 
             <div class="row">
               <div class="col-12 col-sm-3 col-md-3">
-                <div class="info-box mb-3">
-                  <span class="info-box-icon bg-danger btn-app">
-                    <a onclick="detailPengeluaran()">
-                      <i class="fas fa-shopping-cart"></i>
-                    </a>
-                  </span>
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>Rp{{ format_uang($total_piutang_today) }}</h3>
 
-                  <div class="info-box-content">
-                    <span class="info-box-text">Pengeluaran Hari Ini</span>
-                    <span class="info-box-number">Rp{{ format_uang($total_pengeluaran_today) }}</span>
+                    <p>Total Piutang Harini</p>
                   </div>
-                  <!-- /.info-box-content -->
+                  <div class="icon">
+                    <i class="ion ion-person"></i>
+                  </div>
+                  <a onclick="detailPiutang()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>              
                 </div>
-                <!-- /.info-box -->
               </div>
               <!-- /.col -->
               <div class="col-12 col-sm-3 col-md-3">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>Rp{{ format_uang($total_pengeluaran_today) }}</h3>
+
+                    <p>Total Pengeluaran Harini</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person"></i>
+                  </div>
+                  <a onclick="detailMenu()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>              
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>Rp{{ format_uang($total_piutang) }}</h3>
+
+                    <p>Total Piutang</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a onclick="detailPiutangTotal()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> 
+                </div>
+              </div>
+              <!-- /.col -->
+              <div class="col-12 col-sm-3 col-md-3">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>Rp{{ format_uang($total_pengeluaran) }}</h3>
+
+                    <p>Total Pengeluaran</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a onclick="detailMenuTotal()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> 
+                </div>
+              </div>
+              <!-- /.col -->
+
+              <!-- fix for small devices only -->
+              <div class="clearfix hidden-md-up"></div>
+                
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+              <div class="col-12 col-sm-6 col-md-6">
                 <div class="info-box mb-3">
                   <span class="info-box-icon bg-warning btn-app">
                     <a href="#">
@@ -173,24 +224,7 @@
                 <!-- /.info-box -->
               </div>
               <!-- /.col -->
-              <div class="col-12 col-sm-3 col-md-3">
-                <div class="info-box mb-3">
-                  <span class="info-box-icon bg-danger btn-app">
-                    <a href="#">
-                      <i class="fas fa-shopping-cart"></i>
-                    </a>
-                  </span>
-
-                  <div class="info-box-content">
-                    <span class="info-box-text">Total Pengeluaran</span>
-                    <span class="info-box-number">Rp{{ format_uang($total_pengeluaran) }}</span>
-                  </div>
-                  <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-              </div>
-              <!-- /.col -->
-              <div class="col-12 col-sm-3 col-md-3">
+              <div class="col-12 col-sm-6 col-md-6">
                 <div class="info-box mb-3">
                   <span class="info-box-icon bg-warning btn-app">
                     <a href="#">
@@ -389,6 +423,8 @@
         @includeIf('pages.admin.detailMenu')
         @includeIf('pages.admin.detailMenuTotal')
         @includeIf('pages.admin.detailPengeluaran')
+        @includeIf('pages.admin.detailPiutang')
+        @includeIf('pages.admin.detailPiutangTotal')
 
       </div><!-- /.container-fluid -->
     </div>
@@ -427,6 +463,7 @@
   </script>
   <script>
   $(function () {
+      $('body').addClass('sidebar-collapse');
       //Initialize Select2 Elements
       $('.select2').select2()
 
@@ -461,7 +498,7 @@
     })
   </script>
   <script>
-    let table, table1, table2, table3;
+    let table, table1, table2, table3, table4, table5;
 
     function detailMenu() {
       table = $('.table-detail-menu').DataTable({
@@ -513,6 +550,29 @@
       });
 
       $('#modal-pengeluaran').modal('show');
+    }
+
+    function detailPiutang() {
+      table4 = $('.table-detail-piutang').DataTable({
+        processing: true,
+        autoWidth: true,  
+        lengthChange: true, 
+        bSort: true,
+        bPaginate: true 
+      });
+
+      $('#modal-piutang').modal('show');
+    }
+    function detailPiutangTotal() {
+      table4 = $('.table-detail-piutang-total').DataTable({
+        processing: true,
+        autoWidth: true,  
+        lengthChange: true, 
+        bSort: true,
+        bPaginate: true 
+      });
+
+      $('#modal-piutang-total').modal('show');
     }
   </script>
   <script>
