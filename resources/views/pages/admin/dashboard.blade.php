@@ -244,28 +244,35 @@
             </div>
             <!-- /.row -->
 
+            {{-- Chart Penjualan --}}
             <div class="row">
-              <div class="col-12">
+              <div class="col-md-12">
                 <div class="card">
                   <div class="card-header border-0">
                     <div class="d-flex justify-content-between">
-                      <h3 class="card-title">Grafik Penjualan {{ tanggal_indonesia($tanggalAwal, false) }} s/d {{ tanggal_indonesia($tanggalAkhir, false) }}</h3>
+                      <h3 class="card-title">Sales</h3>
                       <a href="javascript:void(0);">View Report</a>
                     </div>
                   </div>
                   <div class="card-body">
                     <div class="d-flex">
                       <p class="d-flex flex-column">
-                        <span class="text-bold text-lg">Rp{{ format_uang($total_penjualan) }}</span>
-                        <span>Total Penjualan</span>
+                        <span class="text-bold text-lg">$18,230.00</span>
+                        <span>Sales Over Time</span>
+                      </p>
+                      <p class="ml-auto d-flex flex-column text-right">
+                        <span class="text-success">
+                          <i class="fas fa-arrow-up"></i> 33.1%
+                        </span>
+                        <span class="text-muted">Since last month</span>
                       </p>
                     </div>
                     <!-- /.d-flex -->
-    
+
                     <div class="position-relative mb-4">
                       <canvas id="sales-chart" height="200"></canvas>
                     </div>
-    
+
                     <div class="d-flex flex-row justify-content-end">
                       <span class="mr-2">
                         <i class="fas fa-square text-primary"></i> This year
@@ -275,11 +282,12 @@
                         <i class="fas fa-square text-gray"></i> Last year
                       </span>
                     </div>
+
                   </div>
                 </div>
-                <!-- /.card -->
               </div>
             </div>
+            {{-- Akhir Chart Penjualan --}}
           </div>
         </div>
 
@@ -441,6 +449,7 @@
   <!-- DataTables  & Plugins -->
   <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+  {{-- Chart JS --}}
   <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="{{ asset('dist/js/pages/dashboard3.js') }}"></script>
@@ -456,13 +465,89 @@
   <script>
     $("#CountDownTimer").TimeCircles({ time: { Days: { show: true }, Hours: { show: true } }});
   </script>
+
   <script>
-    $(function() {
-      
+    $(function () {
+      'use strict'
+
+      var ticksStyle = {
+        fontColor: '#495057',
+        fontStyle: 'bold'
+      }
+
+      var mode = 'index'
+      var intersect = true
+
+      var $salesChart = $('#sales-chart')
+      // eslint-disable-next-line no-unused-vars
+      var salesChart = new Chart($salesChart, {
+        type: 'bar',
+        data: {
+          labels: {{ json_encode($data_tanggal) }},
+          datasets: [
+            {
+              backgroundColor: '#007bff',
+              borderColor: '#007bff',
+              data: {{ json_encode($data_penjualan) }}
+            },
+            {
+              backgroundColor: '#ced4da',
+              borderColor: '#ced4da',
+              data: {{ json_encode($data_pengeluaran) }}
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: false,
+          tooltips: {
+            mode: mode,
+            intersect: intersect
+          },
+          hover: {
+            mode: mode,
+            intersect: intersect
+          },
+          legend: {
+            display: false
+          },
+          scales: {
+            yAxes: [{
+              // display: false,
+              gridLines: {
+                display: true,
+                lineWidth: '4px',
+                color: 'rgba(0, 0, 0, .2)',
+                zeroLineColor: 'transparent'
+              },
+              ticks: $.extend({
+                beginAtZero: true,
+
+                // Include a dollar sign in the ticks
+                callback: function (value) {
+                  if (value >= 1000) {
+                    value /= 1000
+                    value += 'k'
+                  }
+
+                  return 'Rp' + value
+                }
+              }, ticksStyle)
+            }],
+            xAxes: [{
+              display: true,
+              gridLines: {
+                display: false
+              },
+              ticks: ticksStyle
+            }]
+          }
+        }
+      })
     })
   </script>
+  
   <script>
-  $(function () {
+    $(function () {
       $('body').addClass('sidebar-collapse');
       //Initialize Select2 Elements
       $('.select2').select2()

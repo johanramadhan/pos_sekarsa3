@@ -73,7 +73,28 @@ class DashboardController extends Controller
 
         $data_tanggal = array();
         $data_penjualan = array();
+        $data_pengeluaran = array();
 
+        while (strtotime($tanggalAwal) <= strtotime($tanggalAkhir)) {
+            $data_tanggal[] = (int) substr($tanggalAwal, 8, 2);                       
+
+            
+            $penjualan = Transaction::where('created_at', 'LIKE', "%$tanggalAwal%")->sum('bayar');
+            $total_pembelian = Pembelian::where('tgl_pembelian', 'LIKE', "%$tanggalAwal%")->sum('bayar');
+            $pengeluaran = Pengeluaran::where('tgl_pengeluaran', 'LIKE', "%$tanggalAwal%")->sum('total_harga');
+
+            
+            $penjualan = $penjualan - $total_pembelian - $pengeluaran;
+            $pengeluaran = $total_pembelian + $pengeluaran;
+            $data_penjualan[] += $penjualan;
+            $data_pengeluaran[] += $pengeluaran;
+
+
+            $tanggalAwal = date('Y-m-d', strtotime("+1 day", strtotime($tanggalAwal)));
+
+        };
+
+        
         return view('pages.admin.dashboard', [
             'total_menu'=> $total_menu,
             'total_menu_today'=> $total_menu_today,
@@ -101,6 +122,7 @@ class DashboardController extends Controller
             'sisa_kas_repot' => $sisa_kas_repot,
             'data_tanggal' => $data_tanggal,
             'data_penjualan' => $data_penjualan,
+            'data_pengeluaran' => $data_pengeluaran,
 
         ]);
     }
