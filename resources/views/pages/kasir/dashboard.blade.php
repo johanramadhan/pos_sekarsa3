@@ -124,9 +124,24 @@
             </div>
           </div>
           <!-- /.col -->
-          <div class="col-12 col-sm-3 col-md-6">
+          <div class="col-12 col-sm-3 col-md-3">
             <!-- small box -->
-            <div class="small-box bg-primary">
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>Rp{{ format_uang($total_piutang_today) }},00</h3>
+
+                <p>Piutang Hari Ini</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+              <a onclick="detailPiutang()" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-3 col-md-3">
+            <!-- small box -->
+            <div class="small-box bg-danger">
               <div class="inner">
                 <h3>Rp{{ format_uang($keluar) }},00</h3>
 
@@ -155,6 +170,7 @@
         @includeIf('pages.kasir.detailMenu')
         @includeIf('pages.kasir.detailKaskecil')
         @includeIf('pages.kasir.detailPengeluaran')
+        @includeIf('pages.admin.detailPiutang')
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -240,6 +256,18 @@
       });
 
       $('#modal-pengeluaran').modal('show');
+    }
+
+    function detailPiutang() {
+      table4 = $('.table-detail-piutang').DataTable({
+        processing: true,
+        autoWidth: true,  
+        lengthChange: true, 
+        bSort: true,
+        bPaginate: true 
+      });
+
+      $('#modal-piutang').modal('show');
     }
   </script>
 @endpush
