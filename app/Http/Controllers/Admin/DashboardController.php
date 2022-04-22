@@ -74,12 +74,13 @@ class DashboardController extends Controller
         $data_tanggal = array();
         $data_penjualan = array();
         $data_pengeluaran = array();
+        $penjualan_bulan = 0;
 
         while (strtotime($tanggalAwal) <= strtotime($tanggalAkhir)) {
             $data_tanggal[] = (int) substr($tanggalAwal, 8, 2);                       
-
             
             $penjualan = Transaction::where('created_at', 'LIKE', "%$tanggalAwal%")->sum('bayar');
+            $penjualan1 = Transaction::where('created_at', 'LIKE', "%$tanggalAwal%")->sum('bayar');
             $total_pembelian = Pembelian::where('tgl_pembelian', 'LIKE', "%$tanggalAwal%")->sum('bayar');
             $pengeluaran = Pengeluaran::where('tgl_pengeluaran', 'LIKE', "%$tanggalAwal%")->sum('total_harga');
 
@@ -88,6 +89,9 @@ class DashboardController extends Controller
             $pengeluaran = $total_pembelian + $pengeluaran;
             $data_penjualan[] += $penjualan;
             $data_pengeluaran[] += $pengeluaran;
+            $penjualan_bulan += $penjualan1;
+
+            //dd($data_tanggal, $data_penjualan);
 
 
             $tanggalAwal = date('Y-m-d', strtotime("+1 day", strtotime($tanggalAwal)));
@@ -123,6 +127,7 @@ class DashboardController extends Controller
             'data_tanggal' => $data_tanggal,
             'data_penjualan' => $data_penjualan,
             'data_pengeluaran' => $data_pengeluaran,
+            'penjualan_bulan' => $penjualan_bulan,
 
         ]);
     }

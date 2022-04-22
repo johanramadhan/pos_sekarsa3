@@ -52,7 +52,7 @@
                     <thead>
                       <tr class="text-center">
                         <th>No</th>
-                        <th>Code Transaksi</th>
+                        <th>Code Transaksi 2</th>
                         <th>Tanggal</th>
                         <th>Nama Produk</th>
                         <th>Modal</th>
@@ -133,27 +133,9 @@
   let table, table1;
 
   $(function () {
-      table = $('.table-penjualan-detail1').DataTable({
+      table = $('.table-penjualan-detail').DataTable({
         processing: true,
-        autoWidth: false,  
-        bSort: true,
-        bPaginate: true,
-        ajax: {
-          url: '{{ route('transactions.transactionAllDetail') }}',
-        },
-        columns: [
-            {data: 'DT_RowIndex', searchable: false, sortable: false},
-            {class: 'text-center', data: 'code'},
-            {class: 'text-center', data: 'created_at'},
-            {data: 'name_produk'},
-            {data: 'modal'},
-            {data: 'harga_jual'},
-            {class: 'text-center', data: 'jumlah'},
-            {class: 'text-center', data: 'diskon'},
-            {data: 'total_modal'},
-            {data: 'subtotal'},
-            {data: 'keuntungan'},
-        ]
+        autoWidth: false, 
       });
 
        //Date range picker
